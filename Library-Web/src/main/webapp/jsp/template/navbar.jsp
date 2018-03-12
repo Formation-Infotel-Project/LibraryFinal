@@ -1,3 +1,4 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -23,8 +24,14 @@
                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/Library-Web/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                <li><a href="/Library-Web/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                <sec:authorize access="isAnonymous()">
+                    <li><a href="/Library-Web/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="/Library-Web/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li><a href="/administration"><span class="glyphicon glyphicon-wrench"></span> Administration</a></li>
+                    <li><a href="/Library-Web/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                </sec:authorize>
             </ul>
         </div>
     </div>
