@@ -1,5 +1,7 @@
 package com.formation.infotel.config;
 
+import com.formation.infotel.entity.Member;
+import com.formation.infotel.entity.MemberRole;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -22,24 +20,12 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableWebSecurity
 @PropertySource({ "classpath:persistence-mysql.properties" })
 @ComponentScan({ "com.formation" })
-public class SpringConfig extends WebSecurityConfigurerAdapter {
+public class SpringConfig {
 
     @Autowired
     private Environment env;
-
-    /*@Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(restDataSource())
-                .usersByUsernameQuery("select email,password, from member where email=?");
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers()
-    }*/
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -47,6 +33,8 @@ public class SpringConfig extends WebSecurityConfigurerAdapter {
         sessionFactory.setDataSource(restDataSource());
         sessionFactory.setPackagesToScan(new String[] { "com.formation.infotel.entity" });
         sessionFactory.setHibernateProperties(hibernateProperties());
+
+        sessionFactory.setAnnotatedClasses(Member.class, MemberRole.class);
 
         return sessionFactory;
     }
@@ -83,6 +71,11 @@ public class SpringConfig extends WebSecurityConfigurerAdapter {
                 setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
                 setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
                 setProperty("hibernate.globally_quoted_identifiers", "true");
+                setProperty("hibernate.c3p0.min_size", env.getProperty("hibernate.c3p0.min_size"));
+                setProperty("hibernate.c3p0.max_size", env.getProperty("hibernate.c3p0.max_size"));
+                setProperty("hibernate.c3p0.acquire_increment", env.getProperty("hibernate.c3p0.acquire_increment"));
+                setProperty("hibernate.c3p0.timeout", env.getProperty("hibernate.c3p0.timeout"));
+                setProperty("hibernate.c3p0.max_statements", env.getProperty("hibernate.c3p0.max_statements"));
             }
         };
     }

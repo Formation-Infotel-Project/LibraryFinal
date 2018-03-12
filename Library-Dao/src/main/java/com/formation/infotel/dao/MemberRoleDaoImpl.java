@@ -23,7 +23,7 @@ public class MemberRoleDaoImpl implements MemberRoleDao {
 
     @Override
     public MemberRole getMemberRoleById(int memberRoleId) {
-        return null;
+        return (MemberRole) sessionFactory.getCurrentSession().get(MemberRole.class, memberRoleId);
     }
 
     @Override
@@ -33,6 +33,7 @@ public class MemberRoleDaoImpl implements MemberRoleDao {
 
     @Override
     public List<MemberRole> getMemberRoles() {
-        return null;
+        List<MemberRole> memberRoles = sessionFactory.getCurrentSession().createQuery(String.format("FROM MemberRole as memberRole")).list();
+        return memberRoles;
     }
 }

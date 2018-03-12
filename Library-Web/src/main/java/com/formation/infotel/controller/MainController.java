@@ -33,14 +33,4 @@ public class MainController {
     public String login(){
         return "loginPages/login";
     }
-
-    @GetMapping("/administration")
-    public String administration(){
-        return "admin/administration";
-    }
-
-    @GetMapping("/addMember")
-    public String addMember(){
-        return "admin/addMember";
-    }
 }

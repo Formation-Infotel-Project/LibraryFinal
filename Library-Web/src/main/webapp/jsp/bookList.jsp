@@ -6,11 +6,11 @@
 <html>
 <head>
     <title>Livres</title>
-    <link rel="stylesheet" type="text/css" href="<c:url value='/style/bootstrap/css/bootstrap.min.css'/>" />
-    <link rel="stylesheet" type="text/css" href="<c:url value='/style/css/custom.css'/>" />
-    <link rel="stylesheet" type="text/css" href="<c:url value='/style/css/library.css'/>" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/style/bootstrap/css/bootstrap.min.css'/>" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/style/css/custom.css'/>" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/style/css/library.css'/>" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="<c:url value='/style/bootstrap/js/bootstrap.min.js'/>"></script>
+    <script src="<c:url value='/resources/style/bootstrap/js/bootstrap.min.js'/>"></script>
 </head>
 <body>
     <div class="page">

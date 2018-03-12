@@ -1,4 +1,4 @@
-package com.formation.infotel.controller.config;
+package com.formation.infotel.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

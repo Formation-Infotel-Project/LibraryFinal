@@ -1,4 +1,4 @@
-package com.formation.infotel.controller.initializer;
+package com.formation.infotel.initializer;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

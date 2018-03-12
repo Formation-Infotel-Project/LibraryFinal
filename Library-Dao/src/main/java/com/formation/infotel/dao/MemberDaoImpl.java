@@ -62,6 +62,16 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
+    public Member getMemberByEmail(String email) {
+        Member member = new Member();
+        List<Member> members = sessionFactory.getCurrentSession().createQuery(String.format("From Member as m Where m.email= :email")).setParameter("email", email).list();
+        if(members.size() == 1){
+            member = members.get(0);
+        }
+        return member;
+    }
+
+    /*@Override
     public boolean checkLogin(String login, String pass){
         boolean success = false;
         List<Member> members = sessionFactory.getCurrentSession().createQuery(String.format("FROM Member as member WHERE member.email= :login AND member.password= :pass "))
@@ -72,5 +82,5 @@ public class MemberDaoImpl implements MemberDao {
             success = true;
         }
         return success;
-    }
+    }*/
 }

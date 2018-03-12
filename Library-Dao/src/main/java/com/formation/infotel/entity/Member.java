@@ -1,6 +1,9 @@
 package com.formation.infotel.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Member {
@@ -21,11 +24,28 @@ public class Member {
 	@OneToOne(mappedBy = "member")
 	private Registration registration;
 
-	@ManyToOne
-	private MemberRole memberRole;
+	@ManyToMany
+	@JoinTable(name = "MEM_ROLE",
+        joinColumns = @JoinColumn(name = "MEM_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+	private List<MemberRole> memberRoles = new ArrayList<>();
 
 	public Member() {
 
+	}
+
+	public Member(String memberLastName, String email, String password, String address, String city, String postalCode, int access,
+				  String phone, String firstName, List<MemberRole> roles) {
+		this.memberLastName = memberLastName;
+		this.firstName = firstName;
+		this.email = email;
+		this.password = password;
+		this.address = address;
+		this.city = city;
+		this.postalCode = postalCode;
+		this.phone = phone;
+		this.access = access;
+		this.memberRoles = roles;
 	}
 
 	public Member(String memberLastName, String email, String password, String address, String city, String postalCode, int access,
@@ -41,7 +61,8 @@ public class Member {
 		this.access = access;
 	}
 
-	public Member(String memberLastName, String firstName, String email, String password, String address, String city, String postalCode, String phone, int access, Registration registration, MemberRole role) {
+	public Member(String memberLastName, String firstName, String email, String password, String address, String city, String postalCode, String phone, int access, Registration registration,
+                  List<MemberRole> roles) {
 		this.memberLastName = memberLastName;
 		this.firstName = firstName;
 		this.email = email;
@@ -52,7 +73,7 @@ public class Member {
 		this.phone = phone;
 		this.access = access;
 		this.registration = registration;
-		this.memberRole = role;
+		this.memberRoles = roles;
 	}
 
 	public Registration getRegistration() {
@@ -63,15 +84,15 @@ public class Member {
 		this.registration = registration;
 	}
 
-	public MemberRole getMemberRole() {
-		return memberRole;
-	}
+    public List<MemberRole> getMemberRoles() {
+        return memberRoles;
+    }
 
-	public void setMemberRole(MemberRole memberRole) {
-		this.memberRole = memberRole;
-	}
+    public void setMemberRoles(List<MemberRole> memberRoles) {
+        this.memberRoles = memberRoles;
+    }
 
-	public int getMemberId() {
+    public int getMemberId() {
 		return memberId;
 	}
 

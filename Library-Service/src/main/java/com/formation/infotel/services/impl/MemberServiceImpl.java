@@ -4,12 +4,17 @@ import com.formation.infotel.entity.Member;
 import com.formation.infotel.interfaces.MemberDao;
 import com.formation.infotel.services.interfaces.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService, UserDetailsService{
 
     @Autowired
     private MemberDao memberDao;
@@ -30,17 +35,31 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public boolean checkLogin(String login, String pass) {
-        return memberDao.checkLogin(login, pass);
+    public List<Member> getAllMembers() {
+        return memberDao.getAllMembers();
     }
 
     @Override
     public Member getMemberById(int memberId) {
-        return memberDao.getMemberById(memberId);
+        Member member = memberDao.getMemberById(memberId);
+        return member;
     }
 
+    @Transactional(readOnly=true)
     @Override
-    public List<Member> getAllMembers() {
-        return memberDao.getAllMembers();
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Member member = memberDao.getMemberByEmail(email);
+        User.UserBuilder builder = null;
+        if(member != null) {
+            builder = User.withUsername(email);
+            builder.disabled(false);
+            builder.password(member.getPassword());
+            String[] authorities = member.getMemberRoles().stream().map(a -> a.getName()).toArray(String[]::new);
+
+            builder.authorities(authorities);
+        } else {
+            throw new UsernameNotFoundException("User not found.");
+        }
+        return builder.build();
     }
 }

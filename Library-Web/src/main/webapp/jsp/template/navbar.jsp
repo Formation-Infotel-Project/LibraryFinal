@@ -1,6 +1,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" style="margin-bottom: 3%;">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -29,7 +29,7 @@
                     <li><a href="/Library-Web/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
-                    <li><a href="/administration"><span class="glyphicon glyphicon-wrench"></span> Administration</a></li>
+                    <li><a href="/Library-Web/administration"><span class="glyphicon glyphicon-wrench"></span> Administration</a></li>
                     <li><a href="/Library-Web/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </sec:authorize>
             </ul>

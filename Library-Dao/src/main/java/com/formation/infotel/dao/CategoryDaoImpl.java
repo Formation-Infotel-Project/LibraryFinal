@@ -1,5 +1,6 @@
 package com.formation.infotel.dao;
 
+import com.formation.infotel.entity.Book;
 import com.formation.infotel.entity.Category;
 import com.formation.infotel.interfaces.CategoryDao;
 import org.hibernate.Criteria;
@@ -32,10 +33,11 @@ public class CategoryDaoImpl implements CategoryDao {
     public Category getCategoryById(int categoryId) {
         return (Category) sessionFactory.getCurrentSession().get(Category.class, categoryId);
     }
-    /*cette methode retourne la liste des livres pour une catégorie donneé*/
+
     @Override
     public List<Category> getAllBookByCategory(String categoryname) {
-        Query<Category> query = sessionFactory.getCurrentSession().createQuery(String.format("FROM Category where name = :categoryname"));
+        Query<Category> query = sessionFactory.getCurrentSession().createQuery(String.format("SELECT Category.books as books FROM Category as cat" +
+                " where cat.name = :categoryname"));
         query.setParameter("categoryname", categoryname);
         return  query.list();
     }

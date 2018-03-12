@@ -1,8 +1,8 @@
-package com.formation.infotel.controller.initializer;
+package com.formation.infotel.initializer;
 
 import com.formation.infotel.config.SpringConfig;
-import com.formation.infotel.controller.config.WebConfig;
-import com.formation.infotel.controller.config.WebSecurityConfig;
+import com.formation.infotel.config.WebConfig;
+import com.formation.infotel.config.WebSecurityConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

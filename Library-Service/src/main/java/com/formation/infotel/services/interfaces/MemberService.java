@@ -1,6 +1,7 @@
 package com.formation.infotel.services.interfaces;
 
 import com.formation.infotel.entity.Member;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface MemberService {
 
     void deleteMember(Member member);
 
-    boolean checkLogin(String login, String pass);
+    UserDetails loadUserByUsername(String email);
 
     Member getMemberById(int memberId);
 
