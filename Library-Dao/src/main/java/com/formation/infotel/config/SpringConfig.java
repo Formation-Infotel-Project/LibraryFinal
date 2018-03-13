@@ -1,7 +1,6 @@
 package com.formation.infotel.config;
 
 import com.formation.infotel.entity.Member;
-import com.formation.infotel.entity.MemberRole;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +32,6 @@ public class SpringConfig {
         sessionFactory.setDataSource(restDataSource());
         sessionFactory.setPackagesToScan(new String[] { "com.formation.infotel.entity" });
         sessionFactory.setHibernateProperties(hibernateProperties());
-
-        sessionFactory.setAnnotatedClasses(Member.class, MemberRole.class);
 
         return sessionFactory;
     }

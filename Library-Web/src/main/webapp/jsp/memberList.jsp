@@ -28,6 +28,7 @@
                                     <th style='text-align:center'>EMail</th>
                                     <th style='text-align:center'>Adresse</th>
                                     <th style='text-align:center'>Tel</th>
+                                    <th style='text-align:center'>Rôle</th>
                                     <th style='text-align:center'>Actions</th>
                                 </tr>
                             </thead>
@@ -39,6 +40,10 @@
                                     <td>${member.email}</td>
                                     <td>${member.address} ${member.postalCode} ${member.city}</td>
                                     <td>${member.phone}</td>
+                                    <td>
+                                        <c:if test="${member.access == 1}">Admin</c:if>
+                                        <c:if test="${member.access == 2}">User</c:if>
+                                    </td>
                                     <td>
                                         <form method="get" action="MemberDetail">
                                             <input type="hidden" name="id" value="${member.memberId}">

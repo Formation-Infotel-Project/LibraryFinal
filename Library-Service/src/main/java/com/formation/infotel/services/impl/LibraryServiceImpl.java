@@ -31,11 +31,11 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public Library getLibraryById(int libraryId) {
-        return libraryDao.getLibraryById(1);
+        return libraryDao.getLibraryById(libraryId);
     }
 
     @Override
     public List<Library> getAllLibraries() {
-        return null;
+        return libraryDao.getLibraries();
     }
 }

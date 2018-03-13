@@ -18,7 +18,7 @@
                 <div class="panel-heading"><h1>Inscrire un utilisateur</h1></div>
                 <div class="panel-body">
                     <div class="container-fluid">
-                        <form method="post" action="Register" id="register">
+                        <form method="post" action="register" id="register">
                             <div class="row">
                                 <div class="col-md-4">Nom </div>
                                 <div class="col-md-4"><input type='text' name='name' required></div>

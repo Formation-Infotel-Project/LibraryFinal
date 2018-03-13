@@ -12,8 +12,8 @@ public interface LibraryDao {
 
     Library  getLibraryById(int libraryId);
 
-    Library  getLibrary(String libraryname);
+    Library  getLibraryByName(String libraryname);
 
-    List<Library> getLibrary();
+    List<Library> getLibraries();
 	
 }

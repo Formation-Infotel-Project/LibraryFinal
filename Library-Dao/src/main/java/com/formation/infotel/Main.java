@@ -28,7 +28,6 @@ public class Main {
         EditorDao editorDao = (EditorDao) ctx.getBean("editorDaoImpl");
         Book_copyDao book_copyDao = (Book_copyDao) ctx.getBean("book_copyDaoImpl");
         BookShelfDao bookShelfDao = (BookShelfDao) ctx.getBean("bookShelfDaoImpl");
-        MemberRoleDao memberRoleDao = (MemberRoleDao) ctx.getBean("memberRoleDaoImpl");
 
         List<Library> libraries1 = new ArrayList<>();
         List<Library> libraries2 = new ArrayList<>();
@@ -45,8 +44,8 @@ public class Main {
         List<Book_copy> bookCopies4 = new ArrayList<>();
         List<Member> members1 = new ArrayList<>();
         List<Member> members2 = new ArrayList<>();
-        List<MemberRole> roles1 = new ArrayList<>();
-        List<MemberRole> roles2 = new ArrayList<>();
+        List<Registration> registrations1 = new ArrayList<>();
+        List<Registration> registrations2 = new ArrayList<>();
 
         Library lib1 = new Library("Books for all", "Angleterre");
         Library lib2 = new Library("Livre pour tous", "France");
@@ -58,27 +57,17 @@ public class Main {
         libraries2.add(lib3);
         libraries2.add(lib4);
         libraries2.add(lib5);
-        //setCatalog//
 
-        MemberRole role1 = new MemberRole("ROLE_USER");
-        MemberRole role2 = new MemberRole("ROLE_ADMIN");
-        roles1.add(role1);
-        roles2.add(role1);
-        roles2.add(role2);
-
-        Member m1 = new Member("davezac","davezac.davezac@gmail.com", "password64", "allées c'est parti", "rennes", "63000", 2, "0788224455", "christelle",roles1);
-        Member m2 = new Member("legu","legu.michel@gmail.com", "password42", "allées viens", "rennes", "75000", 2, "0788224455", "michel",roles1);
-        Member m3 = new Member("freecs","freecs.gon@gmail.com", "password32", "allées salut", "rennes", "32000", 2, "0788224455", "gon",roles1);
-        Member m4 = new Member("hirako","hirako.shinji@gmail.com", "password72", "allées oui", "rennes", "25000", 2, "0788224455", "shinji",roles1);
-        Member m5 = new Member("colleter","julien.colleter@infotel.com", "motdepass", "19 rue michel colomb", "rennes", "35000", 1, "0788224455", "julien",roles2);
+        Member m1 = new Member("davezac","davezac.davezac@gmail.com", "password64", "allées c'est parti", "rennes", "63000", 2, "0788224455", "christelle");
+        Member m2 = new Member("legu","legu.michel@gmail.com", "password42", "allées viens", "rennes", "75000", 2, "0788224455", "michel");
+        Member m3 = new Member("freecs","freecs.gon@gmail.com", "password32", "allées salut", "rennes", "32000", 2, "0788224455", "gon");
+        Member m4 = new Member("hirako","hirako.shinji@gmail.com", "password72", "allées oui", "rennes", "25000", 2, "0788224455", "shinji");
+        Member m5 = new Member("colleter","julien.colleter@infotel.com", "motdepass", "19 rue michel colomb", "rennes", "35000", 1, "0788224455", "julien");
         members1.add(m1);
         members1.add(m2);
         members1.add(m3);
         members1.add(m4);
         members2.add(m5);
-
-        role1.setMember(members1);
-        role2.setMember(members2);
 
         Date date1 = new Date(1996, 4, 17);
         Date date2 = new Date(2000, 5, 27);
@@ -91,6 +80,17 @@ public class Main {
         Registration reg3 = new Registration(m3, lib3, date3);
         Registration reg4 = new Registration(m4, lib4, date4);
         Registration reg5 = new Registration(m5, lib5, date5);
+        registrations1.add(reg1);
+        registrations1.add(reg2);
+        registrations1.add(reg3);
+        registrations2.add(reg4);
+        registrations2.add(reg5);
+
+        lib1.setRegistrations(registrations1);
+        lib2.setRegistrations(registrations1);
+        lib3.setRegistrations(registrations1);
+        lib4.setRegistrations(registrations2);
+        lib5.setRegistrations(registrations2);
 
         Category cat1 = new Category("Action", "Manga d'Action");
         Category cat2 = new Category("Aventure", "Manga d'Aventure");
@@ -185,9 +185,6 @@ public class Main {
         libraryDao.insertLibrary(lib3);
         libraryDao.insertLibrary(lib4);
         libraryDao.insertLibrary(lib5);
-
-        memberRoleDao.insertMemberRole(role1);
-        memberRoleDao.insertMemberRole(role2);
 
         memberDao.insertMember(m1);
         memberDao.insertMember(m2);

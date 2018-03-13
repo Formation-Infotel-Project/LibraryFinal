@@ -28,18 +28,18 @@ public class LibraryDaoImpl implements LibraryDao{
 
 	@Override
 	public Library getLibraryById(int libraryId) {
-		return  (Library) sessionFactory.getCurrentSession().get(Library.class,libraryId);
+		return sessionFactory.getCurrentSession().get(Library.class,libraryId);
 	}
 
 	@Override
-	public Library getLibrary(String libraryname) {
+	public Library getLibraryByName(String libraryname) {
 		   Query<Library> query = sessionFactory.getCurrentSession().createQuery(String.format("FROM Library where libraryCode = :libraryname"));
 		   query.setParameter("libraryname", libraryname);
-	       return (Library) query.list().get(0);
+	       return query.list().get(0);
 	}
 
 	@Override
-	public List<Library> getLibrary() {
+	public List<Library> getLibraries() {
 		List<Library> libraries = sessionFactory.getCurrentSession().createQuery(String.format("FROM Library as library")).list();
 		return libraries;
 	}

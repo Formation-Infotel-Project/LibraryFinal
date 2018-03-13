@@ -13,7 +13,9 @@ public interface MemberService {
 
     void deleteMember(Member member);
 
-    UserDetails loadUserByUsername(String email);
+    boolean userExist(String login, String password);
+
+    Member getMemberByEmail(String email);
 
     Member getMemberById(int memberId);
 

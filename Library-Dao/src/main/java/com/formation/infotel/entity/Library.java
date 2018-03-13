@@ -14,30 +14,23 @@ public class Library {
 	private String libraryName;
 	private String libraryAddress;
 
-	@OneToOne(mappedBy = "library")
-	private Registration registration;
+	@OneToMany(mappedBy = "library")
+	private List<Registration> registrations;
 
     @ManyToMany(mappedBy = "libraries")
     private List<Catalog> catalogs = new ArrayList<>();
 
-	public Library(String libraryName, String libraryAddress, Registration registration, List<Catalog> catalogs) {
+	public Library(String libraryName, String libraryAddress, List<Registration> registrations, List<Catalog> catalogs) {
 		this.libraryName = libraryName;
 		this.libraryAddress = libraryAddress;
-		this.registration = registration;
+		this.registrations = registrations;
 		this.catalogs = catalogs;
 	}
 
-	public Library(String libraryName, String libraryAddress,List<Catalog> catalogs) {
-
+	public Library(String libraryName, String libraryAddress, List<Registration> registrations) {
 		this.libraryName = libraryName;
 		this.libraryAddress = libraryAddress;
-		this.catalogs = catalogs;
-	}
-
-	public Library(String libraryName, String libraryAddress, Registration registration) {
-		this.libraryName = libraryName;
-		this.libraryAddress = libraryAddress;
-		this.registration = registration;
+		this.registrations = registrations;
 	}
 
 	public Library(String libraryName, String libraryAddress) {
@@ -79,5 +72,13 @@ public class Library {
 
 	public void setCatalogs(List<Catalog> catalogs) {
 		this.catalogs = catalogs;
+	}
+
+	public List<Registration> getRegistrations() {
+		return registrations;
+	}
+
+	public void setRegistrations(List<Registration> registrations) {
+		this.registrations = registrations;
 	}
 }

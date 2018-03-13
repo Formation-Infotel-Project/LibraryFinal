@@ -18,25 +18,20 @@
                 <div class="panel-heading"><h1>Connexion</h1></div>
                 <div class="panel-body">
                     <div class="container-fluid">
-                        <form name="loginForm" method="post" action="<spring:url value='/loginCheck'/> ">
+                        <form name="loginForm" method="post" action="loginCheck">
                             <div class="row">
                                 <div class="col-md-5">Login </div>
-                                <div class="col-md-5"><input type='text' name='userid' required></div>
+                                <div class="col-md-5"><input type='text' name='login' required></div>
                             </div>
                             <div style="margin-top:5px;" class="row">
                                 <div class="col-md-5">Mot de passe </div>
-                                <div class="col-md-5"><input type='password' name='passwd' required></div>
+                                <div class="col-md-5"><input type='password' name='pass' required></div>
                             </div>
                             <div style="margin-top:20px;" class="row">
-                                <div style="text-align:center;" class="col-md-12"><input type='submit' class='btn-success' value='Inscription'></div>
+                                <div style="text-align:center;" class="col-md-12"><input type='submit' class='btn-success' value='Connexion'></div>
                             </div>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="">
                         </form>
                     </div>
-                    <c:if test="${not empty sessionScope.message}">
-                        <span style="color:green"><c:out value="${sessionScope.message}"/></span>
-                        <c:remove var="message" scope="session"/>
-                    </c:if>
                 </div>
             </div>
         </div>

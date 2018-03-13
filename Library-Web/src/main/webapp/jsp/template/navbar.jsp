@@ -1,4 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <nav class="navbar navbar-default" style="margin-bottom: 3%;">
     <div class="container-fluid">
@@ -24,14 +25,16 @@
                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <sec:authorize access="isAnonymous()">
+                <c:if test="${sessionScope.access == 'admin'}">
+                    <li><a href="/Library-Web/administration"><span class="glyphicon glyphicon-wrench"></span> Administration</a></li>
+                </c:if>
+                <c:if test="${!empty sessionScope.name}">
+                    <li><a href="/Library-Web/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                </c:if>
+                <c:if test="${empty sessionScope.name}">
                     <li><a href="/Library-Web/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     <li><a href="/Library-Web/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                </sec:authorize>
-                <sec:authorize access="isAuthenticated()">
-                    <li><a href="/Library-Web/administration"><span class="glyphicon glyphicon-wrench"></span> Administration</a></li>
-                    <li><a href="/Library-Web/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-                </sec:authorize>
+                </c:if>
             </ul>
         </div>
     </div>

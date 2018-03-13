@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class MemberServiceImpl implements MemberService, UserDetailsService{
+public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberDao memberDao;
@@ -45,21 +45,13 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
         return member;
     }
 
-    @Transactional(readOnly=true)
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member member = memberDao.getMemberByEmail(email);
-        User.UserBuilder builder = null;
-        if(member != null) {
-            builder = User.withUsername(email);
-            builder.disabled(false);
-            builder.password(member.getPassword());
-            String[] authorities = member.getMemberRoles().stream().map(a -> a.getName()).toArray(String[]::new);
+    public Member getMemberByEmail(String email) {
+        return memberDao.getMemberByEmail(email);
+    }
 
-            builder.authorities(authorities);
-        } else {
-            throw new UsernameNotFoundException("User not found.");
-        }
-        return builder.build();
+    @Override
+    public boolean userExist(String login, String password) {
+        return memberDao.userExist(login, password);
     }
 }

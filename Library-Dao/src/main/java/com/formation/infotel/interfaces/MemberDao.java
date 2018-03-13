@@ -11,9 +11,9 @@ public interface MemberDao {
 
     void deleteMember(Member member);
 
-    /*boolean checkLogin(String login, String pass);*/
-
     Member getMemberById(int memberId);
+
+    boolean userExist(String login, String password);
 
     Member getMemberByEmail(String email);
 

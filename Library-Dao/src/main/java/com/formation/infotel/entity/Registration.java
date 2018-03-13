@@ -15,7 +15,7 @@ public class Registration {
 	@MapsId("memberId")
 	private Member member;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("libraryCode")
 	private Library library;
 

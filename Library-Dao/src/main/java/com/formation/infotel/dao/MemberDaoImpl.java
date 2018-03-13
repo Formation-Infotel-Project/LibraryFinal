@@ -2,7 +2,6 @@ package com.formation.infotel.dao;
 
 import com.formation.infotel.entity.Member;
 import com.formation.infotel.interfaces.MemberDao;
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,16 +70,16 @@ public class MemberDaoImpl implements MemberDao {
         return member;
     }
 
-    /*@Override
-    public boolean checkLogin(String login, String pass){
+    @Override
+    public boolean userExist(String login, String password){
         boolean success = false;
-        List<Member> members = sessionFactory.getCurrentSession().createQuery(String.format("FROM Member as member WHERE member.email= :login AND member.password= :pass "))
+        List<Member> members = sessionFactory.getCurrentSession().createQuery(String.format("FROM Member WHERE email= :login AND password= :password "))
                 .setParameter("login", login)
-                .setParameter("password", pass)
+                .setParameter("password", password)
                 .list();
         if(members.size() == 1){
             success = true;
         }
         return success;
-    }*/
+    }
 }
