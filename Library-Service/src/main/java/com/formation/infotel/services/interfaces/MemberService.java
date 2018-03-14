@@ -9,7 +9,7 @@ public interface MemberService {
 
     void insertMember(Member member);
 
-    void updateMember(Member member, int memberId);
+    void updateMember(Member member);
 
     void deleteMember(Member member);
 

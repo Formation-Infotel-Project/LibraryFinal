@@ -16,4 +16,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     public void insertRegistration(Registration registration) {
         registrationDao.insertRegistration(registration);
     }
+
+    @Override
+    public void updateRegistration(Registration registration) {
+        registrationDao.updateRegistration(registration);
+    }
 }

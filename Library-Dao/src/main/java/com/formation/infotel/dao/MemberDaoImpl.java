@@ -23,30 +23,13 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
-    public void updateMember(Member member, int memberId) {
-        Query query = sessionFactory.getCurrentSession().createQuery(String.format("update Member set " +
-                "name = :memberName," +
-                "email = :memberEmail," +
-                "password = :memberPassword," +
-                "address = :memberAddress," +
-                "city = :memberCity " +
-                "postalCode = :memberPostalCode " +
-                "phone = :memberPhone " +
-                "where memberId = :memberId"));
-        query.setParameter("memberId", memberId);
-        query.setParameter("memberName", member.getMemberLastName());
-        query.setParameter("memberEmail", member.getEmail());
-        query.setParameter("memberPassword", member.getPassword());
-        query.setParameter("memberAddress", member.getAddress());
-        query.setParameter("memberCity", member.getCity());
-        query.setParameter("memberPostalCode", member.getPostalCode());
-        query.setParameter("memberPhone", member.getPhone());
-        query.executeUpdate();
+    public void updateMember(Member member) {
+        sessionFactory.getCurrentSession().update(member);
     }
 
     @Override
     public void deleteMember(Member member) {
-
+        sessionFactory.getCurrentSession().delete(member);
     }
 
     @Override

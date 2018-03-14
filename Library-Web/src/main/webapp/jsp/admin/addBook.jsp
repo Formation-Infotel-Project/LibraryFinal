@@ -18,7 +18,7 @@
             <div class="panel-heading"><h1>Ajouter un livre</h1></div>
             <div class="panel-body">
                 <div class="container-fluid">
-                    <form method="post" action="register" id="register">
+                    <form method="post" action="bookAdd" id="bookAdd">
                         <div class="row">
                             <div class="col-md-4">Titre </div>
                             <div class="col-md-4"><input type='text' name='title' required></div>
@@ -64,7 +64,7 @@
                         </div>
                         <div style="margin-top:10px;" class="row">
                             <div class="col-md-4">Rôle </div>
-                            <select name="role" id="role" form="register" style="margin-left: 15px;">
+                            <select name="role" id="role" form="bookAdd" style="margin-left: 15px;">
                                 <option>Admin</option>
                                 <option>User</option>
                             </select>

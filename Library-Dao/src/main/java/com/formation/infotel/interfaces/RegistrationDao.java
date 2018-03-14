@@ -10,6 +10,8 @@ public interface RegistrationDao {
 	
     void insertRegistration(Registration registration);
 
+    void updateRegistration(Registration registration);
+
     Registration getRegistrationById(int registrationId);
 
     Registration getRegistration(String registrationName);

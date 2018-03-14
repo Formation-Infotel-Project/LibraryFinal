@@ -23,13 +23,13 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th style='text-align:center'>Nom</th>
-                                    <th style='text-align:center'>Prénom</th>
-                                    <th style='text-align:center'>EMail</th>
-                                    <th style='text-align:center'>Adresse</th>
-                                    <th style='text-align:center'>Tel</th>
-                                    <th style='text-align:center'>Rôle</th>
-                                    <th style='text-align:center'>Actions</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>EMail</th>
+                                    <th>Adresse</th>
+                                    <th>Tel</th>
+                                    <th>Rôle</th>
+ <c:if test="${sessionScope.access == 'admin'}"><th>Actions</th></c:if>
                                 </tr>
                             </thead>
                             <tbody id="contenant">
@@ -44,12 +44,20 @@
                                         <c:if test="${member.access == 1}">Admin</c:if>
                                         <c:if test="${member.access == 2}">User</c:if>
                                     </td>
+                                    <c:if test="${sessionScope.access == 'admin'}">
                                     <td>
-                                        <form method="get" action="MemberDetail">
-                                            <input type="hidden" name="id" value="${member.memberId}">
-                                            <input type="submit" class="btn btn-info" value="Détail">
-                                        </form>
+                                        <div class="row">
+                                            <form method="get" action="editMember" class="col-md-6" style="padding-right: 0;">
+                                                <input type="hidden" name="id" value="${member.memberId}">
+                                                <input type="submit" class="btn btn-info" value="Editer">
+                                            </form>
+                                            <form method="get" action="deleteMember" class="col-md-6" style="padding-left: 0;">
+                                                <input type="hidden" name="id" value="${member.memberId}">
+                                                <input type="submit" class="btn btn-danger" value="Supprimer">
+                                            </form>
+                                        </div>
                                     </td>
+                                    </c:if>
                                 </tr>
                             </c:forEach>
                             </tbody>

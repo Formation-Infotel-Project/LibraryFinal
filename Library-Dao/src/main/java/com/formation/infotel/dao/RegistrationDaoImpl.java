@@ -22,6 +22,11 @@ public class RegistrationDaoImpl implements RegistrationDao {
     }
 
     @Override
+    public void updateRegistration(Registration registration) {
+        sessionFactory.getCurrentSession().update(registration);
+    }
+
+    @Override
     public Registration getRegistrationById(int registrationId) {
         return null;
     }
