@@ -5,3 +5,5 @@ target/
 Library-Web/.tern-project
 */target/**
 .project
+*.iml
+*.idea
