@@ -1,27 +1,48 @@
 package com.formation.infotel.services.impl;
 
-
 import java.util.List;
-
-import javax.transaction.Transactional;
-
+import com.formation.infotel.interfaces.Dao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import com.formation.infotel.entity.Book;
 import com.formation.infotel.entity.Category;
 import com.formation.infotel.interfaces.CategoryDao;
 import com.formation.infotel.services.interfaces.CategoryService;
+import org.springframework.stereotype.Service;
 
-
-@Repository
-@Transactional
+@Service
 public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired
 	private CategoryDao categoryDao;
-	
-	
+	@Autowired
+	private Dao dao;
+
+	@Override
+	public void insertCategory(Category category) {
+		dao.save(category);
+	}
+
+	@Override
+	public void deleteCategory(Category category) {
+		dao.delete(category);
+	}
+
+	@Override
+	public void updateCategory(Category category) {
+		dao.saveOrUpdate(category);
+	}
+
+	@Override
+	public Category getCategory(int categoryId) {
+		return dao.get(Category.class, categoryId);
+	}
+
+	@Override
+	public List<Category> getAllCategories() {
+		return dao.getAll(Category.class);
+	}
+
 	/* retourne la liste de tous les livre pas cat�gorie*/
 	@Override
 	public List<Category> getAllBookByCategory(String categoryname) {
@@ -42,20 +63,25 @@ public class CategoryServiceImpl implements CategoryService {
 	/* retourne un objet catalogue contenant tout les p�riodique*/
 	@Override
 	public List<Book> getCategoriesPeriodique(String categoryName) {
-	Category Periodique = categoryDao.getCategoriesPeriodique(categoryName);
-	List<Book> List = null;
-	 List = Periodique.getBooks();
-	if( List.isEmpty()) {
-		System.out.println("no book found");
-	}
-	else {
-		System.out.println(List);
+		Category Periodique = categoryDao.getCategoriesPeriodique(categoryName);
+		List<Book> List = null;
+		 List = Periodique.getBooks();
+		if( List.isEmpty()) {
+			System.out.println("no book found");
+		}
+		else {
+			System.out.println(List);
 		}
 	
-	return List;
+		return List;
 	}
-			
+
+	@Override
+	public Category getCategoryByName(String name) {
+		return categoryDao.getCategoryByName(name);
 	}
+}
+
 	
 
 

@@ -18,16 +18,7 @@ public class Main {
 
         ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfig.class);
 
-        MemberDao memberDao = (MemberDao) ctx.getBean("memberDaoImpl");
-        LibraryDao libraryDao = (LibraryDao) ctx.getBean("libraryDaoImpl");
-        RegistrationDao registrationDao = (RegistrationDao) ctx.getBean("registrationDaoImpl");
-        CatalogDao catalogDao = (CatalogDao) ctx.getBean("catalogDaoImpl");
-        BookDao bookDao = (BookDao) ctx.getBean("bookDaoImpl");
-        CategoryDao categoryDao = (CategoryDao) ctx.getBean("categoryDaoImpl");
-        AuthorDao authorDao = (AuthorDao) ctx.getBean("authorDaoImpl");
-        EditorDao editorDao = (EditorDao) ctx.getBean("editorDaoImpl");
-        Book_copyDao book_copyDao = (Book_copyDao) ctx.getBean("book_copyDaoImpl");
-        BookShelfDao bookShelfDao = (BookShelfDao) ctx.getBean("bookShelfDaoImpl");
+        Dao dao = (Dao) ctx.getBean("daoImpl");
 
         List<Library> libraries1 = new ArrayList<>();
         List<Library> libraries2 = new ArrayList<>();
@@ -176,64 +167,62 @@ public class Main {
         bookShelf3.setBook_copies(bookCopies3);
         bookShelf4.setBook_copies(bookCopies4);
 
-
-
         /// Enregistrement ///
 
-        libraryDao.insertLibrary(lib1);
-        libraryDao.insertLibrary(lib2);
-        libraryDao.insertLibrary(lib3);
-        libraryDao.insertLibrary(lib4);
-        libraryDao.insertLibrary(lib5);
+        dao.save(lib1);
+        dao.save(lib2);
+        dao.save(lib3);
+        dao.save(lib4);
+        dao.save(lib5);
 
-        memberDao.insertMember(m1);
-        memberDao.insertMember(m2);
-        memberDao.insertMember(m3);
-        memberDao.insertMember(m4);
-        memberDao.insertMember(m5);
+        dao.save(m1);
+        dao.save(m2);
+        dao.save(m3);
+        dao.save(m4);
+        dao.save(m5);
 
-        registrationDao.insertRegistration(reg1);
-        registrationDao.insertRegistration(reg2);
-        registrationDao.insertRegistration(reg3);
-        registrationDao.insertRegistration(reg4);
-        registrationDao.insertRegistration(reg5);
+        dao.save(reg1);
+        dao.save(reg2);
+        dao.save(reg3);
+        dao.save(reg4);
+        dao.save(reg5);
 
-        categoryDao.insertCategory(cat1);
-        categoryDao.insertCategory(cat2);
-        categoryDao.insertCategory(cat3);
-        categoryDao.insertCategory(cat4);
-        categoryDao.insertCategory(cat5);
+        dao.save(cat1);
+        dao.save(cat2);
+        dao.save(cat3);
+        dao.save(cat4);
+        dao.save(cat5);
 
-        authorDao.insertAuthor(auth1);
-        authorDao.insertAuthor(auth2);
-        authorDao.insertAuthor(auth3);
-        authorDao.insertAuthor(auth4);
-        authorDao.insertAuthor(auth5);
+        dao.save(auth1);
+        dao.save(auth2);
+        dao.save(auth3);
+        dao.save(auth4);
+        dao.save(auth5);
 
-        editorDao.insertEditor(edit1);
-        editorDao.insertEditor(edit2);
-        editorDao.insertEditor(edit3);
-        editorDao.insertEditor(edit4);
+        dao.save(edit1);
+        dao.save(edit2);
+        dao.save(edit3);
+        dao.save(edit4);
 
-        catalogDao.insertAuthor(catalog1);
-        catalogDao.insertAuthor(catalog2);
+        dao.save(catalog1);
+        dao.save(catalog2);
 
-        bookDao.insertBook(book1);
-        bookDao.insertBook(book2);
-        bookDao.insertBook(book3);
-        bookDao.insertBook(book4);
-        bookDao.insertBook(book5);
+        dao.save(book1);
+        dao.save(book2);
+        dao.save(book3);
+        dao.save(book4);
+        dao.save(book5);
 
-        bookShelfDao.insertBookShelf(bookShelf1);
-        bookShelfDao.insertBookShelf(bookShelf2);
-        bookShelfDao.insertBookShelf(bookShelf3);
-        bookShelfDao.insertBookShelf(bookShelf4);
+        dao.save(bookShelf1);
+        dao.save(bookShelf2);
+        dao.save(bookShelf3);
+        dao.save(bookShelf4);
 
-        book_copyDao.insertBook_copy(copy1);
-        book_copyDao.insertBook_copy(copy2);
-        book_copyDao.insertBook_copy(copy3);
-        book_copyDao.insertBook_copy(copy4);
-        book_copyDao.insertBook_copy(copy5);
+        dao.save(copy1);
+        dao.save(copy2);
+        dao.save(copy3);
+        dao.save(copy4);
+        dao.save(copy5);
 
         System.out.println("Données insérés");
     }

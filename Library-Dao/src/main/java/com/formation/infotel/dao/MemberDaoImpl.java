@@ -3,7 +3,6 @@ package com.formation.infotel.dao;
 import com.formation.infotel.entity.Member;
 import com.formation.infotel.interfaces.MemberDao;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,32 +15,6 @@ public class MemberDaoImpl implements MemberDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    @Override
-    public void insertMember(Member member) {
-        sessionFactory.getCurrentSession().save(member);
-    }
-
-    @Override
-    public void updateMember(Member member) {
-        sessionFactory.getCurrentSession().update(member);
-    }
-
-    @Override
-    public void deleteMember(Member member) {
-        sessionFactory.getCurrentSession().delete(member);
-    }
-
-    @Override
-    public Member getMemberById(int memberId) {
-        return (Member) sessionFactory.getCurrentSession().get(Member.class, memberId);
-    }
-
-    @Override
-    public List<Member> getAllMembers() {
-        List<Member> members = sessionFactory.getCurrentSession().createQuery(String.format("FROM Member as member")).list();
-        return members;
-    }
 
     @Override
     public Member getMemberByEmail(String email) {

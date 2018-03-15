@@ -6,13 +6,7 @@ import java.util.List;
 
 public interface AuthorDao {
 
-    void insertAuthor(Author author);
-
-    Author getAuthorById(int authorId);
-
-    Author getAuthor(String authorname);
+    Author getAuthorByName(String authorname);
 
     List<Author> getBookByAuthor(String authorId);
-    
-    List<Author> getAuthors();
 }

@@ -1,7 +1,7 @@
 package com.formation.infotel.services.impl;
 
 import com.formation.infotel.entity.Library;
-import com.formation.infotel.interfaces.LibraryDao;
+import com.formation.infotel.interfaces.Dao;
 import com.formation.infotel.services.interfaces.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,30 +12,30 @@ import java.util.List;
 public class LibraryServiceImpl implements LibraryService {
 
     @Autowired
-    private LibraryDao libraryDao;
+    private Dao dao;
 
     @Override
     public void insertLibrary(Library library) {
-
-    }
-
-    @Override
-    public void updateLibrary(Library library, int libraryId) {
-
+        dao.save(library);
     }
 
     @Override
     public void deleteLibrary(Library library) {
-
+        dao.delete(library);
     }
 
     @Override
-    public Library getLibraryById(int libraryId) {
-        return libraryDao.getLibraryById(libraryId);
+    public void updateLibrary(Library library) {
+        dao.saveOrUpdate(library);
+    }
+
+    @Override
+    public Library getLibrary(int libraryId) {
+        return dao.get(Library.class, libraryId);
     }
 
     @Override
     public List<Library> getAllLibraries() {
-        return libraryDao.getLibraries();
+        return dao.getAll(Library.class);
     }
 }

@@ -7,7 +7,19 @@ import com.formation.infotel.entity.Category;
 
 public interface CategoryService {
 
+	void insertCategory(Category category);
+
+	void deleteCategory(Category category);
+
+	void updateCategory(Category category);
+
+	Category getCategory(int categoryId);
+
+	List<Category> getAllCategories();
+
 	List<Category> getAllBookByCategory(String categoryname);
 	
-	public List<Book> getCategoriesPeriodique(String categoryName);
+	List<Book> getCategoriesPeriodique(String categoryName);
+
+	Category getCategoryByName(String name);
 }

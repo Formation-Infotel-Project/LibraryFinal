@@ -8,11 +8,11 @@ public interface LibraryService {
 
     void insertLibrary(Library library);
 
-    void updateLibrary(Library library, int libraryId);
-
     void deleteLibrary(Library library);
 
-    Library getLibraryById(int libraryId);
+    void updateLibrary(Library library);
+
+    Library getLibrary(int libraryId);
 
     List<Library> getAllLibraries();
 }

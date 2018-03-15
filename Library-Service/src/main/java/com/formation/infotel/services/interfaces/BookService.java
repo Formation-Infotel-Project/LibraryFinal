@@ -1,7 +1,8 @@
 package com.formation.infotel.services.interfaces;
-import javax.transaction.Transactional;
+
 import com.formation.infotel.entity.Book;
 import java.util.List;
+
 public interface BookService {
 	
     void insertBook(Book book);
@@ -17,4 +18,6 @@ public interface BookService {
 	String getBookByDescription(String description);
 	
 	Book getBookByName(String bookName);
+
+	List<Book> getRecommandedBooks();
 }

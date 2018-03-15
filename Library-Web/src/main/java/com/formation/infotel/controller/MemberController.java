@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,14 +39,14 @@ public class MemberController extends HttpServlet{
 
         model.addAttribute("members", members);
 
-        return "memberList";
+        return "admin/memberList";
     }
 
     @RequestMapping("/deleteMember")
     public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-        Member member = memberService.getMemberById(id);
+        Member member = memberService.getMember(id);
         memberService.deleteMember(member);
 
         response.sendRedirect("memberList");
@@ -94,7 +93,7 @@ public class MemberController extends HttpServlet{
 
     @RequestMapping("/memberEdit")
     public void edit(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Member member = memberService.getMemberById(Integer.parseInt(request.getParameter("id")));
+        Member member = memberService.getMember(Integer.parseInt(request.getParameter("id")));
         member.setMemberLastName(request.getParameter("name"));
         member.setFirstName(request.getParameter("firstName"));
         member.setEmail(request.getParameter("email"));

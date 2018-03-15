@@ -15,7 +15,6 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/Library-Web">Home</a></li>
                 <li><a href="books">Livres</a></li>
-                <li><a href="memberList">Members</a></li>
             </ul>
             <form class="navbar-form navbar-left" action="Search">
                 <div class="form-group">

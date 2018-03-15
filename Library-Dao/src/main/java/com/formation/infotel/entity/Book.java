@@ -1,5 +1,6 @@
 package com.formation.infotel.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -8,7 +9,7 @@ import javax.persistence.*;
 
 
 @Entity
-public class Book {
+public class Book implements Serializable{
 	
 	@Id
 	@GeneratedValue

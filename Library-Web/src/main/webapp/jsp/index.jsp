@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="springform" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,18 +19,18 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-8">
-                    <h1 style="margin-bottom:20px; font-size:25px;">Livres recommandés</h1>
-                    <div id="box-book-recom" class="container-fluid"  style="background-color:white;overflow-y:scroll;height: 200px;">
+                    <h1 style="margin-bottom:20px; font-size:25px;">Livres recommandÃ©s</h1>
+                    <div id="box-book-recom" class="container-fluid"  style="background-color:white;overflow-y:scroll;height: 275px;">
                         <div class='row'>
-                            <!-- foreach -->
+                            <c:forEach items="${books}" var="book">
                             <a href="">
                                 <div class='col-md-3' style='margin-top:20px;'>
-                                    <div class='book'>
-                                        <div class='divBookTitle'><span class='bookTitle'></span></div>
+                                    <div class='book' style="background-image:url('resources/${book.imagePath}')">
+                                        <div class='divBookTitle'><span class='bookTitle'>${book.bookTitle}</span></div>
                                     </div>
                                 </div>
                             </a>
-                            <!-- end foreach -->
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
