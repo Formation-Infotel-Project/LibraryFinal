@@ -111,7 +111,6 @@ public class Main {
         Editor edit4 = new Editor("White fox", "France");
 
         Book book1 = new Book("Nanatsu no taizai", "The seven deadly sins", 7, date1, true, "images/nanatsu.jpg");
-        
         Book book2 = new Book("Hunter X Hunter", "Aventures de Gon et Kirua", 7, date2, true, "images/hunter.jpg");
         Book book3 = new Book("Shingeki no Kyojin", "L'attaque des titans", 7, date3, true, "images/shingeki.jpg");
         Book book4 = new Book("Deadman Wonderland", "Deadman Wonderland", 7, date4, true, "images/deadmanw.jpg");
@@ -126,25 +125,17 @@ public class Main {
         book3.setEditor(edit3);
         book4.setEditor(edit2);
       
-        book1.setCategories(categs1);
-        book2.setCategories(categs1);
-        book3.setCategories(categs1);
-        book4.setCategories(categs1);
-        book5.setCategories(categs1);
+        book1.setCategory(cat4);
+        book2.setCategory(cat2);
+        book3.setCategory(cat1);
+        book4.setCategory(cat1);
+        book5.setCategory(cat2);
 
         cat1.setBooks(books);
         cat2.setBooks(books);
         cat3.setBooks(books);
         cat4.setBooks(books);
         cat5.setBooks(books);
-
-        Catalog catalog1 = new Catalog("Catalogue 1", books, libraries1);
-        Catalog catalog2 = new Catalog("Catalogue 2", books, libraries2);
-
-        book1.setCatalog(catalog1);
-        book2.setCatalog(catalog1);
-        book3.setCatalog(catalog2);
-        book4.setCatalog(catalog2);
 
         BookShelf bookShelf1 = new BookShelf("Etagère 1", "Nanatsu");
         BookShelf bookShelf2 = new BookShelf("Etagère 2", "Hunter");
@@ -203,9 +194,6 @@ public class Main {
         dao.save(edit2);
         dao.save(edit3);
         dao.save(edit4);
-
-        dao.save(catalog1);
-        dao.save(catalog2);
 
         dao.save(book1);
         dao.save(book2);

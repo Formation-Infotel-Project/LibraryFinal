@@ -1,5 +1,6 @@
 package com.formation.infotel.controller;
 
+import com.formation.infotel.controller.dto.MemberDto;
 import com.formation.infotel.entity.Library;
 import com.formation.infotel.entity.Member;
 import com.formation.infotel.entity.Registration;
@@ -9,6 +10,8 @@ import com.formation.infotel.services.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -33,8 +37,26 @@ public class MemberController extends HttpServlet{
     @Autowired
     RegistrationService registrationService;
 
+    @PostMapping("/member/add")
+    public void memberAdd(@RequestBody MemberDto memberDto) {
+
+        Member member = new Member(memberDto.getMemberLastName(), memberDto.getEmail(), memberDto.getPassword(), memberDto.getAddress(),
+                memberDto.getCity(), memberDto.getPostalCode(), memberDto.getAccess(), memberDto.getPhone(), memberDto.getFirstName());
+
+        memberService.insertMember(member);
+    }
+
+    @RequestMapping("member/get")
+    public List<MemberDto> getMembers(){
+        List<MemberDto> viewMembers = new ArrayList<>();
+        List<Member> members = memberService.getAllMembers();
+        members.forEach(m -> viewMembers.add(new MemberDto(m.getMemberLastName(), m.getFirstName(), m.getEmail(),
+                m.getPassword(), m.getAddress(), m.getCity(), m.getPostalCode(), m.getPhone(), m.getAccess())));
+        return viewMembers;
+    }
+
     @RequestMapping("/memberList")
-    public String list(Model model){
+    public String list(Model model){ /* DEPRECATED */
 
         List<Member> members = memberService.getAllMembers();
 
@@ -53,7 +75,7 @@ public class MemberController extends HttpServlet{
         response.sendRedirect("memberList");
     }
 
-    @RequestMapping("/register")
+    @RequestMapping("/register") /* DEPRECATED */
     public void register(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Member member = new Member();

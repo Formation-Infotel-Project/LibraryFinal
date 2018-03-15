@@ -11,7 +11,7 @@ public class Editor {
  
 	@Id
 	@GeneratedValue
-	private long editorId;
+	private int editorId;
 	private String name;
 	private String editorAddress;
 	
@@ -25,6 +25,10 @@ public class Editor {
 	
 	public Editor() {
 
+	}
+
+	public int getEditorId() {
+		return editorId;
 	}
 
 	public String getName() {

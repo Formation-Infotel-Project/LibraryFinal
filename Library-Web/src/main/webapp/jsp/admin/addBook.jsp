@@ -69,14 +69,6 @@
                                 </select>
                             </div>
                             <div style="margin-top:10px;" class="row">
-                                <div class="col-md-4">Catalogue </div>
-                                <select class="col-md-4" name="catalog" form="bookAdd" style="margin-left: 15px;">
-                                    <c:forEach items="${catalogs}" var="catalog">
-                                        <option>${catalog.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div style="margin-top:10px;" class="row">
                                 <div class="col-md-4">Couverture </div>
                                 <div class="col-md-4"><input type='file' name='image' required></div>
                             </div>

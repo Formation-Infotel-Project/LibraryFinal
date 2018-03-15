@@ -19,17 +19,17 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void insertBook(Book book) {
-        dao.save(Book.class);
+        dao.save(book);
     }
 
     @Override
-    public void updateBook(Book book, int bookId) {
-        dao.saveOrUpdate(Book.class);
+    public void updateBook(Book book) {
+        dao.saveOrUpdate(book);
     }
 
     @Override
     public void deleteBook(Book book) {
-        dao.delete(Book.class);
+        dao.delete(book);
     }
 
     @Override

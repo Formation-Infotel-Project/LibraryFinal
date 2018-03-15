@@ -21,11 +21,8 @@ public class Book implements Serializable{
 	private boolean popularBook;
 	private String imagePath;
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "BOOK_CATEG",
-		joinColumns = @JoinColumn(name = "BOOK_ID"),
-		inverseJoinColumns = @JoinColumn(name = "CATEG_ID"))
-	private List<Category> categories = new ArrayList<>();
+	@ManyToOne
+	private Category category;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "BOOK_AUTH",
@@ -35,9 +32,6 @@ public class Book implements Serializable{
 
 	@ManyToOne
 	private Editor editor;
-
-	@ManyToOne
-	private Catalog catalog;
 
 	@OneToMany(mappedBy = "book")
 	private List<Book_copy> book_copies;
@@ -108,12 +102,12 @@ public class Book implements Serializable{
 		this.imagePath = imagePath;
 	}
 
-	public List<Category> getCategories() {
-		return categories;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public List<Author> getAuthors() {
@@ -130,14 +124,6 @@ public class Book implements Serializable{
 
 	public void setEditor(Editor editor) {
 		this.editor = editor;
-	}
-
-	public Catalog getCatalog() {
-		return catalog;
-	}
-
-	public void setCatalog(Catalog catalog) {
-		this.catalog = catalog;
 	}
 
 	public List<Book_copy> getBook_copies() {

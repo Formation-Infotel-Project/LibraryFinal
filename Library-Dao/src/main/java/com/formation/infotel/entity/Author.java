@@ -9,7 +9,7 @@ public class Author {
 
 	@Id
 	@GeneratedValue
-	private long authorId;
+	private int authorId;
 	private String authorLastName;
 	private String firstName;
 
@@ -23,6 +23,10 @@ public class Author {
 	public Author(String authorLastName, String firstName) {
 		this.authorLastName = authorLastName;
 		this.firstName = firstName;
+	}
+
+	public int getAuthorId() {
+		return authorId;
 	}
 
 	public String getAuthorLastName() {

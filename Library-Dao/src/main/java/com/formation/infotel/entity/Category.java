@@ -14,7 +14,7 @@ public class Category {
 	private String name;
 	private String description;
 
-	@ManyToMany(mappedBy = "categories")
+	@ManyToMany(mappedBy = "category")
 	private List<Book> books = new ArrayList<>();
 	
 	public Category(String name, String description) {
@@ -24,6 +24,10 @@ public class Category {
 	
 	public Category() {
 
+	}
+
+	public int getCategoryId() {
+		return categoryId;
 	}
 
 	public String getName() {

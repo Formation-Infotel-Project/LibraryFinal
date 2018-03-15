@@ -1,25 +1,18 @@
 package com.formation.infotel.controller;
 
+import com.formation.infotel.controller.dto.BookDto;
 import com.formation.infotel.entity.*;
 import com.formation.infotel.services.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.ParseException;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,8 +26,6 @@ public class BookController extends HttpServlet {
     EditorService editorService;
     @Autowired
     AuthorService authorService;
-    @Autowired
-    CatalogService catalogService;
 
     @RequestMapping("/books")
     public String list(Model model){
@@ -45,46 +36,40 @@ public class BookController extends HttpServlet {
         return "bookList";
     }
 
-    @RequestMapping("/bookAdd")
-    public void bookAdd(HttpServletRequest request, HttpServletResponse response) throws ParseException, IOException, ServletException, NullPointerException {
+    @PostMapping(value = "/book/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void bookAdd(@RequestBody BookDto bookDto) {
 
-        Book book = new Book();
-        book.setBookTitle(request.getParameter("bookTitle"));
-        book.setBookDescription(request.getParameter("description"));
-        /*book.setBookPrice(Float.parseFloat(request.getParameter("price")));*/
-        book.setBookPrice(7);
+        Book book = new Book(bookDto.getBookTitle(), bookDto.getDescription(), bookDto.getPrice(), bookDto.getPubDate(), bookDto.isPopular(), bookDto.getImagePath());
 
-        /*SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        Date parsed = format.parse(request.getParameter("pubDate"));
-        java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());*/
-        Calendar currenttime = Calendar.getInstance();
-        java.sql.Date today = new java.sql.Date((currenttime.getTime()).getTime());
-        book.setPublicationDate(today);
-
-        switch(request.getParameter("popular")){
-            case "Oui":
-                book.setPopularBook(true);
-                break;
-            case "Non":
-                book.setPopularBook(false);
-                break;
+        book.setCategory(categoryService.getCategory(bookDto.getCategoryId()));
+        book.setEditor(editorService.getEditor(bookDto.getEditorId()));
+        List<Author> authors = new ArrayList<>();
+        for(int i=0;i<bookDto.getAuthorsId().size();i++){
+            authors.add(authorService.getAuthor(i));
         }
-
-        Category category = categoryService.getCategoryByName(request.getParameter("category"));
-        Editor editor = editorService.getEditorByName(request.getParameter("editor"));
-        Author author = authorService.getAuthorByName(request.getParameter("author"));
-        Catalog catalog = catalogService.getCatalogByName(request.getParameter("catalog"));
-
-        Part filePart = request.getPart(request.getParameter("imagePath")); // Retrieves <input type="file" name="file">
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        InputStream input = filePart.getInputStream();
-
-        File uploads = new File("src/main/webapp/resources/images");
-        File file = new File(uploads, fileName);
-        Files.copy(input, file.toPath());
+        book.setAuthors(authors);
 
         bookService.insertBook(book);
+    }
 
-        response.sendRedirect("bookList");
+    /*@PostMapping(value = "/book/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void bookUpdate(@RequestBody BookDto bookDto) {
+
+
+
+        bookService.updateBook(book);
+    }*/
+
+    @RequestMapping("book/get")
+    public List<BookDto> getBooks(){
+        List<BookDto> viewBooks = new ArrayList<>();
+        List<Book> books = bookService.getBooks();
+        List<Integer> authorsId = new ArrayList<>();
+        books.forEach(b -> {
+            b.getAuthors().forEach(a -> authorsId.add(a.getAuthorId()));
+            viewBooks.add(new BookDto(b.getBookTitle(), b.getBookDescription(), b.getBookPrice(), authorsId, b.getCategory().getCategoryId(),
+                    b.getEditor().getEditorId(), b.getPublicationDate(), b.isPopularBook(), b.getImagePath()));
+        });
+        return viewBooks;
     }
 }

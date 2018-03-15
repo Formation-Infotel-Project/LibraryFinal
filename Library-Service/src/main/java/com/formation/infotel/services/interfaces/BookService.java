@@ -7,7 +7,7 @@ public interface BookService {
 	
     void insertBook(Book book);
 
-    void updateBook(Book book, int bookId);
+    void updateBook(Book book);
 
     void deleteBook(Book book);
 
