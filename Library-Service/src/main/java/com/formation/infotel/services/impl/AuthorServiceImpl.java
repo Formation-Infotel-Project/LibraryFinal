@@ -73,6 +73,6 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public Author getAuthorByName(String name) {
-		return authorDao.getAuthor(name);
+		return authorDao.getAuthorByName(name);
 	}
 }

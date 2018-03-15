@@ -44,6 +44,6 @@ public class CatalogServiceImpl implements CatalogService{
 
     @Override
     public Catalog getCatalogByName(String name) {
-        return catalogDao.getCatalogByname(name);
+        return catalogDao.getCatalogByName(name);
     }
 }

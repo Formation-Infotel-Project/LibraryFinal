@@ -44,6 +44,6 @@ public class EditorServiceImpl implements EditorService{
 
     @Override
     public Editor getEditorByName(String name) {
-        return editorDao.getEditor(name);
+        return editorDao.getEditorByName(name);
     }
 }
