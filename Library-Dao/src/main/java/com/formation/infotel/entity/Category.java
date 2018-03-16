@@ -2,7 +2,9 @@ package com.formation.infotel.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Category {
@@ -14,8 +16,8 @@ public class Category {
 	private String name;
 	private String description;
 
-	@ManyToMany(mappedBy = "category")
-	private List<Book> books = new ArrayList<>();
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "category")
+	private Set<Book> books = new HashSet<>();
 	
 	public Category(String name, String description) {
 		this.name = name;
@@ -46,11 +48,11 @@ public class Category {
 		this.description = description;
 	}
 
-	public List<Book> getBooks() {
+	public Set<Book> getBooks() {
 		return books;
 	}
 
-	public void setBooks(List<Book> books) {
+	public void setBooks(Set<Book> books) {
 		this.books = books;
 	}
 }

@@ -1,44 +1,29 @@
 package com.formation.infotel.controller;
 
 import com.formation.infotel.controller.dto.MemberDto;
-import com.formation.infotel.entity.Library;
 import com.formation.infotel.entity.Member;
-import com.formation.infotel.entity.Registration;
 import com.formation.infotel.services.interfaces.LibraryService;
 import com.formation.infotel.services.interfaces.MemberService;
 import com.formation.infotel.services.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 @RestController
-public class MemberController extends HttpServlet{
+public class MemberController {
 
     @Autowired
     MemberService memberService;
-
     @Autowired
     LibraryService libraryService;
-
     @Autowired
     RegistrationService registrationService;
 
-    @PostMapping("/member/add")
-    public void memberAdd(@RequestBody MemberDto memberDto) {
+    @PutMapping(value = "/member/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void addMember(@RequestBody MemberDto memberDto) {
 
         Member member = new Member(memberDto.getMemberLastName(), memberDto.getEmail(), memberDto.getPassword(), memberDto.getAddress(),
                 memberDto.getCity(), memberDto.getPostalCode(), memberDto.getAccess(), memberDto.getPhone(), memberDto.getFirstName());
@@ -46,99 +31,47 @@ public class MemberController extends HttpServlet{
         memberService.insertMember(member);
     }
 
+    @PostMapping(value = "member/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateMember(@RequestBody MemberDto memberDto, @PathVariable(value="id") int id){
+
+        Member member = memberService.getMember(id);
+        member.setMemberLastName(memberDto.getMemberLastName());
+        member.setEmail(memberDto.getEmail());
+        member.setPassword(memberDto.getPassword());
+        member.setAddress(memberDto.getAddress());
+        member.setCity(memberDto.getCity());
+        member.setPostalCode(memberDto.getPostalCode());
+        member.setAccess(memberDto.getAccess());
+        member.setPhone(memberDto.getPhone());
+        member.setFirstName(memberDto.getFirstName());
+
+        memberService.updateMember(member);
+    }
+
+    @DeleteMapping("member/delete/{id}")
+    public void deleteMember(@PathVariable(value = "id") int id){
+
+        Member member = memberService.getMember(id);
+
+        memberService.deleteMember(member);
+    }
+
+    @RequestMapping("member/get/{id}")
+    public MemberDto getMember(@PathVariable(value = "id") int id){
+
+        Member member = memberService.getMember(id);
+        MemberDto viewMember = new MemberDto(member.getMemberLastName(), member.getFirstName(), member.getEmail(),
+                member.getPassword(), member.getAddress(), member.getCity(), member.getPostalCode(), member.getPhone(), member.getAccess());
+        return viewMember;
+    }
+
     @RequestMapping("member/get")
     public List<MemberDto> getMembers(){
+
         List<MemberDto> viewMembers = new ArrayList<>();
         List<Member> members = memberService.getAllMembers();
         members.forEach(m -> viewMembers.add(new MemberDto(m.getMemberLastName(), m.getFirstName(), m.getEmail(),
                 m.getPassword(), m.getAddress(), m.getCity(), m.getPostalCode(), m.getPhone(), m.getAccess())));
         return viewMembers;
-    }
-
-    @RequestMapping("/memberList")
-    public String list(Model model){ /* DEPRECATED */
-
-        List<Member> members = memberService.getAllMembers();
-
-        model.addAttribute("members", members);
-
-        return "admin/memberList";
-    }
-
-    @RequestMapping("/deleteMember")
-    public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        int id = Integer.parseInt(request.getParameter("id"));
-        Member member = memberService.getMember(id);
-        memberService.deleteMember(member);
-
-        response.sendRedirect("memberList");
-    }
-
-    @RequestMapping("/register") /* DEPRECATED */
-    public void register(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        Member member = new Member();
-        member.setMemberLastName(request.getParameter("name"));
-        member.setFirstName(request.getParameter("firstName"));
-        member.setEmail(request.getParameter("email"));
-        member.setPassword(request.getParameter("password"));
-        member.setAddress(request.getParameter("address"));
-        member.setCity(request.getParameter("city"));
-        member.setPostalCode(request.getParameter("postalCode"));
-        member.setPhone(request.getParameter("phone"));
-        switch (request.getParameter("role")){
-            case "Admin":
-                member.setAccess(1);
-                break;
-            case "User":
-                member.setAccess(2);
-                break;
-        }
-
-        List<Library> libs = libraryService.getAllLibraries();
-
-        int size = libs.size();
-        Random r = new Random();
-        int rand = r.nextInt(size);
-        Library lib = libs.get(rand);
-
-        Calendar currenttime = Calendar.getInstance();
-        Date today = new Date((currenttime.getTime()).getTime());
-
-        Registration reg = new Registration(member, lib, today);
-
-        memberService.insertMember(member);
-        registrationService.insertRegistration(reg);
-
-        response.sendRedirect("memberList");
-    }
-
-    @RequestMapping("/memberEdit")
-    public void edit(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Member member = memberService.getMember(Integer.parseInt(request.getParameter("id")));
-        member.setMemberLastName(request.getParameter("name"));
-        member.setFirstName(request.getParameter("firstName"));
-        member.setEmail(request.getParameter("email"));
-        member.setPassword(request.getParameter("password"));
-        member.setAddress(request.getParameter("address"));
-        member.setCity(request.getParameter("city"));
-        member.setPostalCode(request.getParameter("postalCode"));
-        member.setPhone(request.getParameter("phone"));
-        switch (request.getParameter("role")){
-            case "Admin":
-                member.setAccess(1);
-                break;
-            case "User":
-                member.setAccess(2);
-                break;
-        }
-
-        Registration reg = member.getRegistration();
-
-        memberService.updateMember(member);
-        registrationService.updateRegistration(reg);
-
-        response.sendRedirect("memberList");
     }
 }

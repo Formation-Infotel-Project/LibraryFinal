@@ -131,11 +131,11 @@ public class Main {
         book4.setCategory(cat1);
         book5.setCategory(cat2);
 
-        cat1.setBooks(books);
+        /*cat1.setBooks(books);
         cat2.setBooks(books);
         cat3.setBooks(books);
         cat4.setBooks(books);
-        cat5.setBooks(books);
+        cat5.setBooks(books);*/
 
         BookShelf bookShelf1 = new BookShelf("Etagère 1", "Nanatsu");
         BookShelf bookShelf2 = new BookShelf("Etagère 2", "Hunter");

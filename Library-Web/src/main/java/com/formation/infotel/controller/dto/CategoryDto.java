@@ -8,12 +8,20 @@ import java.util.List;
 import com.formation.infotel.entity.Book;
 
 public class CategoryDto {
-	
-	private int categoryId;
+
 	private String name;
 	private String description;
+	private List<Integer> booksId;
 
-	private List<Integer> books ;
+	public CategoryDto() {
+	}
+
+	public CategoryDto(String name, String description, List<Integer> booksId) {
+
+		this.name = name;
+		this.description = description;
+		this.booksId = booksId;
+	}
 
 	public String getName() {
 		return name;
@@ -31,27 +39,11 @@ public class CategoryDto {
 		this.description = description;
 	}
 
-	public List<Integer> getBooks() {
-		return books;
+	public List<Integer> getBooksId() {
+		return booksId;
 	}
 
-	public void setBooks(List<Integer> books) {
-		this.books = books;
+	public void setBooksId(List<Integer> booksId) {
+		this.booksId = booksId;
 	}
-
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public CategoryDto(int categoryId, String name, String description, List<Integer> books) {
-
-		this.categoryId = categoryId;
-		this.name = name;
-		this.description = description;
-		this.books = books;
-	}
-	
-	
-	
-
 }

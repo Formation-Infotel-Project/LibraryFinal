@@ -5,24 +5,20 @@ import java.util.List;
 import com.formation.infotel.entity.Book;
 
 public class AuthorDto {
-	
-	private long authorId;
+
 	private String authorLastName;
 	private String firstName;
-	
-	public AuthorDto(String authorLastName, String firstName, List<Book> books) {
+	private List<Integer> booksId;
+
+	public AuthorDto() {
+	}
+
+	public AuthorDto(String authorLastName, String firstName, List<Integer> booksId) {
 		this.authorLastName = authorLastName;
 		this.firstName = firstName;
-		this.books = books;
+		this.booksId = booksId;
 	}
 
-	public long getAuthorId() {
-		return authorId;
-	}
-
-	private List<Book> books;
-	
-	
 	public String getAuthorLastName() {
 		return authorLastName;
 	}
@@ -39,16 +35,11 @@ public class AuthorDto {
 		this.firstName = firstName;
 	}
 
-	public List<Book> getBooks() {
-		return books;
+	public List<Integer> getBooksId() {
+		return booksId;
 	}
 
-	public void setBooks(List<Book> books) {
-		this.books = books;
+	public void setBooksId(List<Integer> books) {
+		this.booksId = books;
 	}
-
-	
-	
-	
-
 }

@@ -14,7 +14,7 @@ public class BookShelf {
 
 	@Id
 	@GeneratedValue
-	private int bookId;
+	private int bookShelfId;
 	private String bookShelfName;
 	private String bookShelfDescription;
 	private int number;
@@ -64,17 +64,20 @@ public class BookShelf {
 	public String getbookShelfName() {
 		return bookShelfName;
 	}
+
 	public void setbookShelfName(String bookShelfName) {
 		this.bookShelfName = bookShelfName;
 	}
+
 	public int getNumber() {
 		return number;
 	}
+
 	public void setNumber(int number) {
 		this.number = number;
 	}
 
-	public int getBookId() {
-		return bookId;
+	public int getBookShelfId() {
+		return bookShelfId;
 	}
 }

@@ -1,6 +1,8 @@
 package com.formation.infotel.services.impl;
 
 import java.util.List;
+import java.util.Set;
+
 import com.formation.infotel.interfaces.Dao;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -62,18 +64,18 @@ public class CategoryServiceImpl implements CategoryService {
 
 	/* retourne un objet catalogue contenant tout les p�riodique*/
 	@Override
-	public List<Book> getCategoriesPeriodique(String categoryName) {
+	public Set<Book> getCategoriesPeriodique(String categoryName) {
 		Category Periodique = categoryDao.getCategoriesPeriodique(categoryName);
-		List<Book> List = null;
-		 List = Periodique.getBooks();
-		if( List.isEmpty()) {
+		Set<Book> list = null;
+		 list = Periodique.getBooks();
+		if( list.isEmpty()) {
 			System.out.println("no book found");
 		}
 		else {
-			System.out.println(List);
+			System.out.println(list);
 		}
 	
-		return List;
+		return list;
 	}
 
 	@Override

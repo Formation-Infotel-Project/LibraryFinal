@@ -14,7 +14,7 @@ public class Library {
 	private String libraryName;
 	private String libraryAddress;
 
-	@OneToMany(mappedBy = "library")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "library")
 	private List<Registration> registrations;
 
 	public Library(String libraryName, String libraryAddress, List<Registration> registrations) {

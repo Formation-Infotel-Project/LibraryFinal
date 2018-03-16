@@ -2,7 +2,9 @@ package com.formation.infotel.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Book_copy {
@@ -18,8 +20,8 @@ public class Book_copy {
     @ManyToOne
     private BookShelf bookShelf;
 
-    @ManyToMany(mappedBy = "book_copies")
-    private List<BookBasket> bookBaskets = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "book_copies")
+    private Set<BookBasket> bookBaskets = new HashSet<>();
 
     public Book_copy() {
     }
@@ -28,6 +30,10 @@ public class Book_copy {
         this.book_copyTitle = book_copyTitle;
         this.book = book;
         this.bookShelf = bookShelf;
+    }
+
+    public int getBook_copyId() {
+        return book_copyId;
     }
 
     public Book_copy(String book_copyTitle) {
@@ -48,5 +54,21 @@ public class Book_copy {
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    public BookShelf getBookShelf() {
+        return bookShelf;
+    }
+
+    public void setBookShelf(BookShelf bookShelf) {
+        this.bookShelf = bookShelf;
+    }
+
+    public Set<BookBasket> getBookBaskets() {
+        return bookBaskets;
+    }
+
+    public void setBookBaskets(Set<BookBasket> bookBaskets) {
+        this.bookBaskets = bookBaskets;
     }
 }

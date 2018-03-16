@@ -1,7 +1,5 @@
 package com.formation.infotel.controller.dto;
 
-import com.formation.infotel.entity.Registration;
-
 public class MemberDto {
 
     private String memberLastName;

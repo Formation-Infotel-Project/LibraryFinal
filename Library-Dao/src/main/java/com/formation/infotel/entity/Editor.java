@@ -1,10 +1,11 @@
 package com.formation.infotel.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Editor {
@@ -15,8 +16,8 @@ public class Editor {
 	private String name;
 	private String editorAddress;
 	
-	@OneToMany(mappedBy = "editor")
-	private List<Book> books;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "editor")
+	private Set<Book> books;
 
 	public Editor(String name, String editorAddress) {
 		this.name = name;
@@ -47,11 +48,11 @@ public class Editor {
 		this.editorAddress = editorAddress;
 	}
 
-	public List<Book> getBooks() {
+	public Set<Book> getBooks() {
 		return books;
 	}
 
-	public void setBooks(List<Book> books) {
+	public void setBooks(Set<Book> books) {
 		this.books = books;
 	}
 }

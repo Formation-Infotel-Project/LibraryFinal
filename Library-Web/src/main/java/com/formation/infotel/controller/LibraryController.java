@@ -3,46 +3,82 @@ package com.formation.infotel.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServlet;
-
+import com.formation.infotel.entity.MemLibId;
+import com.formation.infotel.entity.Registration;
+import com.formation.infotel.services.interfaces.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import com.formation.infotel.controller.dto.LibraryDto;
 import com.formation.infotel.entity.Library;
 import com.formation.infotel.services.interfaces.LibraryService;
 
-public class LibraryController extends HttpServlet{
+@RestController
+public class LibraryController {
 	
 	@Autowired
 	LibraryService libraryService;
-	
-    @PostMapping("/library/add")
-    public void LibraryAdd(@RequestBody LibraryDto libraryDto) {
-    	Library library = new Library(libraryDto.getLibraryName(), libraryDto.getLibraryAddress(), null);
-    	/*jai laissé registration a null*/
-    	libraryService.insertLibrary(library);
-    }
-	
-	
-    
-   /* @RequestMapping("library/get")
-    public List<LibraryDto> getLibrary(){
-    	
-    	List<LibraryDto> viewLibrarys = new ArrayList<>();
-    	List<Library> librarys = libraryService.getAllLibraries();
-    	List<Integer> registrationsId = new ArrayList<>();
-    	
-    	librarys.forEach(l -> l.getRegistrations().forEach(b->{ registrations.add(b.)       })	
-    			{ viewLibrarys.add(new LibraryDto(l.getLibraryCode(), l.getLibraryName(), l.getLibraryAddress(), l.getRegistrations())});
-    	
-    		
-    	
-    	
-    	
-    	return viewLibrarys;
-    }*/
+	@Autowired
+	RegistrationService registrationService;
+
+	@PutMapping(value = "library/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void addLibrary(@RequestBody LibraryDto libraryDto){
+
+		Library library = new Library(libraryDto.getLibraryName(), libraryDto.getLibraryAddress());
+		List<Registration> registrations = new ArrayList<>();
+		for(int i=0;i<libraryDto.getRegistrationsId().size();i++){
+			registrations.add(registrationService.getRegistration(libraryDto.getRegistrationsId().get(i)));
+		}
+		library.setRegistrations(registrations);
+
+		libraryService.insertLibrary(library);
+	}
+
+	@PostMapping(value = "library/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateLibrary(@RequestBody LibraryDto libraryDto, @PathVariable(value="id") int id){
+
+		Library library = libraryService.getLibrary(id);
+		library.setLibraryName(libraryDto.getLibraryName());
+		library.setLibraryAddress(libraryDto.getLibraryAddress());
+		List<Registration> registrations = new ArrayList<>();
+		for(int i=0;i<libraryDto.getRegistrationsId().size();i++){
+			registrations.add(registrationService.getRegistration(libraryDto.getRegistrationsId().get(i)));
+		}
+		library.setRegistrations(registrations);
+
+		libraryService.updateLibrary(library);
+	}
+
+	@DeleteMapping(value = "library/delete/{id}")
+	public void deleteLibrary(@PathVariable(value="id") int id){
+
+		Library library = libraryService.getLibrary(id);
+
+		libraryService.deleteLibrary(library);
+	}
+
+	@RequestMapping("library/get/{id}")
+	public LibraryDto getLibrary(@PathVariable(value="id") int id){
+		Library library = libraryService.getLibrary(id);
+		List<MemLibId> registrationsId = new ArrayList<>();
+		library.getRegistrations().forEach(r -> {
+			registrationsId.add(r.getId());
+		});
+		LibraryDto viewLibrary = new LibraryDto(library.getLibraryName(), library.getLibraryAddress(), registrationsId);
+		return viewLibrary;
+	}
+
+	@RequestMapping("library/get")
+	public List<LibraryDto> getLibraries(){
+		List<LibraryDto> viewLibraries = new ArrayList<>();
+		List<Library> libraries = libraryService.getAllLibraries();
+		List<MemLibId> registrationsId = new ArrayList<>();
+		libraries.forEach(l -> {
+			l.getRegistrations().forEach(r -> registrationsId.add(r.getId()));
+			viewLibraries.add(new LibraryDto(l.getLibraryName(), l.getLibraryAddress(), registrationsId));
+		});
+		return viewLibraries;
+	}
 
 }
