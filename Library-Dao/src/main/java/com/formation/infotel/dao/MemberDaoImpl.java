@@ -33,6 +33,7 @@ public class MemberDaoImpl implements MemberDao {
                 .setParameter("login", login)
                 .setParameter("password", password)
                 .list();
+        System.out.println(members);
         if(members.size() == 1){
             success = true;
         }
