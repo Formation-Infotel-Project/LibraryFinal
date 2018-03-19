@@ -66,8 +66,8 @@ public class LoginController extends HttpServlet {
 		return resultat;
 	}
 
-	@RequestMapping("/loginCheckk") /* bout de code casser retiré un "k" a check" */
-	public String login(HttpServletRequest request) {
+	/*@RequestMapping("/loginCheckk") /* bout de code casser retiré un "k" a check" */
+	/*public String login(HttpServletRequest request) {
 
 		String pageToReturn = "";
 		String login = request.getParameter("login");
@@ -92,5 +92,5 @@ public class LoginController extends HttpServlet {
 		}
 
 		return pageToReturn;
-	}
+	}*/
 }

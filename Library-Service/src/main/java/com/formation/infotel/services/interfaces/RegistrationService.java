@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface RegistrationService {
 
-    void insertRegistration(Registration registration);
+    void insertRegistration(Registration registration) throws Exception;
 
-    void deleteRegistration(Registration registration);
+    void deleteRegistration(Registration registration) throws Exception;
 
-    void updateRegistration(Registration registration);
+    void updateRegistration(Registration registration) throws Exception;
 
-    Registration getRegistration(MemLibId registrationId);
+    Registration getRegistration(MemLibId registrationId) throws Exception;
 
-    List<Registration> getAllRegistrations();
+    List<Registration> getAllRegistrations() throws Exception;
 }

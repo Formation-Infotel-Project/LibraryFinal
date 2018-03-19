@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface BookBasketService {
 
-    void insertBookBasket(BookBasket bookBasket);
+    void insertBookBasket(BookBasket bookBasket) throws Exception;
 
-    void deleteBookBasket(BookBasket bookBasket);
+    void deleteBookBasket(BookBasket bookBasket) throws Exception;
 
-    void updateBookBasket(BookBasket bookBasket);
+    void updateBookBasket(BookBasket bookBasket) throws Exception;
 
-    BookBasket getBookBasket(int bookBasketId);
+    BookBasket getBookBasket(int bookBasketId) throws Exception;
 
-    List<BookBasket> getAllBookBaskets();
+    List<BookBasket> getAllBookBaskets() throws Exception;
 }

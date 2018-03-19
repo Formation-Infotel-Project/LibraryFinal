@@ -18,32 +18,32 @@ public class EditorServiceImpl implements EditorService{
     private Dao dao;
 
     @Override
-    public void insertEditor(Editor editor) {
+    public void insertEditor(Editor editor)  throws Exception {
         dao.save(editor);
     }
 
     @Override
-    public void deleteEditor(Editor editor) {
+    public void deleteEditor(Editor editor)  throws Exception{
         dao.delete(editor);
     }
 
     @Override
-    public void updateEditor(Editor editor) {
+    public void updateEditor(Editor editor) throws Exception {
         dao.saveOrUpdate(editor);
     }
 
     @Override
-    public Editor getEditor(int editorId) {
+    public Editor getEditor(int editorId) throws Exception {
         return dao.get(Editor.class, editorId);
     }
 
     @Override
-    public List<Editor> getAllEditors() {
+    public List<Editor> getAllEditors()  throws Exception{
         return dao.getAll(Editor.class);
     }
 
     @Override
-    public Editor getEditorByName(String name) {
+    public Editor getEditorByName(String name) throws Exception {
         return editorDao.getEditorByName(name);
     }
 }

@@ -18,75 +18,100 @@ import java.util.Set;
 @RestController
 public class BookBasketController {
 
-    @Autowired
-    private BookBasketService bookBasketService;
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private BookCopyService bookCopyService;
+	@Autowired
+	private BookBasketService bookBasketService;
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private BookCopyService bookCopyService;
 
-    @PutMapping(value = "bookBasket/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addBookBasket(@RequestBody BookBasketDto bookBasketDto){
+	@PutMapping(value = "bookBasket/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void addBookBasket(@RequestBody BookBasketDto bookBasketDto) {
+		try {
+			BookBasket bookBasket = new BookBasket();
+			bookBasket.setCreationDate(bookBasketDto.getCreationDate());
+			bookBasket.setDeliveryDate(bookBasketDto.getDeliveryDate());
+			bookBasket.setMember(memberService.getMember(bookBasketDto.getMemberId()));
+			Set<Book_copy> books = new HashSet<>();
+			for (int i = 0; i < bookBasketDto.getBook_copiesId().size(); i++) {
+				books.add(bookCopyService.getBookCopy(bookBasketDto.getBook_copiesId().get(i)));
+			}
+			bookBasket.setBook_copies(books);
 
-        BookBasket bookBasket = new BookBasket();
-        bookBasket.setCreationDate(bookBasketDto.getCreationDate());
-        bookBasket.setDeliveryDate(bookBasketDto.getDeliveryDate());
-        bookBasket.setMember(memberService.getMember(bookBasketDto.getMemberId()));
-        Set<Book_copy> books = new HashSet<>();
-        for(int i=0;i<bookBasketDto.getBook_copiesId().size();i++){
-            books.add(bookCopyService.getBookCopy(bookBasketDto.getBook_copiesId().get(i)));
-        }
-        bookBasket.setBook_copies(books);
+			bookBasketService.insertBookBasket(bookBasket);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-        bookBasketService.insertBookBasket(bookBasket);
-    }
+	@PostMapping(value = "bookBasket/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateBookBasket(@RequestBody BookBasketDto bookBasketDto, @PathVariable(value = "id") int id) {
+		try {
+			BookBasket bookBasket = bookBasketService.getBookBasket(id);
+			bookBasket.setCreationDate(bookBasketDto.getCreationDate());
+			bookBasket.setDeliveryDate(bookBasketDto.getDeliveryDate());
+			bookBasket.setMember(memberService.getMember(bookBasketDto.getMemberId()));
+			Set<Book_copy> books = new HashSet<>();
+			for (int i = 0; i < bookBasketDto.getBook_copiesId().size(); i++) {
+				books.add(bookCopyService.getBookCopy(bookBasketDto.getBook_copiesId().get(i)));
+			}
+			bookBasket.setBook_copies(books);
 
-    @PostMapping(value = "bookBasket/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateBookBasket(@RequestBody BookBasketDto bookBasketDto, @PathVariable(value="id") int id){
+			bookBasketService.updateBookBasket(bookBasket);
+		} catch (
 
-        BookBasket bookBasket = bookBasketService.getBookBasket(id);
-        bookBasket.setCreationDate(bookBasketDto.getCreationDate());
-        bookBasket.setDeliveryDate(bookBasketDto.getDeliveryDate());
-        bookBasket.setMember(memberService.getMember(bookBasketDto.getMemberId()));
-        Set<Book_copy> books = new HashSet<>();
-        for(int i=0;i<bookBasketDto.getBook_copiesId().size();i++){
-            books.add(bookCopyService.getBookCopy(bookBasketDto.getBook_copiesId().get(i)));
-        }
-        bookBasket.setBook_copies(books);
+		Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-        bookBasketService.updateBookBasket(bookBasket);
-    }
+	@DeleteMapping(value = "bookBasket/delete/{id}")
+	public void deleteBookBasket(@PathVariable(value = "id") int id) {
+		try {
+			BookBasket bookBasket = bookBasketService.getBookBasket(id);
 
-    @DeleteMapping(value = "bookBasket/delete/{id}")
-    public void deleteBookBasket(@PathVariable(value="id") int id){
+			bookBasketService.deleteBookBasket(bookBasket);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-        BookBasket bookBasket = bookBasketService.getBookBasket(id);
+	@RequestMapping("bookBasket/get/{id}")
+	public BookBasketDto getBookBasket(@PathVariable(value = "id") int id) {
 
-        bookBasketService.deleteBookBasket(bookBasket);
-    }
+		BookBasketDto viewBookBasket = null;
 
-    @RequestMapping("bookBasket/get/{id}")
-    public BookBasketDto getBookBasket(@PathVariable(value="id") int id){
-        BookBasket bookBasket = bookBasketService.getBookBasket(id);
-        List<Integer> booksId = new ArrayList<>();
-        bookBasket.getBook_copies().forEach(b -> {
-            booksId.add(b.getBook_copyId());
-        });
-        BookBasketDto viewBookBasket = new BookBasketDto(bookBasket.getCreationDate(), bookBasket.getDeliveryDate(),
-                bookBasket.getMember().getMemberId(), booksId);
-        return viewBookBasket;
-    }
+		try {
+			BookBasket bookBasket = bookBasketService.getBookBasket(id);
+			List<Integer> booksId = new ArrayList<>();
+			bookBasket.getBook_copies().forEach(b -> {
+				booksId.add(b.getBook_copyId());
+			});
+			viewBookBasket = new BookBasketDto(bookBasket.getCreationDate(), bookBasket.getDeliveryDate(),
+					bookBasket.getMember().getMemberId(), booksId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return viewBookBasket;
+	}
 
-    @RequestMapping("bookBasket/get")
-    public List<BookBasketDto> getBookBaskets(){
-        List<BookBasketDto> viewBookBaskets = new ArrayList<>();
-        List<BookBasket> bookBaskets = bookBasketService.getAllBookBaskets();
-        List<Integer> booksId = new ArrayList<>();
-        bookBaskets.forEach(bb -> {
-            bb.getBook_copies().forEach(b -> booksId.add(b.getBook_copyId()));
-            viewBookBaskets.add(new BookBasketDto(bb.getCreationDate(), bb.getDeliveryDate(),
-                    bb.getMember().getMemberId(), booksId));
-        });
-        return viewBookBaskets;
-    }
+	@RequestMapping("bookBasket/get")
+	public List<BookBasketDto> getBookBaskets() {
+		List<BookBasketDto> viewBookBaskets = new ArrayList<>();
+		
+		try {
+		List<BookBasket> bookBaskets = bookBasketService.getAllBookBaskets();
+		List<Integer> booksId = new ArrayList<>();
+		bookBaskets.forEach(bb -> {
+			bb.getBook_copies().forEach(b -> booksId.add(b.getBook_copyId()));
+			viewBookBaskets.add(new BookBasketDto(bb.getCreationDate(), bb.getDeliveryDate(),
+					bb.getMember().getMemberId(), booksId));
+		});} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return viewBookBaskets;
+	}
 }

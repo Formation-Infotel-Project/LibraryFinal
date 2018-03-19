@@ -19,27 +19,27 @@ public class RegistrationServiceImpl implements RegistrationService {
     private RegistrationDao registrationDao;
 
     @Override
-    public void insertRegistration(Registration registration) {
+    public void insertRegistration(Registration registration)  throws Exception{
         dao.save(registration);
     }
 
     @Override
-    public void deleteRegistration(Registration registration) {
+    public void deleteRegistration(Registration registration)  throws Exception{
         dao.delete(registration);
     }
 
     @Override
-    public void updateRegistration(Registration registration) {
+    public void updateRegistration(Registration registration)  throws Exception{
         dao.saveOrUpdate(registration);
     }
 
     @Override
-    public Registration getRegistration(MemLibId registrationId) {
+    public Registration getRegistration(MemLibId registrationId)  throws Exception{
         return registrationDao.getById(registrationId);
     }
 
     @Override
-    public List<Registration> getAllRegistrations() {
+    public List<Registration> getAllRegistrations() throws Exception {
         return dao.getAll(Registration.class);
     }
 }

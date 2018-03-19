@@ -15,63 +15,95 @@ import java.util.List;
 @RestController
 public class MemberController {
 
-    @Autowired
-    MemberService memberService;
-    @Autowired
-    LibraryService libraryService;
-    @Autowired
-    RegistrationService registrationService;
+	@Autowired
+	MemberService memberService;
+	@Autowired
+	LibraryService libraryService;
+	@Autowired
+	RegistrationService registrationService;
 
-    @PutMapping(value = "/member/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addMember(@RequestBody MemberDto memberDto) {
+	@PutMapping(value = "/member/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void addMember(@RequestBody MemberDto memberDto) {
+		try {
+			Member member = new Member(memberDto.getMemberLastName(), memberDto.getEmail(), memberDto.getPassword(),
+					memberDto.getAddress(), memberDto.getCity(), memberDto.getPostalCode(), memberDto.getAccess(),
+					memberDto.getPhone(), memberDto.getFirstName());
 
-        Member member = new Member(memberDto.getMemberLastName(), memberDto.getEmail(), memberDto.getPassword(), memberDto.getAddress(),
-                memberDto.getCity(), memberDto.getPostalCode(), memberDto.getAccess(), memberDto.getPhone(), memberDto.getFirstName());
+			memberService.insertMember(member);
+		} catch (Exception e) {
 
-        memberService.insertMember(member);
-    }
+			e.printStackTrace();
 
-    @PostMapping(value = "member/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateMember(@RequestBody MemberDto memberDto, @PathVariable(value="id") int id){
+		}
+	}
 
-        Member member = memberService.getMember(id);
-        member.setMemberLastName(memberDto.getMemberLastName());
-        member.setEmail(memberDto.getEmail());
-        member.setPassword(memberDto.getPassword());
-        member.setAddress(memberDto.getAddress());
-        member.setCity(memberDto.getCity());
-        member.setPostalCode(memberDto.getPostalCode());
-        member.setAccess(memberDto.getAccess());
-        member.setPhone(memberDto.getPhone());
-        member.setFirstName(memberDto.getFirstName());
+	@PostMapping(value = "member/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateMember(@RequestBody MemberDto memberDto, @PathVariable(value = "id") int id) {
 
-        memberService.updateMember(member);
-    }
+		try {
 
-    @DeleteMapping("member/delete/{id}")
-    public void deleteMember(@PathVariable(value = "id") int id){
+			Member member = memberService.getMember(id);
+			member.setMemberLastName(memberDto.getMemberLastName());
+			member.setEmail(memberDto.getEmail());
+			member.setPassword(memberDto.getPassword());
+			member.setAddress(memberDto.getAddress());
+			member.setCity(memberDto.getCity());
+			member.setPostalCode(memberDto.getPostalCode());
+			member.setAccess(memberDto.getAccess());
+			member.setPhone(memberDto.getPhone());
+			member.setFirstName(memberDto.getFirstName());
 
-        Member member = memberService.getMember(id);
+			memberService.updateMember(member);
+		} catch (Exception e) {
 
-        memberService.deleteMember(member);
-    }
+			e.printStackTrace();
 
-    @RequestMapping("member/get/{id}")
-    public MemberDto getMember(@PathVariable(value = "id") int id){
+		}
+	}
 
-        Member member = memberService.getMember(id);
-        MemberDto viewMember = new MemberDto(member.getMemberLastName(), member.getFirstName(), member.getEmail(),
-                member.getPassword(), member.getAddress(), member.getCity(), member.getPostalCode(), member.getPhone(), member.getAccess());
-        return viewMember;
-    }
+	@DeleteMapping("member/delete/{id}")
+	public void deleteMember(@PathVariable(value = "id") int id) {
+		try {
 
-    @RequestMapping("member/get")
-    public List<MemberDto> getMembers(){
+			Member member = memberService.getMember(id);
 
-        List<MemberDto> viewMembers = new ArrayList<>();
-        List<Member> members = memberService.getAllMembers();
-        members.forEach(m -> viewMembers.add(new MemberDto(m.getMemberLastName(), m.getFirstName(), m.getEmail(),
-                m.getPassword(), m.getAddress(), m.getCity(), m.getPostalCode(), m.getPhone(), m.getAccess())));
-        return viewMembers;
-    }
+			memberService.deleteMember(member);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+	}
+
+	@RequestMapping("member/get/{id}")
+	public MemberDto getMember(@PathVariable(value = "id") int id) {
+		MemberDto viewMember = null;
+		try {
+			Member member = memberService.getMember(id);
+			viewMember = new MemberDto(member.getMemberLastName(), member.getFirstName(), member.getEmail(),
+					member.getPassword(), member.getAddress(), member.getCity(), member.getPostalCode(),
+					member.getPhone(), member.getAccess());
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return viewMember;
+	}
+
+	@RequestMapping("member/get")
+	public List<MemberDto> getMembers() {
+
+		List<MemberDto> viewMembers = new ArrayList<>();
+		List<Member> members;
+		try {
+			members = memberService.getAllMembers();
+			members.forEach(m -> viewMembers.add(new MemberDto(m.getMemberLastName(), m.getFirstName(), m.getEmail(),
+					m.getPassword(), m.getAddress(), m.getCity(), m.getPostalCode(), m.getPhone(), m.getAccess())));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return viewMembers;
+	}
 }

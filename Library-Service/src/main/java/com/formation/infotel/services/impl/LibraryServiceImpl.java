@@ -15,27 +15,27 @@ public class LibraryServiceImpl implements LibraryService {
     private Dao dao;
 
     @Override
-    public void insertLibrary(Library library) {
+    public void insertLibrary(Library library)  throws Exception{
         dao.save(library);
     }
 
     @Override
-    public void deleteLibrary(Library library) {
+    public void deleteLibrary(Library library)  throws Exception{
         dao.delete(library);
     }
 
     @Override
-    public void updateLibrary(Library library) {
+    public void updateLibrary(Library library)  throws Exception{
         dao.saveOrUpdate(library);
     }
 
     @Override
-    public Library getLibrary(int libraryId) {
+    public Library getLibrary(int libraryId)  throws Exception{
         return dao.get(Library.class, libraryId);
     }
 
     @Override
-    public List<Library> getAllLibraries() {
+    public List<Library> getAllLibraries() throws Exception {
         return dao.getAll(Library.class);
     }
 }

@@ -1,9 +1,13 @@
 package com.formation.infotel.services.impl;
 
 import com.formation.infotel.entity.Book;
+import com.formation.infotel.entity.Book_copy;
+import com.formation.infotel.exception.ErrorConstants;
 import com.formation.infotel.interfaces.BookDao;
 import com.formation.infotel.interfaces.Dao;
 import com.formation.infotel.services.interfaces.BookService;
+
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,44 +22,52 @@ public class BookServiceImpl implements BookService {
     private Dao dao;
 
     @Override
-    public void insertBook(Book book) {
+    public void insertBook(Book book)  throws Exception{
         dao.save(book);
     }
 
     @Override
-    public void updateBook(Book book) {
+    public void updateBook(Book book) throws Exception {
         dao.saveOrUpdate(book);
     }
 
     @Override
-    public void deleteBook(Book book) {
+    public void deleteBook(Book book)  throws Exception{
         dao.delete(book);
     }
 
     @Override
-    public Book getBookById(int bookId) {
+    public Book getBookById(int bookId) throws Exception {
         return dao.get(Book.class, bookId);
     }
 
     @Override
-    public List<Book> getBooks() {
+    public List<Book> getBooks() throws Exception {
         return dao.getAll(Book.class);
     }
 
 	@Override
-	public String getBookByDescription(String description) {
+	public String getBookByDescription(String description)  throws Exception {
 		return null;
 	}
 
     @Override
-    public Book getBookByName(String bookName) {
+    public Book getBookByName(String bookName)  throws Exception{
         Book book=bookDao.getBookByName(bookName);
-        System.out.println(book.getBookTitle());
         return book;
     }
 
     @Override
-    public List<Book> getRecommandedBooks() {
-        return bookDao.getRecommandedBooks();
+    public List<Book> getRecommandedBooks()  throws Exception{
+    	
+       	List<Book> book = null;
+    	book = bookDao.getRecommandedBooks();
+    	
+    	if(book.isEmpty())
+			throw new ServiceException(ErrorConstants.NO_RECOMMANDE_BOOK);
+
+    	
+        return book;
+
     }
 }

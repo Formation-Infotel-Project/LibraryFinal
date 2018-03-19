@@ -7,17 +7,17 @@ import com.formation.infotel.entity.Book;
 
 public interface AuthorService {
 
-	void insertAuthor(Author author);
+	void insertAuthor(Author author)  throws Exception;
 
-	void deleteAuthor(Author author);
+	void deleteAuthor(Author author)  throws Exception ;
 
-	void updateAuthor(Author author);
+	void updateAuthor(Author author) throws Exception ;
 
-	Author getAuthor(int authorId);
+	Author getAuthor(int authorId) throws Exception ;
 
-	List<Author> getAllAuthors();
+	List<Author> getAllAuthors()throws Exception;
 
-	List<Book> getListBookByNameAuthor(String nameAuteur);
+	List<Book> getListBookByNameAuthor(String nameAuteur) throws Exception;
 
-	Author getAuthorByName(String name);
+	/*Author getAuthorByName(String name) throws Exception;*/
 }

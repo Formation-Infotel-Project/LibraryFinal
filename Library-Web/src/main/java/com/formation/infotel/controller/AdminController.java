@@ -46,7 +46,9 @@ public class AdminController extends HttpServlet{
     @RequestMapping(value = "/addBook", produces = "application/json")
     public String addBook(Model model, HttpServletRequest request){
 
-        List<Editor> editors = editorService.getAllEditors();
+       try {
+    	   List<Editor> editors = editorService.getAllEditors();
+       
         model.addAttribute("editors", editors);
 
         List<Category> categories = categoryService.getAllCategories();
@@ -54,6 +56,12 @@ public class AdminController extends HttpServlet{
 
         List<Author> authors = authorService.getAllAuthors();
         model.addAttribute("authors", authors);
+        
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
 
         return "admin/addBook";
     }
