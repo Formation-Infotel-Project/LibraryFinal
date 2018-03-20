@@ -16,5 +16,7 @@
     </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
-
+    <mvc:cors>
+        <mvc:mapping path="/**" allowed-origins="http://localhost:4200"/>
+    </mvc:cors>
 </beans>

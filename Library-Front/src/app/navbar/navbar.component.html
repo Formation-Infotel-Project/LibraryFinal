@@ -6,12 +6,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/Library-Web">Library</a>
+            <a class="navbar-brand" href="/">Library</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/Library-Web">Home</a></li>
-                <li><a href="books">Livres</a></li>
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/books">Livres</a></li>
             </ul>
             <form class="navbar-form navbar-left" action="Search">
                 <div class="form-group">
@@ -20,14 +20,15 @@
                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
             </form>
             <ul class="nav navbar-nav navbar-right">
+                <div *ngIf="isConnected; else elseBlock">
+                    <li><a href="/administration"><span class="glyphicon glyphicon-wrench"></span> Administration</a></li>
                 
-                    <li><a href="/Library-Web/administration"><span class="glyphicon glyphicon-wrench"></span> Administration</a></li>
-                
-                    <li><a href="/Library-Web/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>                
-                
-                    <li><a href="/Library-Web/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <li><a href="/Library-Web/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-
+                    <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>                
+                </div>
+                <ng-template #elseBlock>
+                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                </ng-template>
             </ul>
         </div>
     </div>

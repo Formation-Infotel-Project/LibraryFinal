@@ -1,5 +1,6 @@
 package com.formation.infotel.controller;
 
+import com.formation.infotel.controller.dto.MemberDto;
 import com.formation.infotel.entity.Member;
 import com.formation.infotel.exception.ErrorConstants;
 import com.formation.infotel.services.interfaces.LoginService;
@@ -27,9 +28,8 @@ public class LoginController extends HttpServlet {
 	@Autowired
 	LoginService loginService;
 
-	@RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
+	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
 	private Resultat connexionMembre(@RequestBody InformationVM identifiants, HttpServletRequest request) {
-
 		
 		Resultat resultat = new Resultat();
 		try {
@@ -47,11 +47,13 @@ public class LoginController extends HttpServlet {
 					break;
 				}
 				session.setAttribute("name", identifiants.getEmail());
-				
 			}
+
+			MemberDto viewMember = new MemberDto(member.getMemberLastName(), member.getFirstName(), member.getEmail(),
+					member.getPassword(), member.getAddress(), member.getCity(), member.getPostalCode(), member.getPhone(), member.getAccess());
 			resultat.setMessage(ControllerConstants.LOGIN_SUCCESS);
 			resultat.setSuccess(true);
-			resultat.setPayload(member.getMemberLastName());
+			resultat.setPayload(viewMember);
 			
 		} catch (ServiceException se) {
 			resultat.setSuccess(false);
@@ -66,7 +68,7 @@ public class LoginController extends HttpServlet {
 		return resultat;
 	}
 
-	@RequestMapping("/loginCheckk") /* bout de code casser retiré un "k" a check" */
+	/*@RequestMapping("/loginCheckk")
 	public String login(HttpServletRequest request) {
 
 		String pageToReturn = "";
@@ -92,5 +94,5 @@ public class LoginController extends HttpServlet {
 		}
 
 		return pageToReturn;
-	}
+	}*/
 }
