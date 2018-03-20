@@ -1,6 +1,8 @@
 package com.formation.infotel.services.impl;
 
 import com.formation.infotel.entity.Member;
+import com.formation.infotel.exception.ErrorConstants;
+import com.formation.infotel.exception.ServiceException;
 import com.formation.infotel.interfaces.Dao;
 import com.formation.infotel.interfaces.MemberDao;
 import com.formation.infotel.services.interfaces.MemberService;
@@ -39,16 +41,27 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> getAllMembers()  throws Exception{
-        return dao.getAll(Member.class);
+    	List<Member> member = null;
+    	member = dao.getAll(Member.class);
+    	if (member.isEmpty())
+    		throw new ServiceException(ErrorConstants.MEMBER_LIST_EMPTY);
+        return member;
     }
 
     @Override
     public Member getMemberByEmail(String email) throws Exception {
-        return memberDao.getMemberByEmail(email);
+    	Member member = null;
+    	member = memberDao.getMemberByEmail(email);
+    	
+    	if(member == null)
+    		throw new ServiceException(ErrorConstants.EMAIL_NOT_FOUND);
+    	
+        return member;
     }
 
     @Override
     public boolean userExist(String login, String password)  throws Exception{
+    	
         return memberDao.userExist(login, password);
     }
 }
