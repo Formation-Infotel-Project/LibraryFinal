@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface EditorService {
 
-    void insertEditor(Editor editor);
+    void insertEditor(Editor editor) throws Exception;
 
-    void deleteEditor(Editor editor);
+    void deleteEditor(Editor editor) throws Exception;
 
-    void updateEditor(Editor editor);
+    void updateEditor(Editor editor) throws Exception;
 
-    Editor getEditor(int editorId);
+    Editor getEditor(int editorId) throws Exception;
 
-    List<Editor> getAllEditors();
+    List<Editor> getAllEditors() throws Exception;
 
-    Editor getEditorByName(String name);
+    Editor getEditorByName(String name) throws Exception;
 }

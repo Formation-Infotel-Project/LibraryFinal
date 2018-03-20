@@ -19,75 +19,142 @@ import java.util.Set;
 @RestController
 public class BookCopyController {
 
-    @Autowired
-    private BookCopyService bookCopyService;
-    @Autowired
-    private BookService bookService;
-    @Autowired
-    private BookShelfService bookShelfService;
-    @Autowired
-    private BookBasketService bookBasketService;
+	@Autowired
+	private BookCopyService bookCopyService;
+	@Autowired
+	private BookService bookService;
+	@Autowired
+	private BookShelfService bookShelfService;
+	@Autowired
+	private BookBasketService bookBasketService;
 
-    @PutMapping(value = "bookCopy/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addBookCopy(@RequestBody BookCopyDto bookCopyDto){
+	@PutMapping(value = "bookCopy/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Resultat  addBookCopy(@RequestBody BookCopyDto bookCopyDto) {
+		
+		Resultat resultat = new Resultat();
 
-        Book_copy bookCopy = new Book_copy();
-        bookCopy.setBook_copyTitle(bookCopyDto.getBook_copyTitle());
-        bookCopy.setBook(bookService.getBookById(bookCopyDto.getBookIsbn()));
-        bookCopy.setBookShelf(bookShelfService.getBookShelf(bookCopyDto.getBookShelfId()));
-        Set<BookBasket> basket = new HashSet<>();
-        for(int i=0;i<bookCopyDto.getBookBasketsId().size();i++){ // parcours de la liste des ID de bookbasket
-            basket.add(bookBasketService.getBookBasket(bookCopyDto.getBookBasketsId().get(i)));
-        }
-        bookCopy.setBookBaskets(basket);
+		try {
+			Book_copy bookCopy = new Book_copy();
+			bookCopy.setBook_copyTitle(bookCopyDto.getBook_copyTitle());
+			bookCopy.setBook(bookService.getBookById(bookCopyDto.getBookIsbn()));
+			bookCopy.setBookShelf(bookShelfService.getBookShelf(bookCopyDto.getBookShelfId()));
+			Set<BookBasket> basket = new HashSet<>();
+			for (int i = 0; i < bookCopyDto.getBookBasketsId().size(); i++) { // parcours de la liste des ID de
+																				// bookbasket
+				basket.add(bookBasketService.getBookBasket(bookCopyDto.getBookBasketsId().get(i)));
+			}
+			bookCopy.setBookBaskets(basket);
 
-        bookCopyService.insertBookCopy(bookCopy);
-    }
+			bookCopyService.insertBookCopy(bookCopy);
+			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+			resultat.setSuccess(true);
 
-    @PostMapping(value = "bookCopy/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateBookCopy(@RequestBody BookCopyDto bookCopyDto, @PathVariable(value="id") int id){
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
+			e.printStackTrace();
+		}
+		
+		return resultat;
+	}
 
-        Book_copy bookCopy = bookCopyService.getBookCopy(id);
-        bookCopy.setBook_copyTitle(bookCopyDto.getBook_copyTitle());
-        bookCopy.setBook(bookService.getBookById(bookCopyDto.getBookIsbn()));
-        bookCopy.setBookShelf(bookShelfService.getBookShelf(bookCopyDto.getBookShelfId()));
-        Set<BookBasket> basket = new HashSet<>();
-        for(int i=0;i<bookCopyDto.getBookBasketsId().size();i++){ // parcours de la liste des ID de bookbasket
-            basket.add(bookBasketService.getBookBasket(bookCopyDto.getBookBasketsId().get(i)));
-        }
-        bookCopy.setBookBaskets(basket);
+	@PostMapping(value = "bookCopy/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Resultat  updateBookCopy(@RequestBody BookCopyDto bookCopyDto, @PathVariable(value = "id") int id) {
+		
+		Resultat resultat = new Resultat();
 
-        bookCopyService.updateBookCopy(bookCopy);
-    }
 
-    @DeleteMapping(value = "bookCopy/delete/{id}")
-    public void deleteBookCopy(@PathVariable(value="id") int id){
+		try {
 
-        Book_copy bookCopy = bookCopyService.getBookCopy(id);
+			Book_copy bookCopy = bookCopyService.getBookCopy(id);
+			bookCopy.setBook_copyTitle(bookCopyDto.getBook_copyTitle());
+			bookCopy.setBook(bookService.getBookById(bookCopyDto.getBookIsbn()));
+			bookCopy.setBookShelf(bookShelfService.getBookShelf(bookCopyDto.getBookShelfId()));
+			Set<BookBasket> basket = new HashSet<>();
+			for (int i = 0; i < bookCopyDto.getBookBasketsId().size(); i++) { // parcours de la liste des ID de
+																				// bookbasket
+				basket.add(bookBasketService.getBookBasket(bookCopyDto.getBookBasketsId().get(i)));
+			}
+			bookCopy.setBookBaskets(basket);
 
-        bookCopyService.deleteBookCopy(bookCopy);
-    }
+			bookCopyService.updateBookCopy(bookCopy);
+			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
+			resultat.setSuccess(true);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.UPDATE_ERRORS);
+			e.printStackTrace();
+		}
+		
+		return resultat;
+	}
 
-    @RequestMapping("bookCopy/get/{id}")
-    public BookCopyDto getBookCopy(@PathVariable(value="id") int id){
-        Book_copy bookCopy = bookCopyService.getBookCopy(id);
-        List<Integer> basketsId = new ArrayList<>();
-        bookCopy.getBookBaskets().forEach(bb -> basketsId.add(bb.getBoookBasketId()));
-        BookCopyDto viewBookCopy = new BookCopyDto(bookCopy.getBook_copyTitle(), bookCopy.getBook().getIsbn(),
-                bookCopy.getBookShelf().getBookShelfId(), basketsId);
-        return viewBookCopy;
-    }
+	@DeleteMapping(value = "bookCopy/delete/{id}")
+	public Resultat deleteBookCopy(@PathVariable(value = "id") int id) {
+		
+		Resultat resultat = new Resultat();
 
-    @RequestMapping("bookCopy/get")
-    public List<BookCopyDto> getBookCopies(){
-        List<BookCopyDto> viewBookCopies = new ArrayList<>();
-        List<Book_copy> bookCopies = bookCopyService.getAll();
-        List<Integer> basketsId = new ArrayList<>();
-        bookCopies.forEach(bb -> {
-            bb.getBookBaskets().forEach(b -> basketsId.add(b.getBoookBasketId()));
-            viewBookCopies.add(new BookCopyDto(bb.getBook_copyTitle(), bb.getBook().getIsbn(),
-                    bb.getBookShelf().getBookShelfId(), basketsId));
-        });
-        return viewBookCopies;
-    }
+		try {
+			Book_copy bookCopy = bookCopyService.getBookCopy(id);
+
+			bookCopyService.deleteBookCopy(bookCopy);
+			
+			resultat.setMessage(ControllerConstants.DELETE_SUCCESS);
+			resultat.setSuccess(true);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.DELETE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
+
+	@RequestMapping("bookCopy/get/{id}")
+	public Resultat getBookCopy(@PathVariable(value = "id") int id) {
+		BookCopyDto viewBookCopy = null;
+		Resultat resultat = new Resultat();
+		try {
+			Book_copy bookCopy = bookCopyService.getBookCopy(id);
+			List<Integer> basketsId = new ArrayList<>();
+			bookCopy.getBookBaskets().forEach(bb -> basketsId.add(bb.getBoookBasketId()));
+			viewBookCopy = new BookCopyDto(bookCopy.getBook_copyTitle(), bookCopy.getBook().getIsbn(),
+					bookCopy.getBookShelf().getBookShelfId(), basketsId);
+			
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewBookCopy);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
+
+	@RequestMapping("bookCopy/get")
+	public Resultat  getBookCopies() {
+		
+		List<BookCopyDto> viewBookCopy = new ArrayList<>();
+		Resultat resultat = new Resultat();
+		try {
+			List<Book_copy> bookCopy = bookCopyService.getAll();
+			List<Integer> basketsId = new ArrayList<>();
+			bookCopy.forEach(bb -> {
+				bb.getBookBaskets().forEach(b -> basketsId.add(b.getBoookBasketId()));
+				viewBookCopy.add(new BookCopyDto(bb.getBook_copyTitle(), bb.getBook().getIsbn(),
+						bb.getBookShelf().getBookShelfId(), basketsId));
+			});
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewBookCopy);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
 }
+
+
+

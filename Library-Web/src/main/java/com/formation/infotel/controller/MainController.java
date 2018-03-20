@@ -37,7 +37,13 @@ public class MainController extends HttpServlet {
     }
 
     private void recommandedBooks(HttpServletRequest request, Model model){
-        List<Book> books = bookService.getRecommandedBooks();
-        model.addAttribute("books", books);
+        List<Book> books;
+		try {
+			books = bookService.getRecommandedBooks();
+			model.addAttribute("books", books);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+      
     }
 }

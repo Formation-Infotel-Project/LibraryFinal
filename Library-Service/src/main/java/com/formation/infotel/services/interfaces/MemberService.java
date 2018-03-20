@@ -6,17 +6,17 @@ import java.util.List;
 
 public interface MemberService {
 
-    void insertMember(Member member);
+    void insertMember(Member member) throws Exception;
 
-    void deleteMember(Member member);
+    void deleteMember(Member member) throws Exception;
 
-    void updateMember(Member member);
+    void updateMember(Member member) throws Exception;
 
-    Member getMember(int memberId);
+    Member getMember(int memberId) throws Exception;
 
-    List<Member> getAllMembers();
+    List<Member> getAllMembers() throws Exception;
 
-    boolean userExist(String login, String password);
+    boolean userExist(String login, String password) throws Exception;
 
-    Member getMemberByEmail(String email);
+    Member getMemberByEmail(String email) throws Exception;
 }

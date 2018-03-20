@@ -8,19 +8,19 @@ import com.formation.infotel.entity.Category;
 
 public interface CategoryService {
 
-	void insertCategory(Category category);
+	void insertCategory(Category category) throws Exception;
 
-	void deleteCategory(Category category);
+	void deleteCategory(Category category) throws Exception;
 
-	void updateCategory(Category category);
+	void updateCategory(Category category) throws Exception;
 
-	Category getCategory(int categoryId);
+	Category getCategory(int categoryId) throws Exception;
 
-	List<Category> getAllCategories();
+	List<Category> getAllCategories() throws Exception;
 
-	List<Category> getAllBookByCategory(String categoryname);
+	List<Category> getAllBookByCategory(String categoryname) throws Exception;
 	
-	Set<Book> getCategoriesPeriodique(String categoryName);
+	Set<Book> getCategoriesPeriodique(String categoryName) throws Exception;
 
-	Category getCategoryByName(String name);
+	Category getCategoryByName(String name) throws Exception;
 }

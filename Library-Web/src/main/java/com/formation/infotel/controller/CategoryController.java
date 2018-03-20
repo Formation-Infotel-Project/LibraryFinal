@@ -17,67 +17,129 @@ import java.util.Set;
 @RestController
 public class CategoryController {
 
-    @Autowired
-    CategoryService categoryService;
-    @Autowired
-    BookService bookService;
+	@Autowired
+	CategoryService categoryService;
+	@Autowired
+	BookService bookService;
 
-    @PutMapping(value = "category/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addCategory(@RequestBody CategoryDto categoryDto){
+	@PutMapping(value = "category/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Resultat addCategory(@RequestBody CategoryDto categoryDto) {
+		
+		Resultat resultat = new Resultat();
 
-        Category category = new Category(categoryDto.getName(), categoryDto.getDescription());
-        Set<Book> books = new HashSet<>();
-        for(int i=0;i<categoryDto.getBooksId().size();i++){
-            books.add(bookService.getBookById(categoryDto.getBooksId().get(i)));
-        }
-        category.setBooks(books);
+		try {
+			Category category = new Category(categoryDto.getName(), categoryDto.getDescription());
+			Set<Book> books = new HashSet<>();
+			for (int i = 0; i < categoryDto.getBooksId().size(); i++) {
+				books.add(bookService.getBookById(categoryDto.getBooksId().get(i)));
+			}
+			category.setBooks(books);
 
-        categoryService.insertCategory(category);
-    }
+			categoryService.insertCategory(category);
+			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+			resultat.setSuccess(true);
 
-    @PostMapping(value = "category/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable(value="id") int id){
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
+			e.printStackTrace();
+		}
+		
+		return resultat;
+	}
 
-        Category category = categoryService.getCategory(id);
-        category.setName(categoryDto.getName());
-        category.setDescription(categoryDto.getDescription());
-        Set<Book> books = new HashSet<>();
-        for(int i=0;i<categoryDto.getBooksId().size();i++){
-            books.add(bookService.getBookById(categoryDto.getBooksId().get(i)));
-        }
-        category.setBooks(books);
+	@PostMapping(value = "category/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Resultat updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
 
-        categoryService.updateCategory(category);
-    }
+		try {
+			Category category = categoryService.getCategory(id);
+			category.setName(categoryDto.getName());
+			category.setDescription(categoryDto.getDescription());
+			Set<Book> books = new HashSet<>();
+			for (int i = 0; i < categoryDto.getBooksId().size(); i++) {
+				books.add(bookService.getBookById(categoryDto.getBooksId().get(i)));
+			}
+			category.setBooks(books);
 
-    @DeleteMapping(value = "category/delete/{id}")
-    public void deleteCategory(@PathVariable(value="id") int id){
+			categoryService.updateCategory(category);
+			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
+			resultat.setSuccess(true);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.UPDATE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
 
-        Category category = categoryService.getCategory(id);
+	@DeleteMapping(value = "category/delete/{id}")
+	public Resultat deleteCategory(@PathVariable(value = "id") int id) {
+		
+		Resultat resultat = new Resultat();
 
-        categoryService.deleteCategory(category);
-    }
+		try {
+			Category category = categoryService.getCategory(id);
 
-    @RequestMapping("category/get/{id}")
-    public CategoryDto getCategory(@PathVariable(value="id") int id){
-        Category category = categoryService.getCategory(id);
-        List<Integer> booksId = new ArrayList<>();
-        category.getBooks().forEach(b -> {
-            booksId.add(b.getIsbn());
-        });
-        CategoryDto viewCategory = new CategoryDto(category.getName(), category.getDescription(), booksId);
-        return viewCategory;
-    }
+			categoryService.deleteCategory(category);
+			resultat.setMessage(ControllerConstants.DELETE_SUCCESS);
+			resultat.setSuccess(true);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.DELETE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
 
-    @RequestMapping("category/get")
-    public List<CategoryDto> getCategories(){
-        List<CategoryDto> viewCategories = new ArrayList<>();
-        List<Category> categories = categoryService.getAllCategories();
-        List<Integer> booksId = new ArrayList<>();
-        categories.forEach(c -> {
-            c.getBooks().forEach(b -> booksId.add(b.getIsbn()));
-            viewCategories.add(new CategoryDto(c.getName(), c.getDescription(), booksId));
-        });
-        return viewCategories;
-    }
+	@RequestMapping("category/get/{id}")
+	public Resultat getCategory(@PathVariable(value = "id") int id) {
+		
+		Resultat resultat = new Resultat();
+
+		Category category;
+		CategoryDto viewCategory = null;
+		try {
+			category = categoryService.getCategory(id);
+		
+		List<Integer> booksId = new ArrayList<>();
+		category.getBooks().forEach(b -> {
+			booksId.add(b.getIsbn());
+		});
+		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+		resultat.setSuccess(true);
+		resultat.setPayload(viewCategory);
+		 viewCategory = new CategoryDto(category.getName(), category.getDescription(), booksId);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
+
+	@RequestMapping("category/get")
+	public Resultat getCategories() {
+		List<CategoryDto> viewCategories = new ArrayList<>();
+		Resultat resultat = new Resultat();
+
+		List<Category> categories;
+		try {
+			categories = categoryService.getAllCategories();
+		
+		List<Integer> booksId = new ArrayList<>();
+		categories.forEach(c -> {
+			c.getBooks().forEach(b -> booksId.add(b.getIsbn()));
+			viewCategories.add(new CategoryDto(c.getName(), c.getDescription(), booksId));
+		});
+		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+		resultat.setSuccess(true);
+		resultat.setPayload(viewCategories);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
 }

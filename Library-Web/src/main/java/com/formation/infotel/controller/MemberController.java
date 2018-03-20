@@ -15,63 +15,121 @@ import java.util.List;
 @RestController
 public class MemberController {
 
-    @Autowired
-    MemberService memberService;
-    @Autowired
-    LibraryService libraryService;
-    @Autowired
-    RegistrationService registrationService;
+	@Autowired
+	MemberService memberService;
+	@Autowired
+	LibraryService libraryService;
+	@Autowired
+	RegistrationService registrationService;
 
-    @PutMapping(value = "/member/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addMember(@RequestBody MemberDto memberDto) {
+	@PutMapping(value = "/member/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void addMember(@RequestBody MemberDto memberDto) {
+		Resultat resultat = new Resultat();
 
-        Member member = new Member(memberDto.getMemberLastName(), memberDto.getEmail(), memberDto.getPassword(), memberDto.getAddress(),
-                memberDto.getCity(), memberDto.getPostalCode(), memberDto.getAccess(), memberDto.getPhone(), memberDto.getFirstName());
+		try {
+			Member member = new Member(memberDto.getMemberLastName(), memberDto.getEmail(), memberDto.getPassword(),
+					memberDto.getAddress(), memberDto.getCity(), memberDto.getPostalCode(), memberDto.getAccess(),
+					memberDto.getPhone(), memberDto.getFirstName());
 
-        memberService.insertMember(member);
-    }
+			memberService.insertMember(member);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
+			e.printStackTrace();
+		}
+	}
 
-    @PostMapping(value = "member/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateMember(@RequestBody MemberDto memberDto, @PathVariable(value="id") int id){
+	@PostMapping(value = "member/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Resultat updateMember(@RequestBody MemberDto memberDto, @PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
 
-        Member member = memberService.getMember(id);
-        member.setMemberLastName(memberDto.getMemberLastName());
-        member.setEmail(memberDto.getEmail());
-        member.setPassword(memberDto.getPassword());
-        member.setAddress(memberDto.getAddress());
-        member.setCity(memberDto.getCity());
-        member.setPostalCode(memberDto.getPostalCode());
-        member.setAccess(memberDto.getAccess());
-        member.setPhone(memberDto.getPhone());
-        member.setFirstName(memberDto.getFirstName());
 
-        memberService.updateMember(member);
-    }
+		try {
 
-    @DeleteMapping("member/delete/{id}")
-    public void deleteMember(@PathVariable(value = "id") int id){
+			Member member = memberService.getMember(id);
+			member.setMemberLastName(memberDto.getMemberLastName());
+			member.setEmail(memberDto.getEmail());
+			member.setPassword(memberDto.getPassword());
+			member.setAddress(memberDto.getAddress());
+			member.setCity(memberDto.getCity());
+			member.setPostalCode(memberDto.getPostalCode());
+			member.setAccess(memberDto.getAccess());
+			member.setPhone(memberDto.getPhone());
+			member.setFirstName(memberDto.getFirstName());
 
-        Member member = memberService.getMember(id);
+			memberService.updateMember(member);
+			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
+			resultat.setSuccess(true);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.UPDATE_ERRORS);
+			e.printStackTrace();
 
-        memberService.deleteMember(member);
-    }
+		}
+		return resultat;
 
-    @RequestMapping("member/get/{id}")
-    public MemberDto getMember(@PathVariable(value = "id") int id){
+	}
 
-        Member member = memberService.getMember(id);
-        MemberDto viewMember = new MemberDto(member.getMemberLastName(), member.getFirstName(), member.getEmail(),
-                member.getPassword(), member.getAddress(), member.getCity(), member.getPostalCode(), member.getPhone(), member.getAccess());
-        return viewMember;
-    }
+	@DeleteMapping("member/delete/{id}")
+	public Resultat deleteMember(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
 
-    @RequestMapping("member/get")
-    public List<MemberDto> getMembers(){
+		try {
 
-        List<MemberDto> viewMembers = new ArrayList<>();
-        List<Member> members = memberService.getAllMembers();
-        members.forEach(m -> viewMembers.add(new MemberDto(m.getMemberLastName(), m.getFirstName(), m.getEmail(),
-                m.getPassword(), m.getAddress(), m.getCity(), m.getPostalCode(), m.getPhone(), m.getAccess())));
-        return viewMembers;
-    }
+			Member member = memberService.getMember(id);
+
+			memberService.deleteMember(member);
+			resultat.setMessage(ControllerConstants.DELETE_SUCCESS);
+			resultat.setSuccess(true);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.DELETE_ERRORS);
+			e.printStackTrace();		
+			}
+		return resultat;
+	}
+
+	@RequestMapping("member/get/{id}")
+	public Resultat getMember(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
+
+		MemberDto viewMember = null;
+		try {
+			Member member = memberService.getMember(id);
+			viewMember = new MemberDto(member.getMemberLastName(), member.getFirstName(), member.getEmail(),
+					member.getPassword(), member.getAddress(), member.getCity(), member.getPostalCode(),
+					member.getPhone(), member.getAccess());
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewMember);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
+
+	@RequestMapping("member/get")
+	public Resultat getMembers() {
+		Resultat resultat = new Resultat();
+
+
+		List<MemberDto> viewMembers = new ArrayList<>();
+		List<Member> members;
+		try {
+			members = memberService.getAllMembers();
+			members.forEach(m -> viewMembers.add(new MemberDto(m.getMemberLastName(), m.getFirstName(), m.getEmail(),
+					m.getPassword(), m.getAddress(), m.getCity(), m.getPostalCode(), m.getPhone(), m.getAccess())));
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewMembers);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
+			e.printStackTrace();
+		}
+
+		return resultat;
+	}
 }

@@ -17,67 +17,130 @@ import java.util.Set;
 @RestController
 public class EditorController {
 
-    @Autowired
-    EditorService editorService;
-    @Autowired
-    BookService bookService;
+	@Autowired
+	EditorService editorService;
+	@Autowired
+	BookService bookService;
 
-    @PutMapping(value = "editor/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addEditor(@RequestBody EditorDto editorDto){
+	@PutMapping(value = "editor/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Resultat addEditor(@RequestBody EditorDto editorDto) {
+		Resultat resultat = new Resultat();
 
-        Editor editor = new Editor(editorDto.getName(), editorDto.getEditorAddress());
-        Set<Book> books = new HashSet<>();
-        for(int i=0;i<editorDto.getBooksId().size();i++){
-            books.add(bookService.getBookById(editorDto.getBooksId().get(i)));
-        }
-        editor.setBooks(books);
+		try {
+			Editor editor = new Editor(editorDto.getName(), editorDto.getEditorAddress());
+			Set<Book> books = new HashSet<>();
+			for (int i = 0; i < editorDto.getBooksId().size(); i++) {
 
-        editorService.insertEditor(editor);
-    }
+				books.add(bookService.getBookById(editorDto.getBooksId().get(i)));
 
-    @PostMapping(value = "editor/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateEditor(@RequestBody EditorDto editorDto, @PathVariable(value="id") int id){
+			}
+			editor.setBooks(books);
+			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+			resultat.setSuccess(true);
 
-        Editor editor = editorService.getEditor(id);
-        editor.setName(editorDto.getName());
-        editor.setEditorAddress(editorDto.getEditorAddress());
-        Set<Book> books = new HashSet<>();
-        for(int i=0;i<editorDto.getBooksId().size();i++){
-            books.add(bookService.getBookById(editorDto.getBooksId().get(i)));
-        }
-        editor.setBooks(books);
+			editorService.insertEditor(editor);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
 
-        editorService.updateEditor(editor);
-    }
+	@PostMapping(value = "editor/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Resultat updateEditor(@RequestBody EditorDto editorDto, @PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
 
-    @DeleteMapping(value = "editor/delete/{id}")
-    public void deleteEditor(@PathVariable(value="id") int id){
+		try {
+			Editor editor = editorService.getEditor(id);
+			editor.setName(editorDto.getName());
+			editor.setEditorAddress(editorDto.getEditorAddress());
+			Set<Book> books = new HashSet<>();
+			for (int i = 0; i < editorDto.getBooksId().size(); i++) {
+				books.add(bookService.getBookById(editorDto.getBooksId().get(i)));
+			}
+			editor.setBooks(books);
 
-        Editor editor = editorService.getEditor(id);
+			editorService.updateEditor(editor);
+			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
+			resultat.setSuccess(true);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.UPDATE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
 
-        editorService.deleteEditor(editor);
-    }
+	@DeleteMapping(value = "editor/delete/{id}")
+	public Resultat deleteEditor(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
 
-    @RequestMapping("editor/get/{id}")
-    public EditorDto getEditor(@PathVariable(value="id") int id){
-        Editor editor = editorService.getEditor(id);
-        List<Integer> booksId = new ArrayList<>();
-        editor.getBooks().forEach(b -> {
-            booksId.add(b.getIsbn());
-        });
-        EditorDto viewEditor = new EditorDto(editor.getName(), editor.getEditorAddress(), booksId);
-        return viewEditor;
-    }
+		Editor editor;
+		try {
+			editor = editorService.getEditor(id);
+		
+			resultat.setMessage(ControllerConstants.DELETE_SUCCESS);
+			resultat.setSuccess(true);
+		editorService.deleteEditor(editor);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.DELETE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
 
-    @RequestMapping("editor/get")
-    public List<EditorDto> getEditors(){
-        List<EditorDto> viewEditors = new ArrayList<>();
-        List<Editor> editors = editorService.getAllEditors();
-        List<Integer> booksId = new ArrayList<>();
-        editors.forEach(e -> {
-            e.getBooks().forEach(b -> booksId.add(b.getIsbn()));
-            viewEditors.add(new EditorDto(e.getName(), e.getEditorAddress(), booksId));
-        });
-        return viewEditors;
-    }
+	}
+
+	@RequestMapping("editor/get/{id}")
+	public Resultat getEditor(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
+
+		Editor editor;
+		EditorDto viewEditor = null;
+		try {
+			editor = editorService.getEditor(id);
+		
+		List<Integer> booksId = new ArrayList<>();
+		editor.getBooks().forEach(b -> {
+			booksId.add(b.getIsbn());
+		});
+		viewEditor = new EditorDto(editor.getName(), editor.getEditorAddress(), booksId);
+		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+		resultat.setSuccess(true);
+		resultat.setPayload(viewEditor);
+		
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
+			e.printStackTrace();
+		}
+		return resultat;
+	}
+
+	@RequestMapping("editor/get")
+	public Resultat getEditors() {
+		
+		Resultat resultat = new Resultat();
+
+		List<EditorDto> viewEditors = new ArrayList<>();
+		List<Editor> editors;
+		try {
+			editors = editorService.getAllEditors();
+	
+		List<Integer> booksId = new ArrayList<>();
+		editors.forEach(e -> {
+			e.getBooks().forEach(b -> booksId.add(b.getIsbn()));
+			viewEditors.add(new EditorDto(e.getName(), e.getEditorAddress(), booksId));
+		});
+		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+		resultat.setSuccess(true);
+		resultat.setPayload(viewEditors);
+		} catch (Exception e1) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
+			e1.printStackTrace();
+		}
+		return resultat;
+	}
 }

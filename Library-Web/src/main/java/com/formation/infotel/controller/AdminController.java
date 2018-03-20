@@ -44,9 +44,12 @@ public class AdminController extends HttpServlet{
     }
 
     @RequestMapping(value = "/addBook", produces = "application/json")
-    public String addBook(Model model, HttpServletRequest request){
+    public Resultat addBook(Model model, HttpServletRequest request){
+		Resultat resultat = new Resultat();
 
-        List<Editor> editors = editorService.getAllEditors();
+       try {
+    	   List<Editor> editors = editorService.getAllEditors();
+       
         model.addAttribute("editors", editors);
 
         List<Category> categories = categoryService.getAllCategories();
@@ -54,7 +57,18 @@ public class AdminController extends HttpServlet{
 
         List<Author> authors = authorService.getAllAuthors();
         model.addAttribute("authors", authors);
+        resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+		resultat.setSuccess(true);
 
-        return "admin/addBook";
+        
+		} catch (Exception e) {
+
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
+			e.printStackTrace();
+
+		}
+
+        return resultat;
     }
 }

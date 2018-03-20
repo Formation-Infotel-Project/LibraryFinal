@@ -1,0 +1,40 @@
+ <div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Liste des livres</h3>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th style='text-align:left'>Titre</th>
+                            <th style='text-align:left'>Prix</th>
+                            <th style='text-align:left'>Auteur</th>
+                            <th style='text-align:left'>Editeur</th>
+                            <th style='text-align:left'>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contenant">
+                    <!--<c:forEach items="${books}" var="book">-->
+                        <tr>
+                            <td><img src="<!--<c:url value="/resources/${book.imagePath}"/>-->" width="100px" height="150px"></td>
+                            <td style="vertical-align: middle;"><!--${book.bookTitle}--></td>
+                            <td style="vertical-align: middle;"><!--${book.bookPrice}--></td>
+                            <td style="vertical-align: middle;"><!--<c:forEach items="${book.authors}" var="author">--><span> <!--${author.firstName} ${author.authorLastName}--> |</span><!--</c:forEach>--></td>
+                            <td style="vertical-align: middle;"><!--${book.editor.name}--></td>
+                            <td style="vertical-align: middle;">
+                                <form method="get" action="BookDetail">
+                                    <input type="hidden" name="id" value="<!--${book.isbn}-->">
+                                    <input type="submit" class="btn btn-info" value="Détail">
+                                </form>
+                            </td>
+                        </tr>
+                    <!--</c:forEach>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

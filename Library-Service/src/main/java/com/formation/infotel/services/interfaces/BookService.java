@@ -5,19 +5,19 @@ import java.util.List;
 
 public interface BookService {
 	
-    void insertBook(Book book);
+    void insertBook(Book book) throws Exception;
 
-    void updateBook(Book book);
+    void updateBook(Book book) throws Exception;
 
-    void deleteBook(Book book);
+    void deleteBook(Book book) throws Exception;
 
-    Book getBookById(int bookId);
+    Book getBookById(int bookId) throws Exception;
 
-    List<Book> getBooks();
+    List<Book> getBooks() throws Exception;
     
-	String getBookByDescription(String description);
+	String getBookByDescription(String description) throws Exception;
 	
-	Book getBookByName(String bookName);
+	Book getBookByName(String bookName) throws Exception;
 
-	List<Book> getRecommandedBooks();
+	List<Book> getRecommandedBooks() throws Exception;
 }
