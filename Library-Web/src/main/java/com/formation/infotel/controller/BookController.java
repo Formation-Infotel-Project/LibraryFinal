@@ -24,21 +24,23 @@ public class BookController {
 	@Autowired
 	AuthorService authorService;
 
-	@RequestMapping("/books")
-	public String list(Model model) {
-		try {
-			List<Book> books = bookService.getBooks();
-			model.addAttribute("books", books);
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return "bookList";
-	}
+//	@RequestMapping("/books")
+//	public Resultat list(Model model) {
+//		try {
+//			List<Book> books = bookService.getBooks();
+//			model.addAttribute("books", books);
+//		} catch (Exception e) {
+//
+//			e.printStackTrace();
+//		}
+//
+//		return "bookList";
+//	}
 
 	@PutMapping(value = "/book/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void bookAdd(@RequestBody BookDto bookDto) {
+	public Resultat bookAdd(@RequestBody BookDto bookDto) {
+		
+		Resultat resultat = new Resultat();
 		try {
 			Book book = new Book(bookDto.getBookTitle(), bookDto.getDescription(), bookDto.getPrice(),
 					bookDto.getPubDate(), bookDto.isPopular(), bookDto.getImagePath());
@@ -52,14 +54,26 @@ public class BookController {
 			book.setAuthors(authors);
 
 			bookService.insertBook(book);
+			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
 
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
 			e.printStackTrace();
 		}
+	
+		return resultat;
+		
+	
+		
+
 	}
 
 	@PostMapping(value = "book/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateBook(@RequestBody BookDto bookDto, @PathVariable(value = "id") int id) {
+	public Resultat updateBook(@RequestBody BookDto bookDto, @PathVariable(value = "id") int id) {
+		
+		Resultat resultat = new Resultat();
 		try {
 			Book book = bookService.getBookById(id);
 			book.setBookTitle(bookDto.getBookTitle());
@@ -77,27 +91,40 @@ public class BookController {
 			book.setAuthors(authors);
 
 			bookService.updateBook(book);
+			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
 
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.UPDATE_ERRORS);
 			e.printStackTrace();
 		}
+		
+		return resultat;
 	}
 
 	@DeleteMapping(value = "book/delete/{id}")
-	public void deleteBook(@PathVariable(value = "id") int id) {
+	public Resultat deleteBook(@PathVariable(value = "id") int id) {
+		
+		Resultat resultat = new Resultat();
 		try {
 			Book book = bookService.getBookById(id);
 
 			bookService.deleteBook(book);
+			resultat.setMessage(ControllerConstants.DELETE_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
 
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.DELETE_ERRORS);
 			e.printStackTrace();
 		}
+		return resultat;
 	}
 
 	@RequestMapping("book/get/{id}")
-	public BookDto getBook(@PathVariable(value = "id") int id) {
-
+	public Resultat getBook(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
 		BookDto viewBook = null;
 		try {
 			Book book = bookService.getBookById(id);
@@ -106,15 +133,23 @@ public class BookController {
 			viewBook = new BookDto(book.getBookTitle(), book.getBookDescription(), book.getBookPrice(), authorsId,
 					book.getCategory().getCategoryId(), book.getEditor().getEditorId(), book.getPublicationDate(),
 					book.isPopularBook(), book.getImagePath());
+			
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewBook);
 		} catch (Exception e) {
-
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return viewBook;
+		return  resultat;
+	
 	}
 
 	@RequestMapping("book/get")
-	public List<BookDto> getBooks() {
+	public Resultat getBooks() {
+		
+		Resultat resultat = new Resultat();
 		List<BookDto> viewBooks = new ArrayList<>();
 		try {
 			List<Book> books = bookService.getBooks();
@@ -125,10 +160,14 @@ public class BookController {
 						b.getCategory().getCategoryId(), b.getEditor().getEditorId(), b.getPublicationDate(),
 						b.isPopularBook(), b.getImagePath()));
 			});
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewBooks);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return viewBooks;
+		return  resultat;
 	}
 }

@@ -22,7 +22,9 @@ public class AuthorController {
 	BookService bookService;
 
 	@PutMapping(value = "author/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addAuthor(@RequestBody AuthorDto authorDto) {
+	public 	Resultat addAuthor(@RequestBody AuthorDto authorDto) {
+		Resultat resultat = new Resultat();
+
 		try {
 			Author author = new Author(authorDto.getAuthorLastName(), authorDto.getFirstName());
 			List<Book> books = new ArrayList<>();
@@ -32,13 +34,20 @@ public class AuthorController {
 			author.setBooks(books);
 
 			authorService.insertAuthor(author);
+			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
 			e.printStackTrace();
 		}
+		return resultat;
+
 	}
 
 	@PostMapping(value = "author/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateAuthor(@RequestBody AuthorDto authorDto, @PathVariable(value = "id") int id) {
+	public Resultat updateAuthor(@RequestBody AuthorDto authorDto, @PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
 
 		try {
 			Author author = authorService.getAuthor(id);
@@ -51,24 +60,41 @@ public class AuthorController {
 			author.setBooks(books);
 
 			authorService.updateAuthor(author);
+			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.UPDATE_ERRORS);
 			e.printStackTrace();
 		}
+		return resultat;
+
 	}
 
 	@DeleteMapping(value = "author/delete/{id}")
-	public void deleteAuthor(@PathVariable(value = "id") int id) {
+	public Resultat deleteAuthor(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
+
 		try {
 			Author author = authorService.getAuthor(id);
 
 			authorService.deleteAuthor(author);
+			resultat.setMessage(ControllerConstants.DELETE_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.DELETE_ERRORS);
 			e.printStackTrace();
 		}
+		
+		return resultat;
+
 	}
 
 	@RequestMapping("author/get/{id}")
-	public AuthorDto getAuthor(@PathVariable(value = "id") int id) {
+	public Resultat getAuthor(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
+
 		AuthorDto viewAuthor = null;
 		try {
 			Author author = authorService.getAuthor(id);
@@ -77,14 +103,22 @@ public class AuthorController {
 				booksId.add(b.getIsbn());
 			});
 			viewAuthor = new AuthorDto(author.getAuthorLastName(), author.getFirstName(), booksId);
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewAuthor);
+			
 		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return viewAuthor;
+		return resultat;
 	}
 
 	@RequestMapping("author/get")
-	public List<AuthorDto> getAuthors() {
+	public Resultat getAuthors() {
+		Resultat resultat = new Resultat();
+
 		List<AuthorDto> viewAuthors = new ArrayList<>();
 		try {
 			List<Author> authors = authorService.getAllAuthors();
@@ -93,9 +127,14 @@ public class AuthorController {
 				a.getBooks().forEach(b -> booksId.add(b.getIsbn()));
 				viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), booksId));
 			});
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewAuthors);
 		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return viewAuthors;
+		return resultat;
 	}
 }

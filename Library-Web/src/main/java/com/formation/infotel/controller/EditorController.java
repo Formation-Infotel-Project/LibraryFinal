@@ -23,7 +23,9 @@ public class EditorController {
 	BookService bookService;
 
 	@PutMapping(value = "editor/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addEditor(@RequestBody EditorDto editorDto) {
+	public Resultat addEditor(@RequestBody EditorDto editorDto) {
+		Resultat resultat = new Resultat();
+
 		try {
 			Editor editor = new Editor(editorDto.getName(), editorDto.getEditorAddress());
 			Set<Book> books = new HashSet<>();
@@ -33,16 +35,21 @@ public class EditorController {
 
 			}
 			editor.setBooks(books);
+			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+			resultat.setSuccess(true);
 
 			editorService.insertEditor(editor);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
 			e.printStackTrace();
 		}
+		return resultat;
 	}
 
 	@PostMapping(value = "editor/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateEditor(@RequestBody EditorDto editorDto, @PathVariable(value = "id") int id) {
+	public Resultat updateEditor(@RequestBody EditorDto editorDto, @PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
 
 		try {
 			Editor editor = editorService.getEditor(id);
@@ -55,29 +62,40 @@ public class EditorController {
 			editor.setBooks(books);
 
 			editorService.updateEditor(editor);
+			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.UPDATE_ERRORS);
 			e.printStackTrace();
 		}
+		return resultat;
 	}
 
 	@DeleteMapping(value = "editor/delete/{id}")
-	public void deleteEditor(@PathVariable(value = "id") int id) {
+	public Resultat deleteEditor(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
 
 		Editor editor;
 		try {
 			editor = editorService.getEditor(id);
 		
-
+			resultat.setMessage(ControllerConstants.DELETE_SUCCESS);
+			resultat.setSuccess(true);
 		editorService.deleteEditor(editor);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.DELETE_ERRORS);
 			e.printStackTrace();
 		}
+		return resultat;
+
 	}
 
 	@RequestMapping("editor/get/{id}")
-	public EditorDto getEditor(@PathVariable(value = "id") int id) {
+	public Resultat getEditor(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
+
 		Editor editor;
 		EditorDto viewEditor = null;
 		try {
@@ -88,15 +106,23 @@ public class EditorController {
 			booksId.add(b.getIsbn());
 		});
 		viewEditor = new EditorDto(editor.getName(), editor.getEditorAddress(), booksId);
+		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+		resultat.setSuccess(true);
+		resultat.setPayload(viewEditor);
+		
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return viewEditor;
+		return resultat;
 	}
 
 	@RequestMapping("editor/get")
-	public List<EditorDto> getEditors() {
+	public Resultat getEditors() {
+		
+		Resultat resultat = new Resultat();
+
 		List<EditorDto> viewEditors = new ArrayList<>();
 		List<Editor> editors;
 		try {
@@ -107,10 +133,14 @@ public class EditorController {
 			e.getBooks().forEach(b -> booksId.add(b.getIsbn()));
 			viewEditors.add(new EditorDto(e.getName(), e.getEditorAddress(), booksId));
 		});
+		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+		resultat.setSuccess(true);
+		resultat.setPayload(viewEditors);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e1.printStackTrace();
 		}
-		return viewEditors;
+		return resultat;
 	}
 }

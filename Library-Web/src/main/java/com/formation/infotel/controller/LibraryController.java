@@ -23,7 +23,9 @@ public class LibraryController {
 	RegistrationService registrationService;
 
 	@PutMapping(value = "library/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addLibrary(@RequestBody LibraryDto libraryDto) {
+	public Resultat addLibrary(@RequestBody LibraryDto libraryDto) {
+		Resultat resultat = new Resultat();
+
 
 		Library library = new Library(libraryDto.getLibraryName(), libraryDto.getLibraryAddress());
 		List<Registration> registrations = new ArrayList<>();
@@ -34,15 +36,22 @@ public class LibraryController {
 				library.setRegistrations(registrations);
 
 				libraryService.insertLibrary(library);
+				resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+				resultat.setSuccess(true);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				resultat.setSuccess(false);
+				resultat.setMessage(ControllerConstants.INSERT_ERRORS);
 				e.printStackTrace();
 			}
 		}
+		return resultat;
+
 	}
 
 	@PostMapping(value = "library/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateLibrary(@RequestBody LibraryDto libraryDto, @PathVariable(value = "id") int id) {
+	public Resultat updateLibrary(@RequestBody LibraryDto libraryDto, @PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
+
 
 		Library library;
 		try {
@@ -57,28 +66,41 @@ public class LibraryController {
 			library.setRegistrations(registrations);
 
 			libraryService.updateLibrary(library);
+			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.UPDATE_ERRORS);
 			e.printStackTrace();
 		}
+		
+		return resultat;
 	}
 
 	@DeleteMapping(value = "library/delete/{id}")
-	public void deleteLibrary(@PathVariable(value = "id") int id) {
+	public Resultat deleteLibrary(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
+
 
 		Library library;
 		try {
 			library = libraryService.getLibrary(id);
 			libraryService.deleteLibrary(library);
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
+		return resultat;
 
 	}
 
 	@RequestMapping("library/get/{id}")
-	public LibraryDto getLibrary(@PathVariable(value = "id") int id) {
+	public Resultat getLibrary(@PathVariable(value = "id") int id) {
+		Resultat resultat = new Resultat();
+
 		Library library;
 		LibraryDto viewLibrary = null;
 		try {
@@ -89,20 +111,23 @@ public class LibraryController {
 				registrationsId.add(r.getId());
 			});
 			viewLibrary = new LibraryDto(library.getLibraryName(), library.getLibraryAddress(), registrationsId);
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewLibrary);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return viewLibrary;
+		return resultat;
 	}
 
 	@RequestMapping("library/get")
-	public List<LibraryDto> getLibraries() {
+	public Resultat getLibraries() {
 		
-		
+		Resultat resultat = new Resultat();
+
 		List<LibraryDto> viewLibraries = new ArrayList<>();
-		
-		
 		List<Library> libraries;
 		try {
 			libraries = libraryService.getAllLibraries();
@@ -112,11 +137,15 @@ public class LibraryController {
 			l.getRegistrations().forEach(r -> registrationsId.add(r.getId()));
 			viewLibraries.add(new LibraryDto(l.getLibraryName(), l.getLibraryAddress(), registrationsId));
 		});
+		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+		resultat.setSuccess(true);
+		resultat.setPayload(viewLibraries);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return viewLibraries;
+		return resultat;
 	}
 
 }

@@ -15,6 +15,8 @@ public class ErrorConstants {
 	public static final String MEMBER_LIST_EMPTY="Member list is empty";
 	public static final String EMAIL_NOT_FOUND="No email martch the description";
 	public static final String REGISTRATION_LIST_EMPTY="No registration found";
+	
+	
 
 
 

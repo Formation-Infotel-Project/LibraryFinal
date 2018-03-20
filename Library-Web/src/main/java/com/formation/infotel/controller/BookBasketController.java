@@ -26,7 +26,8 @@ public class BookBasketController {
 	private BookCopyService bookCopyService;
 
 	@PutMapping(value = "bookBasket/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addBookBasket(@RequestBody BookBasketDto bookBasketDto) {
+	public Resultat addBookBasket(@RequestBody BookBasketDto bookBasketDto) {
+		Resultat resultat = new Resultat();
 		try {
 			BookBasket bookBasket = new BookBasket();
 			bookBasket.setCreationDate(bookBasketDto.getCreationDate());
@@ -39,14 +40,23 @@ public class BookBasketController {
 			bookBasket.setBook_copies(books);
 
 			bookBasketService.insertBookBasket(bookBasket);
+			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+			resultat.setSuccess(true);
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
 			e.printStackTrace();
+
 		}
+
+		return resultat;
 	}
 
 	@PostMapping(value = "bookBasket/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateBookBasket(@RequestBody BookBasketDto bookBasketDto, @PathVariable(value = "id") int id) {
+	public Resultat updateBookBasket(@RequestBody BookBasketDto bookBasketDto, @PathVariable(value = "id") int id) {
+
+		Resultat resultat = new Resultat();
 		try {
 			BookBasket bookBasket = bookBasketService.getBookBasket(id);
 			bookBasket.setCreationDate(bookBasketDto.getCreationDate());
@@ -59,29 +69,43 @@ public class BookBasketController {
 			bookBasket.setBook_copies(books);
 
 			bookBasketService.updateBookBasket(bookBasket);
+			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (
 
 		Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.UPDATE_ERRORS);
 			e.printStackTrace();
 		}
+
+		return resultat;
 	}
 
 	@DeleteMapping(value = "bookBasket/delete/{id}")
-	public void deleteBookBasket(@PathVariable(value = "id") int id) {
+	public Resultat deleteBookBasket(@PathVariable(value = "id") int id) {
+
+		Resultat resultat = new Resultat();
 		try {
 			BookBasket bookBasket = bookBasketService.getBookBasket(id);
 
 			bookBasketService.deleteBookBasket(bookBasket);
+			resultat.setMessage(ControllerConstants.DELETE_SUCCESS);
+			resultat.setSuccess(true);
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.DELETE_ERRORS);
 			e.printStackTrace();
 		}
+
+		return resultat;
 	}
 
 	@RequestMapping("bookBasket/get/{id}")
-	public BookBasketDto getBookBasket(@PathVariable(value = "id") int id) {
+	public Resultat getBookBasket(@PathVariable(value = "id") int id) {
 
+		Resultat resultat = new Resultat();
 		BookBasketDto viewBookBasket = null;
 
 		try {
@@ -92,26 +116,40 @@ public class BookBasketController {
 			});
 			viewBookBasket = new BookBasketDto(bookBasket.getCreationDate(), bookBasket.getDeliveryDate(),
 					bookBasket.getMember().getMemberId(), booksId);
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewBookBasket);
 		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return viewBookBasket;
+
+		return resultat;
 	}
 
 	@RequestMapping("bookBasket/get")
-	public List<BookBasketDto> getBookBaskets() {
-		List<BookBasketDto> viewBookBaskets = new ArrayList<>();
+	public Resultat getBookBaskets() {
 		
+		Resultat resultat = new Resultat();
+		List<BookBasketDto> viewBookBaskets = new ArrayList<>();
+
 		try {
-		List<BookBasket> bookBaskets = bookBasketService.getAllBookBaskets();
-		List<Integer> booksId = new ArrayList<>();
-		bookBaskets.forEach(bb -> {
-			bb.getBook_copies().forEach(b -> booksId.add(b.getBook_copyId()));
-			viewBookBaskets.add(new BookBasketDto(bb.getCreationDate(), bb.getDeliveryDate(),
-					bb.getMember().getMemberId(), booksId));
-		});} catch (Exception e) {
+			List<BookBasket> bookBaskets = bookBasketService.getAllBookBaskets();
+			List<Integer> booksId = new ArrayList<>();
+			bookBaskets.forEach(bb -> {
+				bb.getBook_copies().forEach(b -> booksId.add(b.getBook_copyId()));
+				viewBookBaskets.add(new BookBasketDto(bb.getCreationDate(), bb.getDeliveryDate(),
+						bb.getMember().getMemberId(), booksId));
+			});
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewBookBaskets);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return viewBookBaskets;
+		return resultat;
 	}
 }
