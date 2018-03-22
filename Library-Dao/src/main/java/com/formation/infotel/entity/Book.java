@@ -50,6 +50,16 @@ public class Book implements Serializable{
 		this.imagePath = imagePath;
 	}
 
+
+
+	public Book(String bookTitle, String bookDescription, float price, Date publicationDate,boolean popular) {
+		this.bookTitle = bookTitle;
+		this.bookDescription = bookDescription;
+		this.bookPrice = price;
+		this.publicationDate = publicationDate;
+		this.popularBook = popular;
+	}
+
 	public int getIsbn() {
 		return Isbn;
 	}

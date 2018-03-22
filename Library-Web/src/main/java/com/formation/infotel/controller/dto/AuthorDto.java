@@ -6,6 +6,7 @@ import com.formation.infotel.entity.Book;
 
 public class AuthorDto {
 
+	private int id;
 	private String authorLastName;
 	private String firstName;
 	private List<Integer> booksId;
@@ -13,10 +14,11 @@ public class AuthorDto {
 	public AuthorDto() {
 	}
 
-	public AuthorDto(String authorLastName, String firstName, List<Integer> booksId) {
+	public AuthorDto(String authorLastName, String firstName, List<Integer> booksId, int id) {
 		this.authorLastName = authorLastName;
 		this.firstName = firstName;
 		this.booksId = booksId;
+		this.id =id;
 	}
 
 	public String getAuthorLastName() {

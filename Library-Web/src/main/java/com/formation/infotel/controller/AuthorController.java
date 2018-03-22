@@ -102,7 +102,7 @@ public class AuthorController {
 			author.getBooks().forEach(b -> {
 				booksId.add(b.getIsbn());
 			});
-			viewAuthor = new AuthorDto(author.getAuthorLastName(), author.getFirstName(), booksId);
+			viewAuthor = new AuthorDto(author.getAuthorLastName(), author.getFirstName(), booksId,author.getAuthorId());
 			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 			resultat.setSuccess(true);
 			resultat.setPayload(viewAuthor);
@@ -125,7 +125,7 @@ public class AuthorController {
 			List<Integer> booksId = new ArrayList<>();
 			authors.forEach(a -> {
 				a.getBooks().forEach(b -> booksId.add(b.getIsbn()));
-				viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), booksId));
+				viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), booksId,a.getAuthorId()));
 			});
 			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 			resultat.setSuccess(true);

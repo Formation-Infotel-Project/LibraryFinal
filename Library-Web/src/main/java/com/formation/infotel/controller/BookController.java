@@ -37,13 +37,13 @@ public class BookController {
 //		return "bookList";
 //	}
 
-	@PutMapping(value = "/book/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/book/add")
 	public Resultat bookAdd(@RequestBody BookDto bookDto) {
 		
 		Resultat resultat = new Resultat();
 		try {
-			Book book = new Book(bookDto.getBookTitle(), bookDto.getDescription(), bookDto.getPrice(),
-					bookDto.getPubDate(), bookDto.isPopular(), bookDto.getImagePath());
+			Book book = new Book(bookDto.getTitle(), bookDto.getDescription(), bookDto.getPrice(),
+					bookDto.getPubDate(), bookDto.getPopular()/*, bookDto.getImagePath()*/, null);
 
 			book.setCategory(categoryService.getCategory(bookDto.getCategoryId()));
 			book.setEditor(editorService.getEditor(bookDto.getEditorId()));
@@ -76,11 +76,11 @@ public class BookController {
 		Resultat resultat = new Resultat();
 		try {
 			Book book = bookService.getBookById(id);
-			book.setBookTitle(bookDto.getBookTitle());
+			book.setBookTitle(bookDto.getTitle());
 			book.setBookDescription(bookDto.getDescription());
 			book.setBookPrice(bookDto.getPrice());
 			book.setPublicationDate(bookDto.getPubDate());
-			book.setPopularBook(bookDto.isPopular());
+			book.setPopularBook(bookDto.getPopular());
 			book.setImagePath(bookDto.getImagePath());
 			book.setEditor(editorService.getEditor(bookDto.getEditorId()));
 			book.setCategory(categoryService.getCategory(bookDto.getCategoryId()));

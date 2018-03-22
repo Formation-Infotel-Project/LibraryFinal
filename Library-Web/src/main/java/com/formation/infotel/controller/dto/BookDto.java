@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BookDto {
 
-    private String bookTitle;
+    private String title;
     private String description;
     private float price;
     private List<Integer> authorsId;
@@ -18,8 +18,8 @@ public class BookDto {
     public BookDto() {
     }
 
-    public BookDto(String bookTitle, String description, float price, List<Integer> authorsId, int categoryId, int editorId, Date pubDate, boolean popular, String imagePath) {
-        this.bookTitle = bookTitle;
+    public BookDto(String title, String description, float price, List<Integer> authorsId, int categoryId, int editorId, Date pubDate, boolean popular, String imagePath) {
+        this.title = title;
         this.description = description;
         this.price = price;
         this.authorsId = authorsId;
@@ -29,16 +29,26 @@ public class BookDto {
         this.popular = popular;
         this.imagePath = imagePath;
     }
+    public BookDto(String title, String description, float price, Date pubDate) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.pubDate = pubDate;
+        }
+    
+     
 
-    public String getBookTitle() {
-        return bookTitle;
-    }
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
-    }
 
-    public String getDescription() {
+    public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
         return description;
     }
 
@@ -86,15 +96,17 @@ public class BookDto {
         this.pubDate = pubDate;
     }
 
-    public boolean isPopular() {
-        return popular;
-    }
+   
 
-    public void setPopular(boolean popular) {
-        this.popular = popular;
-    }
+    public boolean getPopular() {
+		return popular;
+	}
 
-    public String getImagePath() {
+	public void setPopular(boolean popular) {
+		this.popular = popular;
+	}
+
+	public String getImagePath() {
         return imagePath;
     }
 

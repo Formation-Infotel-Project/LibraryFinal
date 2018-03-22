@@ -109,7 +109,7 @@ public class CategoryController {
 		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 		resultat.setSuccess(true);
 		resultat.setPayload(viewCategory);
-		 viewCategory = new CategoryDto(category.getName(), category.getDescription(), booksId);
+		 viewCategory = new CategoryDto(category.getName(), category.getDescription(), booksId,category.getCategoryId());
 		} catch (Exception e) {
 			resultat.setSuccess(false);
 			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
@@ -130,7 +130,7 @@ public class CategoryController {
 		List<Integer> booksId = new ArrayList<>();
 		categories.forEach(c -> {
 			c.getBooks().forEach(b -> booksId.add(b.getIsbn()));
-			viewCategories.add(new CategoryDto(c.getName(), c.getDescription(), booksId));
+			viewCategories.add(new CategoryDto(c.getName(), c.getDescription(), booksId,c.getCategoryId()));
 		});
 		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 		resultat.setSuccess(true);
