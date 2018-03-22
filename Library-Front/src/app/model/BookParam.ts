@@ -6,7 +6,7 @@
     popular:boolean;
     categoryId:string;
     editorId:string;
-    // author:string,
+    authorsId :number[];
     
     imagePath:string;
   };

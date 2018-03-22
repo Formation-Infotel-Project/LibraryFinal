@@ -118,8 +118,8 @@ public class AuthorController {
 	@RequestMapping("author/get")
 	public Resultat getAuthors() {
 		Resultat resultat = new Resultat();
-
-		List<AuthorDto> viewAuthors = new ArrayList<>();
+		
+	List<AuthorDto> viewAuthors = new ArrayList<>();
 		try {
 			List<Author> authors = authorService.getAllAuthors();
 			List<Integer> booksId = new ArrayList<>();

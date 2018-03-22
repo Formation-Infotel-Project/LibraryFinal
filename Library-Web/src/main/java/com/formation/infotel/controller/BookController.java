@@ -48,6 +48,7 @@ public class BookController {
 			book.setCategory(categoryService.getCategory(bookDto.getCategoryId()));
 			book.setEditor(editorService.getEditor(bookDto.getEditorId()));
 			List<Author> authors = new ArrayList<>();
+System.out.println(bookDto.getEditorId());
 			for (int i = 0; i < bookDto.getAuthorsId().size(); i++) {
 				authors.add(authorService.getAuthor(bookDto.getAuthorsId().get(i)));
 			}

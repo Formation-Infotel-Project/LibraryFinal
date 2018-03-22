@@ -45,7 +45,13 @@
                             [ngValue]="e.id">{{e.name}}</option>
                         </select>
                     </div>
-
+  <div style="margin-top:10px;" class="row">
+                        <div class="col-md-4">author</div>
+                        <select name="a.id" [(ngModel)]='bookParam.authorsId' multiple>
+                            <option *ngFor="let a of listeAuthor"
+                            [ngValue]="a.id">{{a.authorLastName}}</option>
+                        </select>
+                    </div>
                       <!--<div style="margin-top:10px;" class="row">
                         <div class="col-md-4">Author </div>
                         <select name="a.id" [(ngModel)]='bookParam.authorId'>
@@ -72,10 +78,10 @@
                         
                       </select>
                   </div>-->
-                  <div style="margin-top:10px;" class="row">
+                  <!--<div style="margin-top:10px;" class="row">
                       <div class="col-md-4">Couverture </div>
                       <div class="col-md-4"><input type='file' name='imagePath' [(ngModel)]="bookParam.imagePath" required></div>
-                  </div>
+                  </div>-->
                     <div style="margin-top:20px;" class="row">
                         <div style="text-align:center;" class="col-md-12"> <button (click)="insertBook()" class='btn btn-success'>Inscription</button></div>
 

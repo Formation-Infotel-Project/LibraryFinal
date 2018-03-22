@@ -23,7 +23,7 @@ export class AddBookComponent implements OnInit {
     pubDate: "",
     popular:false,
     editorId:"",
-    // author:"",
+    authorsId :[],
     categoryId: "",
      imagePath:null
   };
@@ -57,19 +57,21 @@ listeCategory: any;
 listeAuthor: any;
 listeEditor: any;
 
+fileToUpload: File = null;
+
 
   ngOnInit() {
-  console.log('getLibrary');
+  // console.log('getLibrary');
   this.getCategory();
-  console.log(this.getCategory());
+  // console.log(this.getCategory());
 
-  // console.log('getAuthor');
-  //  this.getAuthor();
-  //  console.log(this.getAuthor());
+  console.log('getAuthor');
+   this.getAuthor();
+   console.log(this.getAuthor());
 
-  console.log('getEditor');
+  // console.log('getEditor');
   this.getEditor();
-  console.log(this.getEditor());
+  // console.log(this.getEditor());
   }
   insertBook(){
     this.backService.addBook(this.bookParam).subscribe(
