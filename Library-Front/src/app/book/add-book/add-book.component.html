@@ -1,65 +1,93 @@
 <div style="max-width:500px; margin-top: 5%;" class="container margin-top">
-  <div class="panel panel-primary">
-      <div class="panel-heading"><h1>Ajouter un livre</h1></div>
-      <div class="panel-body">
-          <div class="container-fluid">
-              <form method="post" action="bookAdd" id="bookAdd" enctype="multipart/form-data">
-                  <div class="row">
-                      <div class="col-md-4">Titre </div>
-                      <div class="col-md-4"><input type='text' name='title' required></div>
-                  </div>
-                  <div style="margin-top:10px;" class="row">
-                      <div class="col-md-4">Description </div>
-                      <div class="col-md-4"><input type='text' name='description' required></div>
-                  </div>
-                  <div style="margin-top:10px;" class="row">
-                      <div class="col-md-4">Prix </div>
-                      <div class="col-md-4"><input type='text' name='price' required></div>
-                  </div>
-                  <div style="margin-top:10px;" class="row">
-                      <div class="col-md-4">Date de publication </div>
-                      <div class="col-md-4"><input type='date' name='pubDate' required></div>
-                  </div>
-                  <div style="margin-top:10px;" class="row">
-                      <div class="col-md-4">Populaire ? </div>
-                      <div class="col-md-4">
-                          <input type='radio' name="popular" value="Oui"> Oui
-                          <input type='radio' name="popular" value="Non" style="margin-left:20px;" checked> Non
-                      </div>
-                  </div>
-                  <div style="margin-top:10px;" class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h1>Ajouter un livre</h1>
+        </div>
+        <div class="panel-body">
+            <div class="container-fluid">
+                <form method="post" action="bookAdd" id="bookAdd" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4">Titre </div>
+                        <div class="col-md-4"><input type='text' name='title' [(ngModel)]="bookParam.title" required></div>
+                    </div>
+                    <div style="margin-top:10px;" class="row">
+                        <div class="col-md-4">Description </div>
+                        <div class="col-md-4"><input type='text' name='description' [(ngModel)]="bookParam.description" required></div>
+                    </div>
+                    <div style="margin-top:10px;" class="row">
+                        <div class="col-md-4">Prix </div>
+                        <div class="col-md-4"><input type='text' name='price' [(ngModel)]="bookParam.price" required></div>
+                    </div>
+                    <div style="margin-top:10px;" class="row">
+                        <div class="col-md-4">Date de publication </div>
+                        <div class="col-md-4"><input type='date' name='pubDate' [(ngModel)]="bookParam.pubDate" required></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2" for="popular">Populaire ?</label>
+                        <div class="col-lg-10">
+                            <input type="checkbox" [(ngModel)]="bookParam.popular" name="popular" id="popular" />
+                        </div>
+                    </div>
+
+                    <div style="margin-top:10px;" class="row">
+                        <div class="col-md-4">Catégories </div>
+                        <select name="c.id" [(ngModel)]='bookParam.categoryId'>
+                            <option *ngFor="let c of listeCategory"
+                            [ngValue]="c.id">{{c.name}}</option>
+                        </select>
+                    </div>
+
+                     <div style="margin-top:10px;" class="row">
+                        <div class="col-md-4">Editor </div>
+                        <select name="e.id" [(ngModel)]='bookParam.editorId'>
+                            <option *ngFor="let e of listeEditor"
+                            [ngValue]="e.id">{{e.name}}</option>
+                        </select>
+                    </div>
+  <div style="margin-top:10px;" class="row">
+                        <div class="col-md-4">author</div>
+                        <select name="a.id" [(ngModel)]='bookParam.authorsId' multiple>
+                            <option *ngFor="let a of listeAuthor"
+                            [ngValue]="a.id">{{a.authorLastName}}</option>
+                        </select>
+                    </div>
+                      <!--<div style="margin-top:10px;" class="row">
+                        <div class="col-md-4">Author </div>
+                        <select name="a.id" [(ngModel)]='bookParam.authorId'>
+                        <option *ngFor="let a of listeCategory"
+                            [ngValue]="a.id">{{a.name}}</option>
+                    </select>
+                    </div>-->
+
+                    <!--  <div style="margin-top:10px;" class="row">
                       <div class="col-md-4">Éditeur </div>
                       <select class="col-md-4" name="editor" form="bookAdd" style="margin-left: 15px;">
-                          <!--<c:forEach items="${editors}" var="editor">
-                              <option>${editor.name}</option>
-                          </c:forEach>-->
+                       
                       </select>
                   </div>
                   <div style="margin-top:10px;" class="row">
                       <div class="col-md-4">Auteur </div>
                       <select class="col-md-4" name="author" form="bookAdd" style="margin-left: 15px;">
-                          <!--<c:forEach items="${authors}" var="author">
-                              <option>${author.authorLastName}</option>
-                          </c:forEach>-->
+                    
                       </select>
                   </div>
                   <div style="margin-top:10px;" class="row">
                       <div class="col-md-4">Catégories </div>
-                      <select class="col-md-4" name="category" form="bookAdd" style="margin-left: 15px;">
-                          <!--<c:forEach items="${categories}" var="category">
-                              <option>${category.name}</option>
-                          </c:forEach>-->
+                      <select class="col-md-4" name="category" form="bookAdd"  style="margin-left: 15px;">
+                        
                       </select>
-                  </div>
-                  <div style="margin-top:10px;" class="row">
+                  </div>-->
+                  <!--<div style="margin-top:10px;" class="row">
                       <div class="col-md-4">Couverture </div>
-                      <div class="col-md-4"><input type='file' name='image' required></div>
-                  </div>
-                  <div style="margin-top:20px;" class="row">
-                      <div style="text-align:center;" class="col-md-12"><input type='submit' class='btn-success' value='Inscription'></div>
-                  </div>
-              </form>
-          </div>
-      </div>
-  </div>
+                      <div class="col-md-4"><input type='file' name='imagePath' [(ngModel)]="bookParam.imagePath" required></div>
+                  </div>-->
+                    <div style="margin-top:20px;" class="row">
+                        <div style="text-align:center;" class="col-md-12"> <button (click)="insertBook()" class='btn btn-success'>Inscription</button></div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

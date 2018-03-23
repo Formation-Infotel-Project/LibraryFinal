@@ -105,7 +105,7 @@ public class EditorController {
 		editor.getBooks().forEach(b -> {
 			booksId.add(b.getIsbn());
 		});
-		viewEditor = new EditorDto(editor.getName(), editor.getEditorAddress(), booksId);
+		viewEditor = new EditorDto(editor.getName(), editor.getEditorAddress(), booksId,editor.getEditorId());
 		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 		resultat.setSuccess(true);
 		resultat.setPayload(viewEditor);
@@ -131,7 +131,7 @@ public class EditorController {
 		List<Integer> booksId = new ArrayList<>();
 		editors.forEach(e -> {
 			e.getBooks().forEach(b -> booksId.add(b.getIsbn()));
-			viewEditors.add(new EditorDto(e.getName(), e.getEditorAddress(), booksId));
+			viewEditors.add(new EditorDto(e.getName(), e.getEditorAddress(), booksId,e.getEditorId()));
 		});
 		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 		resultat.setSuccess(true);

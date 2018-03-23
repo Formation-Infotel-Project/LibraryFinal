@@ -7,6 +7,8 @@ import javax.persistence.OneToMany;
 import com.formation.infotel.entity.Book;
 
 public class EditorDto {
+	private int id;
+	
 
 	private String name;
 	private String editorAddress;
@@ -15,13 +17,17 @@ public class EditorDto {
 	public EditorDto() {
 	}
 
-	public EditorDto(String name, String editorAddress, List<Integer> booksId) {
+	public EditorDto(String name, String editorAddress, List<Integer> booksId, int idd) {
 
 		this.name = name;
 		this.editorAddress = editorAddress;
 		this.booksId = booksId;
+		this.id = idd;
 	}
 
+	public int getId() {
+		return id;
+	}
 	public String getName() {
 		return name;
 	}

@@ -6,9 +6,11 @@ import java.util.List;
 
 
 import com.formation.infotel.entity.Book;
+import com.formation.infotel.entity.Category;
 
 public class CategoryDto {
 
+	private int id;
 	private String name;
 	private String description;
 	private List<Integer> booksId;
@@ -16,12 +18,18 @@ public class CategoryDto {
 	public CategoryDto() {
 	}
 
-	public CategoryDto(String name, String description, List<Integer> booksId) {
+	public CategoryDto(String name, String description, List<Integer> booksId, int id) {
 
 		this.name = name;
 		this.description = description;
 		this.booksId = booksId;
+		this.id = id;
 	}
+	
+	public int getId() {
+		return id;
+	}
+
 
 	public String getName() {
 		return name;

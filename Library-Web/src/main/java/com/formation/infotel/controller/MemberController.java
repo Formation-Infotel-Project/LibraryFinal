@@ -32,6 +32,8 @@ public class MemberController {
 					memberDto.getPhone(), memberDto.getFirstName());
 
 			memberService.insertMember(member);
+			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
+			resultat.setSuccess(true);
 		} catch (Exception e) {
 			resultat.setSuccess(false);
 			resultat.setMessage(ControllerConstants.INSERT_ERRORS);
