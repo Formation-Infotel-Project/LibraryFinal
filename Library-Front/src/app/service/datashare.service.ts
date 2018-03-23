@@ -15,7 +15,7 @@ export class DatashareService {
     postalCode: string;
   }
 
-/*  loggedMemberAdmin: {
+  loggedMemberAdmin: {
     access: number;
     address: string;
     city: string;
@@ -25,7 +25,7 @@ export class DatashareService {
     password: string;
     phone: string;
     postalCode: string;
-  }  */
+  }  
 
   navbarViewContainer: any;
   constructor() { }

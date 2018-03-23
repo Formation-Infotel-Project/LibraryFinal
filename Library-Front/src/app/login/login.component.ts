@@ -37,14 +37,8 @@ export class LoginComponent implements OnInit {
       data => {
         this.backService.handleData(data);
         if (data.payload) {
-          //cache the logged member in datashare service
           this.dss.loggedMember = data.payload;
           this.storage.store('me', data.payload);
-                    
-          /*if(this.dss.loggedMember.access == 1){
-            this.dss.loggedMemberAdmin = data.payload;
-          }*/
-          //navigate to home and display navbar or the hidden tabs
           this.router.navigate(['/home']);
         }
       },

@@ -21,7 +21,6 @@ export class LogoutService implements OnInit {
     }
 
     logout() {
-        console.log("===========================================================");
         return this.backService.logout().subscribe(
             data => {
                 this.backService.handleData(data);
@@ -36,6 +35,5 @@ export class LogoutService implements OnInit {
                 //messageService.displayFailureMessage(error.message);
             }
         );
-
     }
 }

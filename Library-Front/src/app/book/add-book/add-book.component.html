@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div style="max-width:500px; margin-top: 5%;" class="container margin-top">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -29,11 +30,10 @@
                             <input type="checkbox" [(ngModel)]="bookParam.popular" name="popular" id="popular" />
                         </div>
                     </div>
-
                     <div style="margin-top:10px;" class="row">
                         <div class="col-md-4">Catégories </div>
                         <select name="c.id" [(ngModel)]='bookParam.categoryId'>
-                            <option *ngFor="let c of listeCategory"
+                            <option *ngFor="let c of category"
                             [ngValue]="c.id">{{c.name}}</option>
                         </select>
                     </div>
@@ -41,47 +41,17 @@
                      <div style="margin-top:10px;" class="row">
                         <div class="col-md-4">Editor </div>
                         <select name="e.id" [(ngModel)]='bookParam.editorId'>
-                            <option *ngFor="let e of listeEditor"
+                            <option *ngFor="let e of editor"
                             [ngValue]="e.id">{{e.name}}</option>
                         </select>
                     </div>
-  <div style="margin-top:10px;" class="row">
+                    
+                    <div style="margin-top:10px;" class="row">
                         <div class="col-md-4">author</div>
                         <select name="a.id" [(ngModel)]='bookParam.authorsId' multiple>
-                            <option *ngFor="let a of listeAuthor"
-                            [ngValue]="a.id">{{a.authorLastName}}</option>
+                            <option *ngFor="let a of author" [ngValue]="a.id">{{a.authorLastName}}</option>
                         </select>
                     </div>
-                      <!--<div style="margin-top:10px;" class="row">
-                        <div class="col-md-4">Author </div>
-                        <select name="a.id" [(ngModel)]='bookParam.authorId'>
-                        <option *ngFor="let a of listeCategory"
-                            [ngValue]="a.id">{{a.name}}</option>
-                    </select>
-                    </div>-->
-
-                    <!--  <div style="margin-top:10px;" class="row">
-                      <div class="col-md-4">Éditeur </div>
-                      <select class="col-md-4" name="editor" form="bookAdd" style="margin-left: 15px;">
-                       
-                      </select>
-                  </div>
-                  <div style="margin-top:10px;" class="row">
-                      <div class="col-md-4">Auteur </div>
-                      <select class="col-md-4" name="author" form="bookAdd" style="margin-left: 15px;">
-                    
-                      </select>
-                  </div>
-                  <div style="margin-top:10px;" class="row">
-                      <div class="col-md-4">Catégories </div>
-                      <select class="col-md-4" name="category" form="bookAdd"  style="margin-left: 15px;">
-                        
-                      </select>
-                  </div>-->
-                  <!--<div style="margin-top:10px;" class="row">
-                      <div class="col-md-4">Couverture </div>
-                      <div class="col-md-4"><input type='file' name='imagePath' [(ngModel)]="bookParam.imagePath" required></div>
-                  </div>-->
                     <div style="margin-top:20px;" class="row">
                         <div style="text-align:center;" class="col-md-12"> <button (click)="insertBook()" class='btn btn-success'>Inscription</button></div>
 

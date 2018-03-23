@@ -37,6 +37,8 @@ import { UpdateBookComponent } from './book/update-book/update-book.component';
 import { DeleteMemberComponent } from './member/delete-member/delete-member.component';
 import { CustomInterceptor } from './customInterceptor.service';
 import { LocalStorageService } from 'ngx-webstorage';
+import { IsNotAdminComponent } from './is-not-admin/is-not-admin.component';
+import { IsNotConnectedComponent } from './is-not-connected/is-not-connected.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +62,9 @@ import { LocalStorageService } from 'ngx-webstorage';
     RecBookComponent,
     BookDetailComponent,
     UpdateBookComponent,
-    DeleteMemberComponent
+    DeleteMemberComponent,
+    IsNotAdminComponent,
+    IsNotConnectedComponent
   ],
   entryComponents:[NavbarComponent],
   imports: [
@@ -73,7 +77,16 @@ import { LocalStorageService } from 'ngx-webstorage';
      provide: HTTP_INTERCEPTORS,
      useClass: CustomInterceptor,
      multi: true
-   },BackendService, MessagesService, DatashareService, MemberBackService, BookBackService, EditorBackService, CategoryBackService, AuteurBackService, LocalStorageService, LogoutService],
+   },BackendService, 
+   MessagesService, 
+   DatashareService, 
+   MemberBackService, 
+   BookBackService, 
+   EditorBackService, 
+   CategoryBackService, 
+   AuteurBackService, 
+   LocalStorageService, 
+   LogoutService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

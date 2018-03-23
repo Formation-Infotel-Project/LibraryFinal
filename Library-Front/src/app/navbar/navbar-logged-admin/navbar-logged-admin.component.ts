@@ -20,8 +20,6 @@ export class NavbarLoggedAdminComponent implements OnInit {
   }
 
   logout(){
-    this.logoutService.logout();
-   
-   
+    this.logoutService.logout(); 
   }
 }

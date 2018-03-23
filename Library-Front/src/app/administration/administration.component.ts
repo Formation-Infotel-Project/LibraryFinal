@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DatashareService } from '../service/datashare.service';
+import { LocalStorageService } from 'ngx-webstorage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administration',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdministrationComponent implements OnInit {
 
-  constructor() { }
+  isAdmin = false;
+
+  constructor(private router: Router,
+    private storage: LocalStorageService) { }
 
   ngOnInit() {
+    if(this.storage.retrieve('me')){
+      if(this.storage.retrieve('me').access !== 1){  
+        this.router.navigate(['/notAdmin']); 
+      }
+    }else{
+      this.router.navigate(['/notConnected']); 
+    }    
   }
-
 }

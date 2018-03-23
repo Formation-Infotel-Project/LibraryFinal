@@ -26,7 +26,6 @@ export class LogoutComponent implements OnInit {
   }
 
   logout() {
-     console.log("===========================================================");
     this.backService.logout().subscribe(
       data => {
         this.backService.handleData(data);

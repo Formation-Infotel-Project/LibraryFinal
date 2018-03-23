@@ -31,6 +31,7 @@ export class BookDetailComponent implements OnInit {
     imagePath: ""
   };
   editor: EditorVM = {
+    id: 0,
     name: "",
     editorAddress: "",
     booksId: []

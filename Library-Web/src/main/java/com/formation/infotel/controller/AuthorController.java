@@ -102,11 +102,10 @@ public class AuthorController {
 			author.getBooks().forEach(b -> {
 				booksId.add(b.getIsbn());
 			});
-			viewAuthor = new AuthorDto(author.getAuthorLastName(), author.getFirstName(), booksId,author.getAuthorId());
+			viewAuthor = new AuthorDto(author.getAuthorLastName(), author.getFirstName(), booksId, author.getAuthorId());
 			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 			resultat.setSuccess(true);
 			resultat.setPayload(viewAuthor);
-			
 		} catch (Exception e) {
 			resultat.setSuccess(false);
 			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
@@ -116,16 +115,16 @@ public class AuthorController {
 	}
 
 	@RequestMapping("author/get")
-	public Resultat getAuthors() {
-		Resultat resultat = new Resultat();
+	public List<AuthorDto> getAuthors() {
+		/*Resultat resultat = new Resultat();
 		
-	List<AuthorDto> viewAuthors = new ArrayList<>();
+		List<AuthorDto> viewAuthors = new ArrayList<>();
 		try {
 			List<Author> authors = authorService.getAllAuthors();
 			List<Integer> booksId = new ArrayList<>();
 			authors.forEach(a -> {
 				a.getBooks().forEach(b -> booksId.add(b.getIsbn()));
-				viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), booksId,a.getAuthorId()));
+				viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), booksId, a.getAuthorId()));
 			});
 			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 			resultat.setSuccess(true);
@@ -135,6 +134,19 @@ public class AuthorController {
 			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return resultat;
+		return resultat;*/
+		List<AuthorDto> viewAuthors = new ArrayList<>();
+		List<Author> authors = null;
+		try {
+			authors = authorService.getAllAuthors();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		List<Integer> booksId = new ArrayList<>();
+		authors.forEach(a -> {
+			a.getBooks().forEach(b -> booksId.add(b.getIsbn()));
+			viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), booksId, a.getAuthorId()));
+		});
+		return viewAuthors;
 	}
 }

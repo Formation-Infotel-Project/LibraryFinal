@@ -1,5 +1,6 @@
 package com.formation.infotel.services.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -51,9 +52,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public List<Author> getAllAuthors() throws Exception {
-		List<Author> authors = null;
-		
-		authors = dao.getAll(Author.class);
+		List<Author> authors = dao.getAll(Author.class);
 		
 		if (authors.isEmpty())
 			throw new ServiceException(ErrorConstants.AUTHOR_NOT_FOUND);

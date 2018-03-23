@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpHeaders,HttpErrorResponse } from '@angular/common/http';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
+import { BookParam} from '../model/BookParam';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -26,6 +27,15 @@ export class BookBackService {
 
     getBook(id){
         return this.http.get("http://localhost:8080/Library-Web/book/get/"+id).pipe(retry(3), catchError(this.handleError));
+    }
+
+    addBook( bookParam : BookParam ): Observable<any>{
+        console.log(bookParam);
+        return this.http.post<BookParam>("http://localhost:8080/Library-Web/book/add", bookParam, httpOptions)
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     private handleError(error: HttpErrorResponse){

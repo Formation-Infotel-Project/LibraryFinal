@@ -5,6 +5,7 @@ import { HttpHeaders,HttpErrorResponse } from '@angular/common/http';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
 import { DatashareService } from '../service/datashare.service';
+import { AuteurVM} from '../model/AuteurVM';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -17,8 +18,12 @@ export class AuteurBackService {
 
     constructor(private http: HttpClient){}
 
-    getAuteurs(){
-        return this.http.get("http://localhost:8080/Library-Web/author/get").pipe(retry(3), catchError(this.handleError));
+    getAuteurs():Observable<any>{
+        return this.http.get<AuteurVM[]>('http://localhost:8080/Library-Web/author/get', httpOptions)
+     .pipe(
+     retry(3),
+     catchError(this.handleError)
+     );
     }
 
     getAuteur(id:number){

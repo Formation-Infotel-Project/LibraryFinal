@@ -9,6 +9,8 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AdministrationComponent } from './administration/administration.component';
 import { MemberComponent } from './member/member.component';
+import { IsNotAdminComponent} from './is-not-admin/is-not-admin.component';
+import { IsNotConnectedComponent} from './is-not-connected/is-not-connected.component';
 import { AddMemberComponent } from './member/add-member/add-member.component';
 import { DeleteMemberComponent } from './member/delete-member/delete-member.component';
 import { UpdateMemberComponent } from './member/update-member/update-member.component';
@@ -26,6 +28,8 @@ const routes: Routes = [
     { path: 'member/add', component: AddMemberComponent },
     { path: 'member/update', component: UpdateMemberComponent },
     { path: 'member/delete/:memberId', component: DeleteMemberComponent },
+    { path: 'notAdmin', component: IsNotAdminComponent },
+    { path: 'notConnected', component: IsNotConnectedComponent },
     { path: '', redirectTo:'/home', pathMatch:'full'},
     { path: '**', component: PageNotFoundComponent }
 ]
