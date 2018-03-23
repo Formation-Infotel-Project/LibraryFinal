@@ -60,14 +60,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getRecommandedBooks()  throws Exception{
     	
-       	List<Book> book = null;
-    	book = bookDao.getRecommandedBooks();
+       	List<Book> books = null;
+    	books = bookDao.getRecommandedBooks();
     	
-    	if(book.isEmpty())
+    	if(books.isEmpty())
 			throw new ServiceException(ErrorConstants.NO_RECOMMANDE_BOOK);
-
-    	
-        return book;
-
+        return books;
     }
 }

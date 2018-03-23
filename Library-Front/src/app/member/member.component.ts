@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Member } from '../model/member';
+import { MessagesService } from '../service/messages.service';
+import { MemberBackService } from '../service/memberBack.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-member',
@@ -7,21 +11,25 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./member.component.css']
 })
 export class MemberComponent implements OnInit {
-  results = '';
-  
-  constructor(private http: HttpClient) { }
+    
+  members: Member[];
 
-  ngOnInit():void {  
+  constructor(private memberBack: MemberBackService,
+  private MessagesService: MessagesService,
+  private router: Router) { }
 
-    this.http.get<MemberResponse>('http://localhost:8080/Library-Web/member/get/10').subscribe(data => {
-        console.log("Member ID : " + data.memberId);
-        console.log("LastName : " + data.memberLastName);
-        console.log("FirstName : " + data.firstName);
-        console.log("Email : " + data.email);
-        console.log("Password : " + data.password);
-        console.log("Address : " + data.address + " " + data.postalCode + " " + data.city);
-        console.log("Phone : " + data.phone);
-        console.log("Access : " + data.access);
-    });
+  ngOnInit() {  
+    this.memberBack.getMembers().subscribe(
+      data => {
+        this.memberBack.handleData(data);
+        if(data.payload){
+          this.members = data.payload;
+        }
+      },
+      error => {
+        console.error(error.message);
+        //messageService.displayFailureMessage(error.message);
+      }
+    )
   }
 }

@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -17,34 +18,24 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="contenant">
-                    <!--<c:forEach items="${members}" var="member">-->
+                    <tbody id="contenant" *ngFor="let m of members">                    
                         <tr>
-                            <td><!--${member.memberLastName}--></td>
-                            <td><!--${member.firstName}--></td>
-                            <td><!--${member.email}--></td>
-                            <td><!--${member.address} ${member.postalCode} ${member.city}--></td>
-                            <td><!--${member.phone}--></td>
+                            <td>{{m.memberLastName}}</td>
+                            <td>{{m.firstName}}</td>
+                            <td>{{m.email}}</td>
+                            <td>{{m.address}} {{m.postalCode}} {{m.city}}</td>
+                            <td>{{m.phone}}</td>
                             <td>
-                                <!--<c:if test="${member.access == 1">Admin</c:if>
-                                <c:if test="${member.access == 2}">User</c:if>-->
-                            </td>
-                            <!--<c:if test="${sessionScope.access == 'admin'}">-->
+                                <span *ngIf="m.access == 1">Admin</span>
+                                <span *ngIf="m.access == 2">User</span>
+                            </td>                            
                             <td>
                                 <div class="row">
-                                    <form method="get" action="member/update" class="col-md-6" style="padding-right: 0;">
-                                        <input type="hidden" name="id" value="<!--${member.memberId}-->">
-                                        <input type="submit" class="btn btn-info" value="Editer">
-                                    </form>
-                                    <form method="get" action="member/delete" class="col-md-6" style="padding-left: 0;">
-                                        <input type="hidden" name="id" value="<!--${member.memberId}-->">
-                                        <input type="submit" class="btn btn-danger" value="Supprimer">
-                                    </form>
+                                    <a href="member/update/{{m.memberId}}"><button class="btn btn-info">Editer</button></a>
+                                    <a href="member/delete/{{m.memberId}}"><button class="btn btn-danger">Supprimer</button></a>
                                 </div>
                             </td>
-                            <!--</c:if>-->
                         </tr>
-                    <!--</c:forEach>-->
                     </tbody>
                 </table>
             </div>

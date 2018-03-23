@@ -41,6 +41,10 @@ html{
     font-weight: 700;
 }
 
+.hand:hover{
+    cursor: pointer;
+}
+
 
 
 

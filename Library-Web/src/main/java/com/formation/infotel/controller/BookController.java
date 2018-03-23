@@ -1,14 +1,21 @@
 package com.formation.infotel.controller;
 
 import com.formation.infotel.controller.dto.BookDto;
+import com.formation.infotel.controller.dto.BookRecDto;
 import com.formation.infotel.entity.*;
 import com.formation.infotel.services.interfaces.*;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +49,10 @@ public class BookController {
 		
 		Resultat resultat = new Resultat();
 		try {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = (Date) formatter.parse(bookDto.getPubDate());
 			Book book = new Book(bookDto.getBookTitle(), bookDto.getDescription(), bookDto.getPrice(),
-					bookDto.getPubDate(), bookDto.isPopular(), bookDto.getImagePath());
+					date, bookDto.isPopular(), bookDto.getImagePath());
 
 			book.setCategory(categoryService.getCategory(bookDto.getCategoryId()));
 			book.setEditor(editorService.getEditor(bookDto.getEditorId()));
@@ -64,10 +73,6 @@ public class BookController {
 		}
 	
 		return resultat;
-		
-	
-		
-
 	}
 
 	@PostMapping(value = "book/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -75,11 +80,13 @@ public class BookController {
 		
 		Resultat resultat = new Resultat();
 		try {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = (Date) formatter.parse(bookDto.getPubDate());
 			Book book = bookService.getBookById(id);
 			book.setBookTitle(bookDto.getBookTitle());
 			book.setBookDescription(bookDto.getDescription());
 			book.setBookPrice(bookDto.getPrice());
-			book.setPublicationDate(bookDto.getPubDate());
+			book.setPublicationDate(date);
 			book.setPopularBook(bookDto.isPopular());
 			book.setImagePath(bookDto.getImagePath());
 			book.setEditor(editorService.getEditor(bookDto.getEditorId()));
@@ -130,7 +137,7 @@ public class BookController {
 			Book book = bookService.getBookById(id);
 			List<Integer> authorsId = new ArrayList<>();
 			book.getAuthors().forEach(a -> authorsId.add(a.getAuthorId()));
-			viewBook = new BookDto(book.getBookTitle(), book.getBookDescription(), book.getBookPrice(), authorsId,
+			viewBook = new BookDto(book.getIsbn(), book.getBookTitle(), book.getBookDescription(), book.getBookPrice(), authorsId,
 					book.getCategory().getCategoryId(), book.getEditor().getEditorId(), book.getPublicationDate(),
 					book.isPopularBook(), book.getImagePath());
 			
@@ -156,7 +163,7 @@ public class BookController {
 			List<Integer> authorsId = new ArrayList<>();
 			books.forEach(b -> {
 				b.getAuthors().forEach(a -> authorsId.add(a.getAuthorId()));
-				viewBooks.add(new BookDto(b.getBookTitle(), b.getBookDescription(), b.getBookPrice(), authorsId,
+				viewBooks.add(new BookDto(b.getIsbn(), b.getBookTitle(), b.getBookDescription(), b.getBookPrice(), authorsId,
 						b.getCategory().getCategoryId(), b.getEditor().getEditorId(), b.getPublicationDate(),
 						b.isPopularBook(), b.getImagePath()));
 			});
@@ -169,5 +176,34 @@ public class BookController {
 			e.printStackTrace();
 		}
 		return  resultat;
+	}
+
+	@RequestMapping("book/get/recs")
+	public Resultat getRecBooks(){
+		Resultat resultat = new Resultat();
+		List<BookRecDto> viewBooks = new ArrayList<>();
+		try {
+			List<Book> books = bookService.getRecommandedBooks();
+			List<Integer> authorsId = new ArrayList<>();
+			books.forEach(b -> {
+				b.getAuthors().forEach(a -> authorsId.add(a.getAuthorId()));
+				viewBooks.add(new BookRecDto(b.getIsbn(), b.getBookTitle(), b.getImagePath()));
+			});
+			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
+			resultat.setSuccess(true);
+			resultat.setPayload(viewBooks);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
+			e.printStackTrace();
+		}
+		return  resultat;
+	}
+
+	@RequestMapping(value = "/image", method = RequestMethod.GET)
+	public void getImageAsByteArray(@RequestParam String imagePath, HttpServletResponse response, HttpServletRequest request) throws IOException {
+		InputStream in = request.getServletContext().getResourceAsStream("/webapp/resources/" + imagePath);
+		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+		IOUtils.copy(in, response.getOutputStream());
 	}
 }

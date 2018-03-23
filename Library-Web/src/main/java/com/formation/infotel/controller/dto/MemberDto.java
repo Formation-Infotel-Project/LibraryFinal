@@ -2,6 +2,7 @@ package com.formation.infotel.controller.dto;
 
 public class MemberDto {
 
+    private int memberId;
     private String memberLastName;
     private String firstName;
     private String email;
@@ -15,7 +16,8 @@ public class MemberDto {
     public MemberDto() {
     }
 
-    public MemberDto(String memberLastName, String firstName, String email, String password, String address, String city, String postalCode, String phone, int access) {
+    public MemberDto(int memberId, String memberLastName, String firstName, String email, String password, String address, String city, String postalCode, String phone, int access) {
+        this.memberId = memberId;
         this.memberLastName = memberLastName;
         this.firstName = firstName;
         this.email = email;

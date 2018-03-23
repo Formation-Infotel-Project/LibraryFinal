@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { DatashareService } from '../service/datashare.service';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'navbar',
@@ -8,14 +7,8 @@ import { DatashareService } from '../service/datashare.service';
 })
 export class NavbarComponent implements OnInit {
 
-  isConnected = false;
-
-  constructor(private dss: DatashareService) { }
+  constructor() { }
 
   ngOnInit() {
-      if(this.dss.loggedMember){
-        this.isConnected = true;
-      }
   }
-
 }

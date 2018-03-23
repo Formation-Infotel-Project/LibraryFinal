@@ -19,12 +19,15 @@ export class BackendService {
     constructor(private http: HttpClient){}
 
     login(identifiantsVm: IdentifiantsVM): Observable<any>{
-        console.log(identifiantsVm);
         return this.http.post<IdentifiantsVM>("http://localhost:8080/Library-Web/member/login", identifiantsVm, httpOptions)
         .pipe(
             retry(3),
             catchError(this.handleError)
         );
+    }
+
+    logout(){
+        return this.http.post("http://localhost:8080/Library-Web/member/logout", httpOptions).pipe(retry(3), catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse){
@@ -37,12 +40,12 @@ export class BackendService {
         return new ErrorObservable("Something bad happened; please try again later.");        
     }
 
-    handleData(date: any){
-        if(date.success){
-            console.log(date.message);
+    handleData(data: any){
+        if(data.success){
+            console.log(data.message);
             /*messageService.displaySuccessfullMessage(data.message);*/
         }else{
-            console.log(date.message);
+            console.log(data.message);
             /*messageService.displayFailureMessage(data.message);*/
         }
     }

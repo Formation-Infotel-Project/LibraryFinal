@@ -37,24 +37,13 @@ public class LoginController extends HttpServlet {
 
 			if (member!=null) {
 				HttpSession session = request.getSession();
-				int access = memberService.getMemberByEmail(identifiants.getEmail()).getAccess();
-				switch (access) {
-				case 1:
-					session.setAttribute("access", "admin");
-					break;
-				case 2:
-					session.setAttribute("access", "user");
-					break;
-				}
-				session.setAttribute("name", identifiants.getEmail());
+				MemberDto viewMember = new MemberDto(member.getMemberId(), member.getMemberLastName(), member.getFirstName(), member.getEmail(),
+						member.getPassword(), member.getAddress(), member.getCity(), member.getPostalCode(), member.getPhone(), member.getAccess());
+				session.setAttribute("USER", viewMember);
+				resultat.setMessage(ControllerConstants.LOGIN_SUCCESS);
+				resultat.setSuccess(true);
+				resultat.setPayload(viewMember);
 			}
-
-			MemberDto viewMember = new MemberDto(member.getMemberLastName(), member.getFirstName(), member.getEmail(),
-					member.getPassword(), member.getAddress(), member.getCity(), member.getPostalCode(), member.getPhone(), member.getAccess());
-			resultat.setMessage(ControllerConstants.LOGIN_SUCCESS);
-			resultat.setSuccess(true);
-			resultat.setPayload(viewMember);
-			
 		} catch (ServiceException se) {
 			resultat.setSuccess(false);
 			resultat.setMessage(se.getMessage());
@@ -64,6 +53,23 @@ public class LoginController extends HttpServlet {
 			resultat.setMessage(ControllerConstants.LOGIN_ERRORS);
 			e.printStackTrace();
 
+		}
+		return resultat;
+	}
+
+	@RequestMapping(value = "/member/logout", method = RequestMethod.POST)
+	private Resultat logoutMember(HttpServletRequest request){
+
+		Resultat resultat = new Resultat();
+		try {
+			HttpSession session = request.getSession();
+			session.invalidate();
+			resultat.setMessage(ControllerConstants.LOGOUT_SUCCESS);
+			resultat.setSuccess(true);
+		} catch (Exception e) {
+			resultat.setSuccess(false);
+			resultat.setMessage(ControllerConstants.LOGOUT_ERRORS);
+			e.printStackTrace();
 		}
 		return resultat;
 	}

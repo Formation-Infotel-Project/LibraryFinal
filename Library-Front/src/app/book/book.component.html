@@ -1,4 +1,5 @@
- <div class="container">
+<app-header></app-header>
+<div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3>Liste des livres</h3>
@@ -11,27 +12,18 @@
                             <th></th>
                             <th style='text-align:left'>Titre</th>
                             <th style='text-align:left'>Prix</th>
-                            <th style='text-align:left'>Auteur</th>
-                            <th style='text-align:left'>Editeur</th>
                             <th style='text-align:left'>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="contenant">
-                    <!--<c:forEach items="${books}" var="book">-->
+                    <tbody *ngFor="let b of book" id="contenant">
                         <tr>
-                            <td><img src="<!--<c:url value="/resources/${book.imagePath}"/>-->" width="100px" height="150px"></td>
-                            <td style="vertical-align: middle;"><!--${book.bookTitle}--></td>
-                            <td style="vertical-align: middle;"><!--${book.bookPrice}--></td>
-                            <td style="vertical-align: middle;"><!--<c:forEach items="${book.authors}" var="author">--><span> <!--${author.firstName} ${author.authorLastName}--> |</span><!--</c:forEach>--></td>
-                            <td style="vertical-align: middle;"><!--${book.editor.name}--></td>
+                            <td><img width="130px" height="170px" src="http://localhost:8080/Library-Web/resources/{{b.imagePath}}"/></td>
+                            <td style="vertical-align: middle;">{{b.bookTitle}}</td>
+                            <td style="vertical-align: middle;">{{b.price}}</td>
                             <td style="vertical-align: middle;">
-                                <form method="get" action="BookDetail">
-                                    <input type="hidden" name="id" value="<!--${book.isbn}-->">
-                                    <input type="submit" class="btn btn-info" value="Détail">
-                                </form>
+                                <a href="book/detail/{{b.bookId}}"><button class="btn btn-info">Détail</button></a>
                             </td>
                         </tr>
-                    <!--</c:forEach>-->
                     </tbody>
                 </table>
             </div>

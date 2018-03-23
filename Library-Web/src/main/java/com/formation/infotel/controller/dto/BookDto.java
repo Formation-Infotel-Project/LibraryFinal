@@ -1,33 +1,42 @@
 package com.formation.infotel.controller.dto;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class BookDto {
 
+    private int bookId;
     private String bookTitle;
     private String description;
     private float price;
     private List<Integer> authorsId;
     private int categoryId;
     private int editorId;
-    private Date pubDate;
+    private String pubDate;
     private boolean popular;
     private String imagePath;
 
     public BookDto() {
     }
 
-    public BookDto(String bookTitle, String description, float price, List<Integer> authorsId, int categoryId, int editorId, Date pubDate, boolean popular, String imagePath) {
+    public BookDto(int bookId, String bookTitle, String description, float price, List<Integer> authorsId, int categoryId, int editorId, Date pubDate, boolean popular, String imagePath) {
+        this.bookId = bookId;
         this.bookTitle = bookTitle;
         this.description = description;
         this.price = price;
         this.authorsId = authorsId;
         this.categoryId = categoryId;
         this.editorId = editorId;
-        this.pubDate = pubDate;
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        this.pubDate = formatter.format(pubDate);
         this.popular = popular;
         this.imagePath = imagePath;
+    }
+
+    public int getBookId() {
+        return bookId;
     }
 
     public String getBookTitle() {
@@ -78,11 +87,11 @@ public class BookDto {
         this.editorId = editorId;
     }
 
-    public Date getPubDate() {
+    public String getPubDate() {
         return pubDate;
     }
 
-    public void setPubDate(Date pubDate) {
+    public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
     }
 

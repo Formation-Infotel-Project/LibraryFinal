@@ -22,7 +22,7 @@ public class MemberController {
 	@Autowired
 	RegistrationService registrationService;
 
-	@PutMapping(value = "/member/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/member/add")
 	public void addMember(@RequestBody MemberDto memberDto) {
 		Resultat resultat = new Resultat();
 
@@ -96,7 +96,7 @@ public class MemberController {
 		MemberDto viewMember = null;
 		try {
 			Member member = memberService.getMember(id);
-			viewMember = new MemberDto(member.getMemberLastName(), member.getFirstName(), member.getEmail(),
+			viewMember = new MemberDto(member.getMemberId(), member.getMemberLastName(), member.getFirstName(), member.getEmail(),
 					member.getPassword(), member.getAddress(), member.getCity(), member.getPostalCode(),
 					member.getPhone(), member.getAccess());
 			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
@@ -119,7 +119,7 @@ public class MemberController {
 		List<Member> members;
 		try {
 			members = memberService.getAllMembers();
-			members.forEach(m -> viewMembers.add(new MemberDto(m.getMemberLastName(), m.getFirstName(), m.getEmail(),
+			members.forEach(m -> viewMembers.add(new MemberDto(m.getMemberId(), m.getMemberLastName(), m.getFirstName(), m.getEmail(),
 					m.getPassword(), m.getAddress(), m.getCity(), m.getPostalCode(), m.getPhone(), m.getAccess())));
 			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 			resultat.setSuccess(true);

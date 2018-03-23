@@ -106,10 +106,10 @@ public class CategoryController {
 		category.getBooks().forEach(b -> {
 			booksId.add(b.getIsbn());
 		});
+		viewCategory = new CategoryDto(category.getName(), category.getDescription(), booksId);
 		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 		resultat.setSuccess(true);
 		resultat.setPayload(viewCategory);
-		 viewCategory = new CategoryDto(category.getName(), category.getDescription(), booksId);
 		} catch (Exception e) {
 			resultat.setSuccess(false);
 			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
