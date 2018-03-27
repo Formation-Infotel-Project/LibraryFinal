@@ -1,10 +1,7 @@
 package com.formation.infotel.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Category {
@@ -18,7 +15,21 @@ public class Category {
 
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "category")
 	private Set<Book> books = new HashSet<>();
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Category category = (Category) o;
+		return categoryId == category.categoryId;
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(categoryId);
+	}
+
 	public Category(String name, String description) {
 		this.name = name;
 		this.description = description;

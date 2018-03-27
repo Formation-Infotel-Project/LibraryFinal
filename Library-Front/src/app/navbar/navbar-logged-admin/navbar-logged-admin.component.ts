@@ -3,8 +3,10 @@ import { LogoutService } from '../../service/logout.service';
 import { MessagesService } from '../../service/messages.service';
 import { Router } from '@angular/router';
 import { BackendService } from '../../service/backend.service';
-import {LocalStorageService, LocalStorage} from 'ngx-webstorage';
+import { LocalStorageService, LocalStorage} from 'ngx-webstorage';
 import { DatashareService } from '../../service/datashare.service';
+import { BookBackService } from '../../service/bookBack.service';
+import { BookVM } from '../../model/BookVM';
 
 @Component({
   selector: 'navbar-logged-admin',
@@ -13,10 +15,18 @@ import { DatashareService } from '../../service/datashare.service';
 })
 export class NavbarLoggedAdminComponent implements OnInit {
 
-  constructor(private logoutService:LogoutService,private backService: BackendService,private dss: DatashareService,private storage: LocalStorageService,
-    private router: Router) { }
+  keyword: string;
+  books: BookVM[];
+
+  constructor(private logoutService:LogoutService, private router: Router, private bookService: BookBackService, private storage: LocalStorageService) { }
 
   ngOnInit() {
+
+  }
+
+  search(recherche:string){
+         this.router.navigate(['/search/'+ recherche]);
+      
   }
 
   logout(){

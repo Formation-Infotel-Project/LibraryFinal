@@ -20,4 +20,8 @@ public interface BookService {
 	Book getBookByName(String bookName) throws Exception;
 
 	List<Book> getRecommandedBooks() throws Exception;
+
+	List<Book> getBooksByCriteria(String bookTitle);
+
+	List<Book> getAll();
 }

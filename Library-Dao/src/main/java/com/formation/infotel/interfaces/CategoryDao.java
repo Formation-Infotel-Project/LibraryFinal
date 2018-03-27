@@ -11,4 +11,6 @@ public interface CategoryDao {
     Category getCategoriesPeriodique(String name);
 
     Category getCategoryByName(String name);
+
+    List<Category> getAll();
 }

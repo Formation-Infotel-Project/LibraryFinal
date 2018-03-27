@@ -5,10 +5,13 @@ import com.formation.infotel.entity.Author;
 import com.formation.infotel.entity.Book;
 import com.formation.infotel.services.interfaces.AuthorService;
 import com.formation.infotel.services.interfaces.BookService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServlet;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +19,21 @@ import java.util.List;
 @RestController
 public class AuthorController {
 
+	private final static Logger log = LogManager.getLogger(AuthorController.class);
+
 	@Autowired
 	AuthorService authorService;
 	@Autowired
 	BookService bookService;
 
-	@PutMapping(value = "author/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostConstruct
+	public void init() {
+		if (log.isDebugEnabled()) {
+			log.debug("Initialisation AuthorController");
+		}
+	}
+
+	@PostMapping(value = "author/add", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public 	Resultat addAuthor(@RequestBody AuthorDto authorDto) {
 		Resultat resultat = new Resultat();
 
@@ -93,6 +105,11 @@ public class AuthorController {
 
 	@RequestMapping("author/get/{id}")
 	public Resultat getAuthor(@PathVariable(value = "id") int id) {
+
+		if (log.isDebugEnabled()) {
+			log.debug("Lecture de l'auteur : " + id);
+		}
+
 		Resultat resultat = new Resultat();
 
 		AuthorDto viewAuthor = null;
@@ -114,9 +131,14 @@ public class AuthorController {
 		return resultat;
 	}
 
-	@RequestMapping("author/get")
-	public List<AuthorDto> getAuthors() {
-		/*Resultat resultat = new Resultat();
+	@RequestMapping("/author/get")
+	public Resultat getAuthors() {
+
+        if (log.isDebugEnabled()) {
+            log.debug("Lecture des auteurs");
+        }
+
+		Resultat resultat = new Resultat();
 		
 		List<AuthorDto> viewAuthors = new ArrayList<>();
 		try {
@@ -134,8 +156,8 @@ public class AuthorController {
 			resultat.setMessage(ControllerConstants.RETRIVE_ERRORS);
 			e.printStackTrace();
 		}
-		return resultat;*/
-		List<AuthorDto> viewAuthors = new ArrayList<>();
+		return resultat;
+		/*List<AuthorDto> viewAuthors = new ArrayList<>();
 		List<Author> authors = null;
 		try {
 			authors = authorService.getAllAuthors();
@@ -147,6 +169,6 @@ public class AuthorController {
 			a.getBooks().forEach(b -> booksId.add(b.getIsbn()));
 			viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), booksId, a.getAuthorId()));
 		});
-		return viewAuthors;
+		return viewAuthors;*/
 	}
 }

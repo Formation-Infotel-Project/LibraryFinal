@@ -18,11 +18,11 @@ export class CategoryBackService {
     constructor(private http: HttpClient){}
 
     getCategories(){
-        return this.http.get("http://localhost:8080/Library-Web/category/get").pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/category/get").pipe(retry(3), catchError(this.handleError));
     }
 
     getCategory(id){
-        return this.http.get("http://localhost:8080/Library-Web/category/get/"+id).pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/category/get/"+id).pipe(retry(3), catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse){

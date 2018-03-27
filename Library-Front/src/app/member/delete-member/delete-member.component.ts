@@ -21,7 +21,8 @@ export class DeleteMemberComponent implements OnInit {
   ngOnInit() {
     this.idMember = + this.route.snapshot.paramMap.get('memberId');
     this.memberBack.deleteMember(this.idMember).subscribe(data => {
-        this.memberBack.handleData(data);
+        console.log("test");
+        this.router.navigate(['/members']);
       }
     )
   }

@@ -19,7 +19,7 @@ export class BackendService {
     constructor(private http: HttpClient){}
 
     login(identifiantsVm: IdentifiantsVM): Observable<any>{
-        return this.http.post<IdentifiantsVM>("http://localhost:8080/Library-Web/member/login", identifiantsVm, httpOptions)
+        return this.http.post<IdentifiantsVM>("http://172.16.2.29:8080/Library-Web/member/login", identifiantsVm, httpOptions)
         .pipe(
             retry(3),
             catchError(this.handleError)
@@ -27,7 +27,7 @@ export class BackendService {
     }
 
     logout(){
-        return this.http.post("http://localhost:8080/Library-Web/member/logout", httpOptions).pipe(retry(3), catchError(this.handleError));
+        return this.http.post("http://172.16.2.29:8080/Library-Web/member/logout", httpOptions).pipe(retry(3), catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse){

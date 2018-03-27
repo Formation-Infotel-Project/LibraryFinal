@@ -19,15 +19,15 @@ export class MemberBackService {
     constructor(private http: HttpClient){}
 
     addMember(member: Member){
-        return this.http.post<Member>("http://localhost:8080/Library-Web/member/add", member, httpOptions).pipe(retry(3), catchError(this.handleError));
+        return this.http.post<Member>("http://172.16.2.29:8080/Library-Web/member/add", member, httpOptions).pipe(retry(3), catchError(this.handleError));
     }
 
     getMembers(){
-        return this.http.get("http://localhost:8080/Library-Web/member/get").pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/member/get").pipe(retry(3), catchError(this.handleError));
     }
 
     deleteMember(id){
-        return this.http.get("http://localhost:8080/Library-Web/member/delete/"+id).pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/member/delete/"+id).pipe(retry(3), catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse){

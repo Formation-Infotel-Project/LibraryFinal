@@ -1,6 +1,6 @@
 package com.formation.infotel.controller.dto;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -33,6 +33,10 @@ public class BookDto {
         this.pubDate = formatter.format(pubDate);
         this.popular = popular;
         this.imagePath = imagePath;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
     public int getBookId() {
@@ -95,7 +99,7 @@ public class BookDto {
         this.pubDate = pubDate;
     }
 
-    public boolean isPopular() {
+    public boolean getPopular() {/*  getPopular permet a la parti json de detecté l'ajout*/
         return popular;
     }
 

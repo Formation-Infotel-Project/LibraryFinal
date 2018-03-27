@@ -15,6 +15,7 @@ import { AddMemberComponent } from './member/add-member/add-member.component';
 import { DeleteMemberComponent } from './member/delete-member/delete-member.component';
 import { UpdateMemberComponent } from './member/update-member/update-member.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
     { path: 'books', component: BookComponent },  
@@ -30,6 +31,7 @@ const routes: Routes = [
     { path: 'member/delete/:memberId', component: DeleteMemberComponent },
     { path: 'notAdmin', component: IsNotAdminComponent },
     { path: 'notConnected', component: IsNotConnectedComponent },
+    { path: 'search/:recherche', component: SearchComponent },
     { path: '', redirectTo:'/home', pathMatch:'full'},
     { path: '**', component: PageNotFoundComponent }
 ]

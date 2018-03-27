@@ -18,11 +18,11 @@ export class EditorBackService {
     constructor(private http: HttpClient){}
 
     getEditors(){
-        return this.http.get("http://localhost:8080/Library-Web/editor/get").pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/editor/get").pipe(retry(3), catchError(this.handleError));
     }
 
     getEditor(id){
-        return this.http.get("http://localhost:8080/Library-Web/editor/get/"+id).pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/editor/get/"+id).pipe(retry(3), catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse){

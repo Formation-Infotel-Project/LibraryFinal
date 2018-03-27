@@ -6,7 +6,6 @@ public class Resultat {
 	private Boolean success;
 	private Object payload;
 	
-	
 	public String getMessage() {
 		return message;
 	}
@@ -25,8 +24,4 @@ public class Resultat {
 	public void setPayload(Object payload) {
 		this.payload = payload;
 	}
-	
-	
-	
-
 }

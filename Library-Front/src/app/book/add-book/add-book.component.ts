@@ -32,28 +32,12 @@ export class AddBookComponent implements OnInit {
     editorId:"",
     authorsId :[],
     categoryId: "",
-    imagePath:null
+    imagePath: ""
   };
 
-  category: Category = {
-    id:498,
-    name: "",
-    description: ""
-  };
-  author: AuteurVM[] = [];
- /*author: AuteurVM = {
-    id: 0,
-    authorLastName: "",
-	  firstName: "",
-	  booksId: []
-  };*/
-
-  editor : EditorVM = {
-    id:0,
-    name:"",
-    editorAddress:"",
-    booksId: []
-  };
+  categories:Array<Category>;
+  authors:Array<any>;
+  editors:Array<any>;
 
 constructor(
     private backService: BackendService,
@@ -91,12 +75,30 @@ fileToUpload: File = null;
   // console.log(this.getEditor());
   }
 
-  insertBook(){
+  /*insertBook(){
     this.bookBackService.addBook(this.bookParam).subscribe(
       data => {
         this.backService.handleData(data);
         if (data.payload) {
+          console.log("Livre à ajouter")
           console.log(data.payload);
+          //navigate to home and display navbar or the hidden tabs
+          this.router.navigate(['/home']);          
+        }
+      },
+      error => {
+        console.error(error.message);
+        //messageService.displayFailureMessage(error.message);
+      }
+    );
+  }*/
+  insertBook(){
+    this.bookBackService.addBook(this.bookParam).subscribe(
+      data => {
+        this.backService.handleData(data);
+        if (data) {
+          console.log("Livre à ajouter")
+          console.log(data);
           //navigate to home and display navbar or the hidden tabs
           this.router.navigate(['/home']);          
         }
@@ -111,13 +113,10 @@ fileToUpload: File = null;
   getCategory(): any {
     this.categoryBackService.getCategories().subscribe(
       data => {
-        console.log('Categorie');
-        console.log(data);
         this.categoryBackService.handleData(data);
         if (data.payload) {
-          console.log('data payload');
-          console.log(data.payload);
-          this.category = data.payload;
+          //this.category = data.payload;
+          this.categories = data.payload;
         }
       },
       error => {
@@ -132,13 +131,9 @@ fileToUpload: File = null;
   getEditor(): any {
     this.editorBackService.getEditors().subscribe(
       data => {
-        console.log('Editeur');
-        console.log(data);
         this.editorBackService.handleData(data);
         if (data.payload) {
-          console.log('data payload');
-          console.log(data.payload);
-          this.editor = data.payload;
+          this.editors = data.payload;
         }
       },
       error => {
@@ -153,13 +148,9 @@ fileToUpload: File = null;
   getAuthor(): any {
     this.auteurBackService.getAuteurs().subscribe(
       data => {
-        console.log('Auteurs :');
-        console.log(data);
         this.auteurBackService.handleData(data);
         if (data.payload) {
-          console.log('data payload');
-          console.log(data.payload);
-          this.author = data.payload;
+          this.authors = data.payload;
         }
       },
       error => {

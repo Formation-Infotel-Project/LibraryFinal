@@ -4,11 +4,15 @@ import com.formation.infotel.interfaces.Dao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional
@@ -43,9 +47,13 @@ public class DaoImpl implements Dao{
     }
 
     @Override
-    public <T> List<T> getAll(final Class<T> type) {
+    public <T> List getAll(final Class<T> type) {
         final Session session = sessionFactory.getCurrentSession();
         final Criteria crit = session.createCriteria(type);
-        return crit.list();
+        //crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+        Set<?> result = new HashSet<>(crit.list());
+
+        return new ArrayList(result);
     }
 }

@@ -10,10 +10,12 @@ import com.formation.infotel.services.interfaces.BookService;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service @Transactional
 public class BookServiceImpl implements BookService {
 
     @Autowired
@@ -66,5 +68,15 @@ public class BookServiceImpl implements BookService {
     	if(books.isEmpty())
 			throw new ServiceException(ErrorConstants.NO_RECOMMANDE_BOOK);
         return books;
+    }
+
+    @Override
+    public List<Book> getBooksByCriteria(String bookTitle) {
+        return bookDao.getBooksByCriteria(bookTitle);
+    }
+
+    @Override
+    public List<Book> getAll() {
+        return dao.getAll(Book.class);
     }
 }

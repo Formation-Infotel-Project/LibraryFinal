@@ -18,20 +18,24 @@ export class BookBackService {
     constructor(private http: HttpClient){}
 
     getBookRec(){
-        return this.http.get("http://localhost:8080/Library-Web/book/get/recs").pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/book/get/recs").pipe(retry(3), catchError(this.handleError));
     }
 
     getBooks(){
-        return this.http.get("http://localhost:8080/Library-Web/book/get").pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/book/get").pipe(retry(3), catchError(this.handleError));
     }
 
     getBook(id){
-        return this.http.get("http://localhost:8080/Library-Web/book/get/"+id).pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/book/get/"+id).pipe(retry(3), catchError(this.handleError));
+    }
+
+    getSearchedBooks(bookTitle){
+        return this.http.get("http://172.16.2.29:8080/Library-Web/book/search/"+bookTitle).pipe(retry(3), catchError(this.handleError));
     }
 
     addBook( bookParam : BookParam ): Observable<any>{
         console.log(bookParam);
-        return this.http.post<BookParam>("http://localhost:8080/Library-Web/book/add", bookParam, httpOptions)
+        return this.http.post<BookParam>("http://172.16.2.29:8080/Library-Web/book/add", bookParam, httpOptions)
         .pipe(
             retry(3),
             catchError(this.handleError)

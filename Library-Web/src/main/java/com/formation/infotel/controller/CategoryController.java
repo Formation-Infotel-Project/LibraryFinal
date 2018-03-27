@@ -5,6 +5,8 @@ import com.formation.infotel.entity.Book;
 import com.formation.infotel.entity.Category;
 import com.formation.infotel.services.interfaces.BookService;
 import com.formation.infotel.services.interfaces.CategoryService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ import java.util.Set;
 
 @RestController
 public class CategoryController {
+
+	private final static Logger log = LogManager.getLogger(CategoryController.class);
 
 	@Autowired
 	CategoryService categoryService;
@@ -120,17 +124,23 @@ public class CategoryController {
 
 	@RequestMapping("category/get")
 	public Resultat getCategories() {
-		List<CategoryDto> viewCategories = new ArrayList<>();
 		Resultat resultat = new Resultat();
+		List<CategoryDto> viewCategories = new ArrayList<>();
 
 		List<Category> categories;
 		try {
 			categories = categoryService.getAllCategories();
-		
-		List<Integer> booksId = new ArrayList<>();
-		categories.forEach(c -> {
-			c.getBooks().forEach(b -> booksId.add(b.getIsbn()));
-			viewCategories.add(new CategoryDto(c.getName(), c.getDescription(), booksId, c.getCategoryId()));
+			categories.forEach(c -> {
+				System.out.println("Nom : " + c.getName());
+						if (log.isDebugEnabled()) {
+							log.debug("Nom : " + c.getName());
+						}
+					}
+			);
+			List<Integer> booksId = new ArrayList<>();
+			categories.forEach(c -> {
+				c.getBooks().forEach(b -> booksId.add(b.getIsbn()));
+				viewCategories.add(new CategoryDto(c.getName(), c.getDescription(), booksId, c.getCategoryId()));
 		});
 		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 		resultat.setSuccess(true);

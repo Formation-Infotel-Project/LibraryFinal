@@ -19,7 +19,7 @@ export class AuteurBackService {
     constructor(private http: HttpClient){}
 
     getAuteurs():Observable<any>{
-        return this.http.get<AuteurVM[]>('http://localhost:8080/Library-Web/author/get', httpOptions)
+        return this.http.get<AuteurVM[]>('http://172.16.2.29:8080/Library-Web/author/get', httpOptions)
      .pipe(
      retry(3),
      catchError(this.handleError)
@@ -27,7 +27,7 @@ export class AuteurBackService {
     }
 
     getAuteur(id:number){
-        return this.http.get("http://localhost:8080/Library-Web/author/get/"+id).pipe(retry(3), catchError(this.handleError));
+        return this.http.get("http://172.16.2.29:8080/Library-Web/author/get/"+id).pipe(retry(3), catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse){

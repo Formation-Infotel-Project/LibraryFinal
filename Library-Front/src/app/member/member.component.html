@@ -15,7 +15,6 @@
                             <th>Adresse</th>
                             <th>Tel</th>
                             <th>Rôle</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="contenant" *ngFor="let m of members">                    
@@ -28,13 +27,7 @@
                             <td>
                                 <span *ngIf="m.access == 1">Admin</span>
                                 <span *ngIf="m.access == 2">User</span>
-                            </td>                            
-                            <td>
-                                <div class="row">
-                                    <a href="member/update/{{m.memberId}}"><button class="btn btn-info">Editer</button></a>
-                                    <a href="member/delete/{{m.memberId}}"><button class="btn btn-danger">Supprimer</button></a>
-                                </div>
-                            </td>
+                            </td> 
                         </tr>
                     </tbody>
                 </table>

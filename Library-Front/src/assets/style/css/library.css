@@ -31,7 +31,8 @@ html{
 }
 
 .divBookTitle{
-    background-color:rgba(255, 255, 255, 0.7);
+    background-color:rgba(255, 255, 255, 0.7);    
+    max-height: 25px;
 }
 
 .bookTitle{
@@ -39,13 +40,34 @@ html{
     color:black;
     font-size:15px;
     font-weight: 700;
+    max-height: 25px;
 }
 
 .hand:hover{
     cursor: pointer;
 }
 
+#returntop{
+    position:fixed;
+    top:30%;
+    right:5%;
+    width:100px;
+    height:100px;
+    border-radius:50px;
+    background-color:white;
+    line-height:100px;
+    text-align:center;
+    border:1px solid #842C2C;
+    cursor:pointer;
+}
+#returntop:hover{
+    border:2px solid #842C2C;
+}
 
+.bookTiles{
+    max-width:200px;
+    text-align: center;
+}
 
 
 /* FOOTER */

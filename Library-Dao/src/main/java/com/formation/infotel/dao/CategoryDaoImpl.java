@@ -3,6 +3,8 @@ package com.formation.infotel.dao;
 import com.formation.infotel.entity.Category;
 import com.formation.infotel.interfaces.CategoryDao;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,12 @@ public class CategoryDaoImpl implements CategoryDao {
         Query<Category> query = sessionFactory.getCurrentSession().createQuery(String.format("FROM Category where name = :categoryname"));
         query.setParameter("categoryname", name);
         return (Category) query.list().get(0);
+    }
+
+    @Override
+    public List<Category> getAll() {
+        final Session session = sessionFactory.getCurrentSession();
+        final Criteria crit = session.createCriteria(Category.class);
+        return crit.list();
     }
 }

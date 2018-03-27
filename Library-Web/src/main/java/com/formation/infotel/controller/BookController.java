@@ -2,6 +2,7 @@ package com.formation.infotel.controller;
 
 import com.formation.infotel.controller.dto.BookDto;
 import com.formation.infotel.controller.dto.BookRecDto;
+import com.formation.infotel.controller.dto.SearchDto;
 import com.formation.infotel.entity.*;
 import com.formation.infotel.services.interfaces.*;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -13,11 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
+import java.util.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -44,10 +47,25 @@ public class BookController {
 //		return "bookList";
 //	}
 
-	@PutMapping(value = "/book/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Resultat bookAdd(@RequestBody BookDto bookDto) {
+	@PostMapping(value = "/book/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void bookAdd(@RequestBody BookDto bookDto) throws Exception {
+
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = formatter.parse(bookDto.getPubDate());
+		Book book = new Book(bookDto.getBookTitle(), bookDto.getDescription(), bookDto.getPrice(),
+				date, bookDto.getPopular(), bookDto.getImagePath());
+
+		book.setCategory(categoryService.getCategory(bookDto.getCategoryId()));
+		book.setEditor(editorService.getEditor(bookDto.getEditorId()));
+		List<Author> authors = new ArrayList<>();
+		for (int i = 0; i < bookDto.getAuthorsId().size(); i++) {
+			authors.add(authorService.getAuthor(bookDto.getAuthorsId().get(i)));
+		}
+		book.setAuthors(authors);
+
+		bookService.insertBook(book);
 		
-		Resultat resultat = new Resultat();
+		/*Resultat resultat = new Resultat();
 		try {
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date date = (Date) formatter.parse(bookDto.getPubDate());
@@ -72,7 +90,7 @@ public class BookController {
 			e.printStackTrace();
 		}
 	
-		return resultat;
+		return resultat;*/
 	}
 
 	@PostMapping(value = "book/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -87,7 +105,7 @@ public class BookController {
 			book.setBookDescription(bookDto.getDescription());
 			book.setBookPrice(bookDto.getPrice());
 			book.setPublicationDate(date);
-			book.setPopularBook(bookDto.isPopular());
+			book.setPopularBook(bookDto.getPopular());
 			book.setImagePath(bookDto.getImagePath());
 			book.setEditor(editorService.getEditor(bookDto.getEditorId()));
 			book.setCategory(categoryService.getCategory(bookDto.getCategoryId()));
@@ -159,7 +177,7 @@ public class BookController {
 		Resultat resultat = new Resultat();
 		List<BookDto> viewBooks = new ArrayList<>();
 		try {
-			List<Book> books = bookService.getBooks();
+			List<Book> books = bookService.getAll();
 			List<Integer> authorsId = new ArrayList<>();
 			books.forEach(b -> {
 				b.getAuthors().forEach(a -> authorsId.add(a.getAuthorId()));
@@ -198,6 +216,35 @@ public class BookController {
 			e.printStackTrace();
 		}
 		return  resultat;
+	}
+
+	@RequestMapping(path = "book/search/{bookTitle}", method = RequestMethod.GET)
+	public List<BookDto> searchByName(@PathVariable(value = "bookTitle") String bookTitle){
+		System.out.println("BookTitle : " + bookTitle);
+		List<BookDto> viewBooks =
+				bookService.getBooksByCriteria(bookTitle)
+						.stream()
+						.map(this::bookToBookDto)
+						.collect(Collectors.toList());
+		return viewBooks;
+	}
+
+	private BookDto bookToBookDto(Book book){
+		BookDto bookDto = new BookDto();
+		bookDto.setBookId(book.getIsbn());
+		bookDto.setBookTitle(book.getBookTitle());
+		bookDto.setDescription(book.getBookDescription());
+		bookDto.setCategoryId(book.getCategory().getCategoryId());
+		bookDto.setEditorId(book.getEditor().getEditorId());
+		bookDto.setImagePath(book.getImagePath());
+		bookDto.setPopular(book.isPopularBook());
+		bookDto.setPrice(book.getBookPrice());
+		bookDto.setPubDate(book.getPublicationDate().toString());
+		List<Integer> authorsId = new ArrayList<>();
+		book.getAuthors().forEach(a -> authorsId.add(a.getAuthorId()));
+		System.out.println("Auteurs : " + authorsId);
+		bookDto.setAuthorsId(authorsId);
+		return bookDto;
 	}
 
 	@RequestMapping(value = "/image", method = RequestMethod.GET)

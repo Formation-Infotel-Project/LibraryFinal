@@ -1,8 +1,5 @@
 package com.formation.infotel.interfaces;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-
 import java.util.List;
 
 public interface Dao {
@@ -17,5 +14,5 @@ public interface Dao {
 
     public <T> void saveOrUpdate(final T o);
 
-    public <T> List<T> getAll(final Class<T> type);
+    public <T> List getAll(final Class<T> type);
 }

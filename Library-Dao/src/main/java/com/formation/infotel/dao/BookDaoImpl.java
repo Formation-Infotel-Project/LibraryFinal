@@ -2,12 +2,17 @@ package com.formation.infotel.dao;
 
 import com.formation.infotel.entity.Book;
 import com.formation.infotel.interfaces.BookDao;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -36,4 +41,24 @@ public class BookDaoImpl implements BookDao {
         List<Book> books = sessionFactory.getCurrentSession().createQuery(String.format("FROM Book where popularBook = 1")).list();
         return books;
     }
+
+	@Override
+	public List<Book> getBooksByCriteria(String bookTitle) {
+	    Session session = sessionFactory.getCurrentSession();
+        Criteria crit = session.createCriteria(Book.class).add(Restrictions.like("bookTitle", "%" + bookTitle + "%"));
+
+
+
+		System.out.println("BookServiceImpl.getBooksByCriteria:bookTitle : " + bookTitle);
+		List<Book> books = crit.list();
+
+		return books;
+	}
+
+	@Override
+	public List<Book> getAll() {
+		final Session session = sessionFactory.getCurrentSession();
+		final Criteria crit = session.createCriteria(Book.class).addOrder(Order.asc("bookTitle"));
+		return crit.list();
+	}
 }

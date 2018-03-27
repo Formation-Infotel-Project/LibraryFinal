@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
         this.bookBack.handleData(data);
         if(data.payload){
           this.book = data.payload;
+          console.log(data.payload);
         }
       },
       error => {

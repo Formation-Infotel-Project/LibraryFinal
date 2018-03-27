@@ -1,18 +1,17 @@
 package com.formation.infotel.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 import java.util.List;
 import javax.persistence.*;
 
-
 @Entity
 public class Book implements Serializable{
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Isbn;
 	private String bookTitle;
 	private String bookDescription;

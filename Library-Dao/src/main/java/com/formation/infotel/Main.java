@@ -114,7 +114,7 @@ public class Main {
         Book book2 = new Book("Hunter X Hunter", "Aventures de Gon et Kirua", 7, date2, true, "images/hunter.jpg");
         Book book3 = new Book("Shingeki no Kyojin", "L'attaque des titans", 7, date3, true, "images/shingeki.jpg");
         Book book4 = new Book("Deadman Wonderland", "Deadman Wonderland", 7, date4, true, "images/deadmanw.jpg");
-        Book book5 = new Book("Yū Yū Hakusho", "Yū Yū Hakusho", 7, date1, true, "images/nnt.jpg");
+        Book book5 = new Book("Yu Yu Hakusho", "Yu Yu Hakusho", 7, date1, true, "images/nnt.jpg");
         book1.setAuthors(authors2);
         book2.setAuthors(authors1);
         book3.setAuthors(authors3);

@@ -25,7 +25,7 @@ export class DatashareService {
     password: string;
     phone: string;
     postalCode: string;
-  }  
+  }
 
   navbarViewContainer: any;
   constructor() { }

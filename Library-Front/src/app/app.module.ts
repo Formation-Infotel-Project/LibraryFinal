@@ -39,6 +39,7 @@ import { CustomInterceptor } from './customInterceptor.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { IsNotAdminComponent } from './is-not-admin/is-not-admin.component';
 import { IsNotConnectedComponent } from './is-not-connected/is-not-connected.component';
+import { SearchComponent } from './search/search.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +65,8 @@ import { IsNotConnectedComponent } from './is-not-connected/is-not-connected.com
     UpdateBookComponent,
     DeleteMemberComponent,
     IsNotAdminComponent,
-    IsNotConnectedComponent
+    IsNotConnectedComponent,
+    SearchComponent
   ],
   entryComponents:[NavbarComponent],
   imports: [

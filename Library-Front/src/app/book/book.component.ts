@@ -9,14 +9,15 @@ import { BookBackService } from '../service/bookBack.service';
 import { AuteurBackService } from '../service/auteurBack.service';
 import { EditorBackService } from '../service/editorBack.service';
 import { CategoryBackService } from '../service/categoryBack.service';
-
+declare var jquery:any;
+declare var $ :any;
 @Component({
   selector: 'app-book',
   templateUrl: './book.component.html',
   styleUrls: ['./book.component.css']
 })
 export class BookComponent implements OnInit {
-
+   
   book: BookVM[];
 
   constructor(private bookBack: BookBackService,
@@ -25,6 +26,13 @@ export class BookComponent implements OnInit {
 
   ngOnInit() {
     this.getBooks();
+  }
+
+  returnTop(){
+     $('#returntop').click(function () {
+        $('html, body').animate({scrollTop:0}, 'slow');
+        return false;
+    });
   }
 
   getBooks(){

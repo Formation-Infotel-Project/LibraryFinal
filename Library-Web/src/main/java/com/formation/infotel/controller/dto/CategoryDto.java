@@ -1,12 +1,6 @@
 package com.formation.infotel.controller.dto;
 
-import java.util.ArrayList;
 import java.util.List;
-
-
-
-import com.formation.infotel.entity.Book;
-import com.formation.infotel.entity.Category;
 
 public class CategoryDto {
 
@@ -53,5 +47,15 @@ public class CategoryDto {
 
 	public void setBooksId(List<Integer> booksId) {
 		this.booksId = booksId;
+	}
+
+	@Override
+	public String toString() {
+		return "CategoryDto{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", booksId=" + booksId +
+				'}';
 	}
 }

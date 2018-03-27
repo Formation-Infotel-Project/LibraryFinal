@@ -4,6 +4,7 @@ import { Member } from '../model/member';
 import { MessagesService } from '../service/messages.service';
 import { MemberBackService } from '../service/memberBack.service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-member',
@@ -16,9 +17,17 @@ export class MemberComponent implements OnInit {
 
   constructor(private memberBack: MemberBackService,
   private MessagesService: MessagesService,
-  private router: Router) { }
+  private router: Router,
+    private storage: LocalStorageService) { }
 
   ngOnInit() {  
+    if(this.storage.retrieve('me')){
+      if(this.storage.retrieve('me').access !== 1){  
+        this.router.navigate(['/notAdmin']); 
+      }
+    }else{
+      this.router.navigate(['/notConnected']); 
+    }  
     this.memberBack.getMembers().subscribe(
       data => {
         this.memberBack.handleData(data);

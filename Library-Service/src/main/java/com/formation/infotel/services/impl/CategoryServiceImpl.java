@@ -46,11 +46,10 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> getAllCategories() throws Exception {
-		List<Category> category = null;
-		category = dao.getAll(Category.class);
+		List<Category> category  = dao.getAll(Category.class);
 		if (category.isEmpty())
 			throw new ServiceException(ErrorConstants.CATEGORY_EMPTY);
-			
+
 		return category;
 	}
 
