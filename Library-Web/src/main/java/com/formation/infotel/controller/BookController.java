@@ -48,9 +48,9 @@ public class BookController {
 //	}
 
 	@PostMapping(value = "/book/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void bookAdd(@RequestBody BookDto bookDto) throws Exception {
+	public Resultat bookAdd(@RequestBody BookDto bookDto) throws Exception {
 
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		/*DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = formatter.parse(bookDto.getPubDate());
 		Book book = new Book(bookDto.getBookTitle(), bookDto.getDescription(), bookDto.getPrice(),
 				date, bookDto.getPopular(), bookDto.getImagePath());
@@ -63,14 +63,14 @@ public class BookController {
 		}
 		book.setAuthors(authors);
 
-		bookService.insertBook(book);
+		bookService.insertBook(book);*/
 		
-		/*Resultat resultat = new Resultat();
+		Resultat resultat = new Resultat();
 		try {
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = (Date) formatter.parse(bookDto.getPubDate());
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = formatter.parse(bookDto.getPubDate());
 			Book book = new Book(bookDto.getBookTitle(), bookDto.getDescription(), bookDto.getPrice(),
-					date, bookDto.isPopular(), bookDto.getImagePath());
+					date, bookDto.getPopular(), bookDto.getImagePath());
 
 			book.setCategory(categoryService.getCategory(bookDto.getCategoryId()));
 			book.setEditor(editorService.getEditor(bookDto.getEditorId()));
@@ -90,7 +90,7 @@ public class BookController {
 			e.printStackTrace();
 		}
 	
-		return resultat;*/
+		return resultat;
 	}
 
 	@PostMapping(value = "book/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

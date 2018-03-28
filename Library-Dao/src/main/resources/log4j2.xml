@@ -6,7 +6,7 @@
     </Console>
   </Appenders>
   <Loggers>
-  	<Logger level="debug" name="org.springframework">
+  	<Logger level="info" name="org.springframework">
   		<AppenderRef ref="Console"/>
   	</Logger>
   	<Logger level="info" name="org.dbunit">
@@ -18,7 +18,7 @@
   	<Logger level="debug" name="com.formation.infotel">
   		<AppenderRef ref="Console"/>
   	</Logger>
-    <Root level="debug">
+    <Root level="info">
       <AppenderRef ref="Console"/>
     </Root>
   </Loggers>

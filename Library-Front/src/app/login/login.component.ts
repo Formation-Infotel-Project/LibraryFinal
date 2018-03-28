@@ -39,7 +39,11 @@ export class LoginComponent implements OnInit {
         if (data.payload) {
           this.dss.loggedMember = data.payload;
           this.storage.store('me', data.payload);
-          this.router.navigate(['/home']);
+          if(this.storage.retrieve("me").access == 1){
+            this.router.navigate(['/administration']);
+          }else{
+            this.router.navigate(['/home']);
+          }
         }
       },
       error => {

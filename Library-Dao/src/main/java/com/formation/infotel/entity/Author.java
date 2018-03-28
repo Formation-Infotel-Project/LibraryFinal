@@ -13,9 +13,11 @@ public class Author {
 	private String authorLastName;
 	private String firstName;
 
+/*
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "authors")
 	private List<Book> books = new ArrayList<>();
-	
+*/
+
 	public Author() {
 
 	}
@@ -45,6 +47,7 @@ public class Author {
 		this.firstName = firstName;
 	}
 
+/*
 	public List<Book> getBooks() {
 		return books;
 	}
@@ -52,4 +55,5 @@ public class Author {
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
+*/
 }

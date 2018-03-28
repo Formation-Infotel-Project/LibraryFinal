@@ -39,11 +39,13 @@ public class AuthorController {
 
 		try {
 			Author author = new Author(authorDto.getAuthorLastName(), authorDto.getFirstName());
+/*
 			List<Book> books = new ArrayList<>();
 			for (int i = 0; i < authorDto.getBooksId().size(); i++) {
 				books.add(bookService.getBookById(authorDto.getBooksId().get(i)));
 			}
 			author.setBooks(books);
+*/
 
 			authorService.insertAuthor(author);
 			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
@@ -65,11 +67,13 @@ public class AuthorController {
 			Author author = authorService.getAuthor(id);
 			author.setAuthorLastName(authorDto.getAuthorLastName());
 			author.setFirstName(authorDto.getFirstName());
+/*
 			List<Book> books = new ArrayList<>();
 			for (int i = 0; i < authorDto.getBooksId().size(); i++) {
 				books.add(bookService.getBookById(authorDto.getBooksId().get(i)));
 			}
 			author.setBooks(books);
+*/
 
 			authorService.updateAuthor(author);
 			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
@@ -115,11 +119,12 @@ public class AuthorController {
 		AuthorDto viewAuthor = null;
 		try {
 			Author author = authorService.getAuthor(id);
-			List<Integer> booksId = new ArrayList<>();
+			/*List<Integer> booksId = new ArrayList<>();
 			author.getBooks().forEach(b -> {
 				booksId.add(b.getIsbn());
-			});
-			viewAuthor = new AuthorDto(author.getAuthorLastName(), author.getFirstName(), booksId, author.getAuthorId());
+			});*/
+			viewAuthor = new AuthorDto(author.getAuthorLastName(), author.getFirstName(), author.getAuthorId());
+			//viewAuthor = new AuthorDto(author.getAuthorLastName(), author.getFirstName(), booksId, author.getAuthorId());
 			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 			resultat.setSuccess(true);
 			resultat.setPayload(viewAuthor);
@@ -145,8 +150,9 @@ public class AuthorController {
 			List<Author> authors = authorService.getAllAuthors();
 			List<Integer> booksId = new ArrayList<>();
 			authors.forEach(a -> {
-				a.getBooks().forEach(b -> booksId.add(b.getIsbn()));
-				viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), booksId, a.getAuthorId()));
+				//a.getBooks().forEach(b -> booksId.add(b.getIsbn()));
+				viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), a.getAuthorId()));
+				//viewAuthors.add(new AuthorDto(a.getAuthorLastName(), a.getFirstName(), booksId, a.getAuthorId()));
 			});
 			resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 			resultat.setSuccess(true);

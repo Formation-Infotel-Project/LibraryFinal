@@ -1,5 +1,6 @@
 package com.formation.infotel.services.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -72,11 +73,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Set<Book> getCategoriesPeriodique(String categoryName) throws Exception {
 		Category Periodique = categoryDao.getCategoriesPeriodique(categoryName);
-		Set<Book> list = null;
-		list = Periodique.getBooks();
+		Set<Book> list = new HashSet<>();
+		/*Set<Book> list = Periodique.getBooks();
 		if (list.isEmpty()) {
 			throw new ServiceException(ErrorConstants.CATEGORY_EMPTY);
-		}
+		}*/
 
 		return list;
 	}

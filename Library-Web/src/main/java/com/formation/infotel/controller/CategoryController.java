@@ -33,11 +33,11 @@ public class CategoryController {
 
 		try {
 			Category category = new Category(categoryDto.getName(), categoryDto.getDescription());
-			Set<Book> books = new HashSet<>();
-			for (int i = 0; i < categoryDto.getBooksId().size(); i++) {
+			//Set<Book> books = new HashSet<>();
+/*			for (int i = 0; i < categoryDto.getBooksId().size(); i++) {
 				books.add(bookService.getBookById(categoryDto.getBooksId().get(i)));
-			}
-			category.setBooks(books);
+			}*/
+			//category.setBooks(books);
 
 			categoryService.insertCategory(category);
 			resultat.setMessage(ControllerConstants.INSERT_SUCCESS);
@@ -60,11 +60,11 @@ public class CategoryController {
 			Category category = categoryService.getCategory(id);
 			category.setName(categoryDto.getName());
 			category.setDescription(categoryDto.getDescription());
-			Set<Book> books = new HashSet<>();
-			for (int i = 0; i < categoryDto.getBooksId().size(); i++) {
+			//Set<Book> books = new HashSet<>();
+/*			for (int i = 0; i < categoryDto.getBooksId().size(); i++) {
 				books.add(bookService.getBookById(categoryDto.getBooksId().get(i)));
-			}
-			category.setBooks(books);
+			}*/
+			//category.setBooks(books);
 
 			categoryService.updateCategory(category);
 			resultat.setMessage(ControllerConstants.UPDATE_SUCCESS);
@@ -106,11 +106,14 @@ public class CategoryController {
 		try {
 			category = categoryService.getCategory(id);
 		
+/*
 		List<Integer> booksId = new ArrayList<>();
 		category.getBooks().forEach(b -> {
 			booksId.add(b.getIsbn());
 		});
-		viewCategory = new CategoryDto(category.getName(), category.getDescription(), booksId, category.getCategoryId());
+*/
+		//viewCategory = new CategoryDto(category.getName(), category.getDescription(), booksId, category.getCategoryId());
+		viewCategory = new CategoryDto(category.getName(), category.getDescription(), category.getCategoryId());
 		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 		resultat.setSuccess(true);
 		resultat.setPayload(viewCategory);
@@ -137,10 +140,11 @@ public class CategoryController {
 						}
 					}
 			);
-			List<Integer> booksId = new ArrayList<>();
+//			List<Integer> booksId = new ArrayList<>();
 			categories.forEach(c -> {
-				c.getBooks().forEach(b -> booksId.add(b.getIsbn()));
-				viewCategories.add(new CategoryDto(c.getName(), c.getDescription(), booksId, c.getCategoryId()));
+//				c.getBooks().forEach(b -> booksId.add(b.getIsbn()));
+				viewCategories.add(new CategoryDto(c.getName(), c.getDescription(), c.getCategoryId()));
+//				viewCategories.add(new CategoryDto(c.getName(), c.getDescription(), booksId, c.getCategoryId()));
 		});
 		resultat.setMessage(ControllerConstants.RETRIVE_SUCCESS);
 		resultat.setSuccess(true);

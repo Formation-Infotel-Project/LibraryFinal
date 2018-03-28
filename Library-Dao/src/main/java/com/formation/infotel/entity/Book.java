@@ -32,6 +32,7 @@ public class Book implements Serializable{
 	@ManyToOne
 	private Editor editor;
 
+	// TODO remove
 	@OneToMany(mappedBy = "book")
 	private List<Book_copy> book_copies;
 

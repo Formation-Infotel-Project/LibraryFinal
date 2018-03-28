@@ -24,7 +24,7 @@ export class AddBookComponent implements OnInit {
   isAdmin = false;
 
    bookParam: BookParam = {
-    title: "",
+    bookTitle: "",
     description: "",
     price:7,
     pubDate: "",
@@ -32,9 +32,9 @@ export class AddBookComponent implements OnInit {
     editorId:"",
     authorsId :[],
     categoryId: "",
-    imagePath: ""
+    imagePath: "images/unknow.jpg"
   };
-
+  /*bookParam: BookParam;*/
   categories:Array<Category>;
   authors:Array<any>;
   editors:Array<any>;
@@ -95,12 +95,14 @@ fileToUpload: File = null;
   insertBook(){
     this.bookBackService.addBook(this.bookParam).subscribe(
       data => {
-        this.backService.handleData(data);
+        console.log("DATA : ");
+        console.log(data);
+        this.bookBackService.handleData(data);
         if (data) {
-          console.log("Livre à ajouter")
+          console.log("Livre à ajouter");
           console.log(data);
           //navigate to home and display navbar or the hidden tabs
-          this.router.navigate(['/home']);          
+          this.router.navigate(['/books']);          
         }
       },
       error => {

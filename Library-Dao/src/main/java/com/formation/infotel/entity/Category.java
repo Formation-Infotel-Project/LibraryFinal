@@ -13,8 +13,8 @@ public class Category {
 	private String name;
 	private String description;
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "category")
-	private Set<Book> books = new HashSet<>();
+	//@ManyToMany(fetch = FetchType.EAGER, mappedBy = "category")
+	//private Set<Book> books = new HashSet<>();
 
 	@Override
 	public boolean equals(Object o) {
@@ -59,6 +59,7 @@ public class Category {
 		this.description = description;
 	}
 
+/*
 	public Set<Book> getBooks() {
 		return books;
 	}
@@ -66,4 +67,5 @@ public class Category {
 	public void setBooks(Set<Book> books) {
 		this.books = books;
 	}
+*/
 }

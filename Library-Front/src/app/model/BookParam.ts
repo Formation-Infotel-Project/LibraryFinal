@@ -1,12 +1,11 @@
  export interface BookParam{
-    title: string;
+    bookTitle: string;
     description:string;
     price:number;
     pubDate:string;
     popular:boolean;
     categoryId:string;
     editorId:string;
-    authorsId :number[];
-    
+    authorsId :number[];    
     imagePath:string;
   };

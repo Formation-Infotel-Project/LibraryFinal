@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional
@@ -55,10 +57,13 @@ public class BookDaoImpl implements BookDao {
 		return books;
 	}
 
-	@Override
 	public List<Book> getAll() {
 		final Session session = sessionFactory.getCurrentSession();
-		final Criteria crit = session.createCriteria(Book.class).addOrder(Order.asc("bookTitle"));
-		return crit.list();
+		final Criteria crit = session.createCriteria(Book.class);
+		//crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+		Set<Book> result = new HashSet<>(crit.list());
+
+		return new ArrayList(result);
 	}
 }

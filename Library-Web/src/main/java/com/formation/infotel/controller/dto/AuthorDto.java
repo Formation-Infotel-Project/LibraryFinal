@@ -9,15 +9,16 @@ public class AuthorDto {
 	private int id;
 	private String authorLastName;
 	private String firstName;
-	private List<Integer> booksId;
+	//private List<Integer> booksId;
 
 	public AuthorDto() {
 	}
 
-	public AuthorDto(String authorLastName, String firstName, List<Integer> booksId, int id) {
+	public AuthorDto(String authorLastName, String firstName, int id) {
+	//public AuthorDto(String authorLastName, String firstName, List<Integer> booksId, int id) {
 		this.authorLastName = authorLastName;
 		this.firstName = firstName;
-		this.booksId = booksId;
+		//this.booksId = booksId;
 		this.id =id;
 	}
 	public int getId() {
@@ -39,6 +40,7 @@ public class AuthorDto {
 		this.firstName = firstName;
 	}
 
+/*
 	public List<Integer> getBooksId() {
 		return booksId;
 	}
@@ -46,4 +48,5 @@ public class AuthorDto {
 	public void setBooksId(List<Integer> books) {
 		this.booksId = books;
 	}
+*/
 }

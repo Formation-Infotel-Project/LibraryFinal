@@ -1,10 +1,10 @@
 <app-header></app-header>
 <div (load)="getRecBooks()" class="container-fluid">
     <div class="row">
-        <div class="col-md-8">
+        <div class="container">
             <h1 style="margin-bottom:20px; font-size:25px;">Livres recommandés</h1>
             <div id="box-book-recom" class="container-fluid"  style="background-color:white;overflow-y:scroll;height: 430px;">
-                <div class='row'>
+                <div class='row' style="margin-left:4%;">
                     <div *ngFor="let b of book">
                         <a href="book/detail/{{b.bookRecId}}">
                             <div class='col-md-3 bookTiles' style='margin-top:20px;'>
